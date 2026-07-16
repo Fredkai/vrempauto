@@ -1,0 +1,20 @@
+# Terraform
+.terraform/
+*.exe
+terraform.tfstate*
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+
+# Secrets & Keys
+*.pem
+*.csv
+.env
+
+# SSL Certificates (generated at runtime)
+certbot/
+
+# Build Artifacts
+*.zip
+*.log
+*.gz

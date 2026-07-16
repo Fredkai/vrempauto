@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VREMP | Truck Spare Parts & Construction Equipment Rental</title>
+    <meta name="description" content="VREMP - Premium truck spare parts for Actros, Scania, DAF, Howo and heavy construction equipment rentals. Quality Assured. Fast Delivery.">
+    <meta name="theme-color" content="#020205">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/car-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="scroll-progress"></div>
+    <div class="custom-cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Atmosphere -->
+    <div class="vremp-atmosphere">
+        <div class="blob blob-primary"></div>
+        <div class="blob blob-secondary"></div>
+        <div class="blob blob-accent"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <!-- ============================================================
+         LAYER 1: Utility Bar
+    ============================================================ -->
+    <div class="utility-bar">
+        <div class="util-left">
+            <span><i class="fa-solid fa-phone"></i>+1 (555) 123-4567</span>
+            <span><i class="fa-solid fa-envelope"></i>info@vremp.com</span>
+        </div>
+        <div class="util-right">
+            <a href="#"><i class="fa-solid fa-location-dot"></i> Track Order</a>
+            <a href="#"><i class="fa-solid fa-circle-question"></i> Help Center</a>
+            <a href="#"><i class="fa-solid fa-globe"></i> EN</a>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         LAYER 2: Main Header — Brand / Search / Actions
+    ============================================================ -->
+    <header class="header-main" id="header-main">
+        <a href="#" class="header-brand" id="brand-logo">
+            <span class="logo-text">VREMP</span>
+            <span class="logo-sub">Parts · Machines · Solutions</span>
+        </a>
+
+        <div class="header-search">
+            <select class="search-cat-select" id="search-cat">
+                <option value="">All Categories</option>
+                <option value="parts">Spare Parts</option>
+                <option value="machines">Machines for Rent</option>
+                <option value="brands">Brands</option>
+            </select>
+            <input type="text" class="search-input" id="search-input" placeholder="Search parts, machines or brands...">
+            <button class="search-btn" id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <div class="header-actions">
+            <button class="header-action-btn" id="login-trigger">
+                <i class="fa-regular fa-user"></i>
+                <span>Account</span>
+            </button>
+            <div class="cart-action-wrap">
+                <button class="header-action-btn" id="cart-trigger">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Cart</span>
+                </button>
+                <span class="cart-badge-dot" id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         LAYER 3: Sub Navigation
+    ============================================================ -->
+    <nav class="header-nav" id="header-nav">
+        <button class="nav-categories-btn" id="cat-toggle">
+            <i class="fa-solid fa-bars"></i> Shop by Categories
+        </button>
+        <ul class="nav-links">
+            <li><a href="#parts-section">Spare Parts</a></li>
+            <li><a href="#rental-section">Machines for Rent</a></li>
+            <li><a href="#brands-section">Brands</a></li>
+            <li><a href="#promo-section">Deals</a></li>
+            <li><a href="#testimonials-section">Testimonials</a></li>
+            <li><a href="#faq-section">FAQ</a></li>
+            <li><a href="#" id="contact-nav-trigger">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- ============================================================
+         HERO SECTION
+    ============================================================ -->
+    <section class="hero-section" id="hero">
+        <div class="hero-inner">
+            <div class="hero-text-content">
+                <div class="hero-badge reveal" data-delay="100">
+                    <span class="badge-dot"></span> EST. 2026 • INDUSTRIAL DIVISION
+                </div>
+                <h1 class="hero-title reveal" data-delay="200">
+                    BUILT FOR<br>
+                    <span class="gradient-text">PERFORMANCE</span>
+                </h1>
+                <p class="hero-desc reveal" data-delay="350">
+                    Find high-quality spare parts for <strong>Actros, Scania, DAF & Howo</strong> and rent reliable heavy construction machines with ease. Delivered on time, every time.
+                </p>
+                <div class="hero-cta-group reveal" data-delay="500">
+                    <a href="#parts-section" class="btn btn-primary">
+                        Shop Spare Parts <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#rental-section" class="btn btn-outline">
+                        Rent Machines <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual reveal" data-delay="400">
+                <img src="assets/car-4.png" alt="Construction Excavator" class="hero-main-img">
+                <div class="hero-trust-badge">
+                    <span class="hero-trust-num">10,000+</span>
+                    <span class="hero-trust-label">Trusted Customers</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Strip -->
+        <div class="benefits-strip reveal" data-delay="600">
+            <div class="benefits-inner">
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                        <div class="benefit-title">Quality Guaranteed</div>
+                        <div class="benefit-desc">Genuine parts & trusted machines</div>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-tag"></i></div>
+                    <div>
+                        <div class="benefit-title">Best Prices</div>
+                        <div class="benefit-desc">Competitive prices every day</div>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div>
+                        <div class="benefit-title">Fast Delivery</div>
+                        <div class="benefit-desc">Quick delivery across the country</div>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-headset"></i></div>
+                    <div>
+                        <div class="benefit-title">24/7 Support</div>
+                        <div class="benefit-desc">We're here to help anytime</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SHOP BY CATEGORY
+    ============================================================ -->
+    <section class="category-section" id="category-section">
+        <div class="section-top reveal">
+            <div>
+                <div class="section-label">Browse</div>
+                <h2 class="section-heading">Shop by Category</h2>
+            </div>
+            <a href="#parts-section" class="view-all-link">View All Categories <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="category-grid reveal" data-delay="100">
+            <a href="#parts-section" class="category-card">
+                <div class="cat-icon-wrap"><i class="fa-solid fa-gear"></i></div>
+                <span class="cat-name">Engine Parts</span>
+                <span class="cat-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#parts-section" class="category-card">
+                <div class="cat-icon-wrap"><i class="fa-solid fa-droplet"></i></div>
+                <span class="cat-name">Hydraulic Parts</span>
+                <span class="cat-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#parts-section" class="category-card">
+                <div class="cat-icon-wrap"><i class="fa-solid fa-link"></i></div>
+                <span class="cat-name">Undercarriage</span>
+                <span class="cat-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#parts-section" class="category-card">
+                <div class="cat-icon-wrap"><i class="fa-solid fa-filter"></i></div>
+                <span class="cat-name">Filters</span>
+                <span class="cat-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#parts-section" class="category-card">
+                <div class="cat-icon-wrap"><i class="fa-solid fa-bolt"></i></div>
+                <span class="cat-name">Electrical Parts</span>
+                <span class="cat-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#parts-section" class="category-card">
+                <div class="cat-icon-wrap"><i class="fa-solid fa-wrench"></i></div>
+                <span class="cat-name">Attachments</span>
+                <span class="cat-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#parts-section" class="category-card">
+                <div class="cat-icon-wrap"><i class="fa-solid fa-circle-dot"></i></div>
+                <span class="cat-name">Tires & Wheels</span>
+                <span class="cat-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         TRUCK SPARE PARTS
+    ============================================================ -->
+    <section class="parts-section" id="parts-section">
+        <div class="section-top reveal">
+            <div>
+                <div class="section-label">Catalog</div>
+                <h2 class="section-heading">Truck Spare Parts</h2>
+            </div>
+            <a href="#" class="view-all-link">View All Parts <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="parts-grid">
+            <!-- Actros -->
+            <article class="part-card reveal" data-tilt data-category="parts" data-id="parts-actros-brake" data-price="450">
+                <div class="part-icon-box">
+                    <i class="fa-solid fa-compact-disc"></i>
+                    <span class="part-card-badge tag-cyan">Actros</span>
+                </div>
+                <div class="part-body">
+                    <div class="part-brand">Heavy-Duty Braking</div>
+                    <h4 class="part-name">Actros Ventilated Brake Disc</h4>
+                    <div class="part-specs">
+                        <div class="spec-row"><i class="fa-solid fa-stopwatch"></i> High Load Endurance</div>
+                        <div class="spec-row"><i class="fa-solid fa-weight-hanging"></i> Cast Iron Premium Alloy</div>
+                    </div>
+                    <div class="part-footer">
+                        <span class="part-price">$450</span>
+                        <button class="btn-circle-sm add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Scania -->
+            <article class="part-card reveal" data-tilt data-delay="100" data-category="parts" data-id="parts-scania-turbo" data-price="2890">
+                <div class="part-icon-box">
+                    <i class="fa-solid fa-fan"></i>
+                    <span class="part-card-badge tag-purple">Scania</span>
+                </div>
+                <div class="part-body">
+                    <div class="part-brand">Engine Components</div>
+                    <h4 class="part-name">Scania V8 Twin-Turbocharger</h4>
+                    <div class="part-specs">
+                        <div class="spec-row"><i class="fa-solid fa-bolt"></i> Maximized Boost Pressure</div>
+                        <div class="spec-row"><i class="fa-solid fa-rotate-right"></i> Heavy-Duty Bearings</div>
+                    </div>
+                    <div class="part-footer">
+                        <span class="part-price">$2,890</span>
+                        <button class="btn-circle-sm add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- DAF -->
+            <article class="part-card reveal" data-tilt data-delay="200" data-category="parts" data-id="parts-daf-injector" data-price="620">
+                <div class="part-icon-box">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span class="part-card-badge tag-pink">DAF</span>
+                </div>
+                <div class="part-body">
+                    <div class="part-brand">Fuel Systems</div>
+                    <h4 class="part-name">DAF Smart Fuel Injector Unit</h4>
+                    <div class="part-specs">
+                        <div class="spec-row"><i class="fa-solid fa-fire-flame-simple"></i> Ultra-Fine Atomization</div>
+                        <div class="spec-row"><i class="fa-solid fa-leaf"></i> Fuel Efficiency Optimized</div>
+                    </div>
+                    <div class="part-footer">
+                        <span class="part-price">$620</span>
+                        <button class="btn-circle-sm add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Howo -->
+            <article class="part-card reveal" data-tilt data-delay="300" data-category="parts" data-id="parts-howo-clutch" data-price="780">
+                <div class="part-icon-box">
+                    <i class="fa-solid fa-gears"></i>
+                    <span class="part-card-badge tag-gold">Howo</span>
+                </div>
+                <div class="part-body">
+                    <div class="part-brand">Transmission</div>
+                    <h4 class="part-name">Howo Heavy-Duty Clutch Plate</h4>
+                    <div class="part-specs">
+                        <div class="spec-row"><i class="fa-solid fa-wrench"></i> High Torque Friction Lining</div>
+                        <div class="spec-row"><i class="fa-solid fa-road"></i> Premium Steel Springs</div>
+                    </div>
+                    <div class="part-footer">
+                        <span class="part-price">$780</span>
+                        <button class="btn-circle-sm add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         RENT CONSTRUCTION MACHINES
+    ============================================================ -->
+    <section class="rental-section" id="rental-section">
+        <div class="rental-inner">
+            <div class="rental-info reveal">
+                <div class="section-label">Available Now</div>
+                <h2 class="section-heading">Rent Construction Machines</h2>
+                <p>Well-maintained machines. Flexible rental plans. On-time delivery to your project site.</p>
+                <a href="#" class="btn btn-outline btn-sm" id="view-all-machines">
+                    View All Machines <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div>
+                <div class="rental-grid">
+                    <!-- Excavator -->
+                    <div class="machine-card reveal" data-tilt data-category="equipment" data-id="equip-cat-excavator" data-price="350">
+                        <div class="machine-img-wrap">
+                            <img src="assets/car-1.png" alt="Caterpillar 320 Excavator">
+                            <span class="machine-popular-badge">Popular</span>
+                        </div>
+                        <div class="machine-info">
+                            <h4 class="machine-name">Excavator</h4>
+                            <div class="machine-price">From $350 <span style="font-size:0.8rem;color:var(--text-muted);">/ day</span></div>
+                            <div class="machine-avail"><i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> Multiple Models Available</div>
+                            <button class="add-to-cart-btn">
+                                <i class="fa-solid fa-calendar-plus"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Backhoe -->
+                    <div class="machine-card reveal" data-tilt data-delay="100" data-category="equipment" data-id="equip-backhoe" data-price="250">
+                        <div class="machine-img-wrap">
+                            <img src="assets/car-2.png" alt="Backhoe Loader">
+                        </div>
+                        <div class="machine-info">
+                            <h4 class="machine-name">Backhoe Loader</h4>
+                            <div class="machine-price">From $250 <span style="font-size:0.8rem;color:var(--text-muted);">/ day</span></div>
+                            <div class="machine-avail"><i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> Multiple Models Available</div>
+                            <button class="add-to-cart-btn">
+                                <i class="fa-solid fa-calendar-plus"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bulldozer -->
+                    <div class="machine-card reveal" data-tilt data-delay="200" data-category="equipment" data-id="equip-lieb-crane" data-price="450">
+                        <div class="machine-img-wrap">
+                            <img src="assets/car-3.png" alt="Liebherr Crane">
+                        </div>
+                        <div class="machine-info">
+                            <h4 class="machine-name">Mobile Crane</h4>
+                            <div class="machine-price">From $450 <span style="font-size:0.8rem;color:var(--text-muted);">/ day</span></div>
+                            <div class="machine-avail"><i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> Multiple Models Available</div>
+                            <button class="add-to-cart-btn">
+                                <i class="fa-solid fa-calendar-plus"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Wheel Loader -->
+                    <div class="machine-card reveal" data-tilt data-delay="300" data-category="equipment" data-id="equip-komatsu-loader" data-price="300">
+                        <div class="machine-img-wrap">
+                            <img src="assets/car-5.png" alt="Komatsu Wheel Loader">
+                        </div>
+                        <div class="machine-info">
+                            <h4 class="machine-name">Wheel Loader</h4>
+                            <div class="machine-price">From $300 <span style="font-size:0.8rem;color:var(--text-muted);">/ day</span></div>
+                            <div class="machine-avail"><i class="fa-solid fa-circle-check" style="color:var(--primary)"></i> Multiple Models Available</div>
+                            <button class="add-to-cart-btn">
+                                <i class="fa-solid fa-calendar-plus"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Rental CTA -->
+        <div style="max-width:1400px; margin: 3rem auto 0;">
+            <div class="rental-cta-card reveal">
+                <h4>Need a custom rental plan?</h4>
+                <p>Let us help you find the right machine for your project. Our team offers personalized rental packages for long-term and large-scale projects.</p>
+                <a href="#" class="btn btn-primary btn-sm" id="custom-rental-trigger">
+                    Contact Us <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         DEALS DASHBOARD
+    ============================================================ -->
+    <section class="promo-section" id="promo-section">
+        <div class="section-top reveal">
+            <div>
+                <div class="section-label">Limited Time Offer</div>
+                <h2 class="section-heading">Strategic Procurement Deals</h2>
+            </div>
+            <span class="view-all-link" style="cursor:default;">Active Contracts</span>
+        </div>
+
+        <div class="deals-grid">
+            <!-- Deal 1 -->
+            <div class="deal-card reveal" data-category="parts" data-id="deal-tires-bundle" data-price="980">
+                <div class="deal-header">
+                    <span class="deal-badge">Bulk tires Bundle</span>
+                    <span class="deal-countdown"><i class="fa-solid fa-clock"></i> <span class="timer-hrs">14</span>h <span class="timer-mins">32</span>m</span>
+                </div>
+                <div class="deal-body">
+                    <h4>Tires & Undercarriage Kit</h4>
+                    <p>Complete replacement setup for heavy transport logistics fleets. Sourced for premium Scania & Volvo trucks.</p>
+                </div>
+                <div class="deal-footer">
+                    <div class="deal-price">
+                        <span class="old">$1,400</span>
+                        <span class="new">$980</span>
+                    </div>
+                    <button class="vremp-btn btn-glass btn-sm add-to-cart-btn">Apply Offer</button>
+                </div>
+            </div>
+
+            <!-- Deal 2 -->
+            <div class="deal-card reveal" data-category="parts" data-id="deal-scania-engine" data-price="2450" data-delay="100">
+                <div class="deal-header">
+                    <span class="deal-badge">Engine Rebuild</span>
+                    <span class="deal-countdown"><i class="fa-solid fa-clock"></i> <span class="timer-hrs">18</span>h <span class="timer-mins">12</span>m</span>
+                </div>
+                <div class="deal-body">
+                    <h4>Scania V8 Core Rebuild Pack</h4>
+                    <p>Includes cylinder heads, gaskets, premium bearings and timing tools for professional rebuild workshops.</p>
+                </div>
+                <div class="deal-footer">
+                    <div class="deal-price">
+                        <span class="old">$2,890</span>
+                        <span class="new">$2,450</span>
+                    </div>
+                    <button class="vremp-btn btn-glass btn-sm add-to-cart-btn">Apply Offer</button>
+                </div>
+            </div>
+
+            <!-- Deal 3 -->
+            <div class="deal-card reveal" data-category="parts" data-id="deal-attachments" data-price="890" data-delay="200">
+                <div class="deal-header">
+                    <span class="deal-badge">Excavator Pack</span>
+                    <span class="deal-countdown"><i class="fa-solid fa-clock"></i> <span class="timer-hrs">22</span>h <span class="timer-mins">45</span>m</span>
+                </div>
+                <div class="deal-body">
+                    <h4>CAT Heavy Attachment Bundle</h4>
+                    <p>Includes standard rock bucket, heavy-duty hammer attachment, and mechanical grapple parts.</p>
+                </div>
+                <div class="deal-footer">
+                    <div class="deal-price">
+                        <span class="old">$1,100</span>
+                        <span class="new">$890</span>
+                    </div>
+                    <button class="vremp-btn btn-glass btn-sm add-to-cart-btn">Apply Offer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-cards reveal" style="display:flex; flex-direction:row; gap:2rem; justify-content:center; margin-top:4rem; flex-wrap:wrap;">
+            <div class="trust-card" style="flex:1; min-width:250px; max-width:350px;">
+                <i class="fa-solid fa-lock"></i>
+                <div>
+                    <div class="trust-card-title">Secure Payments</div>
+                    <div class="trust-card-desc">100% secure payment guarantee</div>
+                </div>
+            </div>
+            <div class="trust-card" style="flex:1; min-width:250px; max-width:350px;">
+                <i class="fa-solid fa-rotate-left"></i>
+                <div>
+                    <div class="trust-card-title">Easy Returns</div>
+                    <div class="trust-card-desc">Hassle-free returns within 7 days</div>
+                </div>
+            </div>
+            <div class="trust-card" style="flex:1; min-width:250px; max-width:350px;">
+                <i class="fa-solid fa-truck"></i>
+                <div>
+                    <div class="trust-card-title">Nationwide Delivery</div>
+                    <div class="trust-card-desc">Delivering across the country</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         24/7 SUPPORT & HELP DESK
+    ============================================================ -->
+    <section class="help-section" id="help-section">
+        <div class="section-top reveal">
+            <div>
+                <div class="section-label">Support Center</div>
+                <h2 class="section-heading">24/7 Support & Immediate Help</h2>
+            </div>
+            <span class="view-all-link" style="cursor:default;">Response within 15m</span>
+        </div>
+
+        <div class="help-container">
+            <!-- Support Hotlines Column -->
+            <div class="support-channels reveal">
+                <!-- Phone Card -->
+                <a href="tel:+15551234567" class="support-channel-card">
+                    <div class="channel-icon"><i class="fa-solid fa-phone-volume"></i></div>
+                    <div class="channel-details">
+                        <h4>Emergency Sourcing Hotline</h4>
+                        <p>Immediate phone dispatch support for critical order updates & breakdown assistance.</p>
+                        <span class="channel-action-text"><i class="fa-solid fa-phone"></i> Call +1 (555) 123-4567</span>
+                    </div>
+                </a>
+
+                <!-- WhatsApp Card -->
+                <button class="support-channel-card" id="whatsapp-trigger" style="text-align:left; width:100%; border:1px solid var(--glass-border); font-family:var(--font-main);">
+                    <div class="channel-icon" style="color:#25d366; background:rgba(37,211,102,0.06); border-color:rgba(37,211,102,0.15);"><i class="fa-brands fa-whatsapp"></i></div>
+                    <div class="channel-details">
+                        <h4>Live Support Portal</h4>
+                        <p>Initiate a live text chat with our parts specialist team for instant parts catalog lookup.</p>
+                        <span class="channel-action-text" style="color:#25d366;"><i class="fa-brands fa-whatsapp"></i> Start Live Chat</span>
+                    </div>
+                </button>
+
+                <!-- Email Card -->
+                <a href="mailto:procurement@vremp.com" class="support-channel-card">
+                    <div class="channel-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <div class="channel-details">
+                        <h4>Procurement &amp; RFQ Desk</h4>
+                        <p>Email your spreadsheets or CSV lists of parts for a prompt custom quotation.</p>
+                        <span class="channel-action-text"><i class="fa-solid fa-paper-plane"></i> Email procurement@vremp.com</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- support Callback Form Column -->
+            <div class="help-form-wrapper reveal" data-delay="150">
+                <h3 class="help-form-title">Immediate Assistance Request</h3>
+                <p class="help-form-desc">Provide your information and details of your request. A parts manager will contact you within 15 minutes.</p>
+                
+                <form id="help-support-form" class="custom-form">
+                    <div class="form-group">
+                        <label>Company / Contact Name</label>
+                        <input type="text" id="help-name" required placeholder="Enter contact name">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone / Email Contact</label>
+                        <input type="text" id="help-contact" required placeholder="Enter phone number or email">
+                    </div>
+                    <div class="form-group">
+                        <label>Explain what help you need</label>
+                        <textarea id="help-message" required rows="3" placeholder="Specify Scania parts, excavator rental dates, or shipping delay issue..."></textarea>
+                    </div>
+                    <button type="submit" class="vremp-btn btn-primary" style="width:100%; justify-content:center;">
+                        <span id="help-btn-text">Send Request</span>
+                        <span id="help-btn-loader" style="display:none;"><i class="fa-solid fa-circle-notch fa-spin"></i> Sending...</span>
+                    </button>
+                </form>
+
+                <!-- Help Form Success State -->
+                <div class="success-state" id="help-success" style="display:none; padding:1rem 0;">
+                    <div class="success-icon" style="width:60px; height:60px; font-size:1.8rem;"><i class="fa-solid fa-check"></i></div>
+                    <h4>Request Dispatched</h4>
+                    <p style="color:var(--text-muted); font-size:0.85rem;">A support team member will contact you shortly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         CUSTOMER TESTIMONIALS
+    ============================================================ -->
+    <section class="testimonials-section" id="testimonials-section">
+        <div class="section-top reveal">
+            <div>
+                <div class="section-label">Client Success</div>
+                <h2 class="section-heading">What Our Customers Say</h2>
+            </div>
+            <span class="view-all-link" style="cursor:default;">10,000+ Satisfied Clients</span>
+        </div>
+
+        <div class="testimonials-grid">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card reveal" data-tilt>
+                <div class="testimonial-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"VREMP has been our go-to supplier for Actros parts for over 2 years. Their delivery times are unmatched, and the quality is always OEM-grade. Highly recommended for fleet operators."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <div class="avatar-initials">MJ</div>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Michael Johnson</div>
+                        <div class="author-company">Fleet Logistics Inc.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card reveal" data-tilt data-delay="100">
+                <div class="testimonial-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"We rented excavators for our construction project and the equipment was in perfect condition. The team was professional and the pricing was competitive. Will definitely use again."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <div class="avatar-initials">SK</div>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Sarah Kim</div>
+                        <div class="author-company">BuildRight Construction</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card reveal" data-tilt data-delay="200">
+                <div class="testimonial-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <p class="testimonial-text">"The technical support team helped us find the exact Scania parts we needed. Their knowledge of heavy truck components is impressive. Saved us days of downtime."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <div class="avatar-initials">RP</div>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Robert Patel</div>
+                        <div class="author-company">Heavy Haul Transport</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 4 -->
+            <div class="testimonial-card reveal" data-tilt data-delay="300">
+                <div class="testimonial-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Exceptional service from start to finish. The online ordering process is seamless, and the parts arrived exactly when promised. VREMP understands the construction industry's needs."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <div class="avatar-initials">EW</div>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Emily Watson</div>
+                        <div class="author-company">Metro Infrastructure</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FAQ SECTION
+    ============================================================ -->
+    <section class="faq-section" id="faq-section">
+        <div class="section-top reveal">
+            <div>
+                <div class="section-label">Help Center</div>
+                <h2 class="section-heading">Frequently Asked Questions</h2>
+            </div>
+            <span class="view-all-link" style="cursor:default;">Quick Answers</span>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    <span>What is your shipping policy for spare parts?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>We offer standard shipping (3-7 business days) and expedited shipping (1-3 business days) for spare parts. Free shipping is available for orders over $500. International shipping is available with customs duties being the customer's responsibility.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal" data-delay="100">
+                <button class="faq-question">
+                    <span>How do equipment rentals work?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Equipment rentals are charged on a daily basis. You can select your rental period during booking. We require a security deposit and valid identification. Equipment must be returned in clean, working condition with the same fuel level as received.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal" data-delay="200">
+                <button class="faq-question">
+                    <span>What is your return policy for parts?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Unused and uninstalled parts can be returned within 7 days of delivery in original packaging. Custom orders and electrical components are non-returnable. Contact our support team for a Return Authorization number before shipping returns.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal" data-delay="300">
+                <button class="faq-question">
+                    <span>Do you offer warranties on parts?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, all parts come with manufacturer warranty coverage. Warranty periods vary by product and manufacturer. Warranty claims require proof of purchase and must be made within the warranty period. Contact us for specific warranty information on any part.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal" data-delay="400">
+                <button class="faq-question">
+                    <span>Can I track my order status?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, you can track your order status through your account or by using the "Track Order" link in our utility bar. You'll receive email notifications at each stage: order confirmation, shipping, and delivery.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal" data-delay="500">
+                <button class="faq-question">
+                    <span>What payment methods do you accept?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>We accept major credit cards (Visa, MasterCard, American Express), bank transfers, and approved payment methods. All transactions are secure and encrypted. For large orders, we also offer net payment terms for approved business accounts.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal" data-delay="600">
+                <button class="faq-question">
+                    <span>Do you offer technical support?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, our technical support team is available 24/7 to help with part compatibility, installation guidance, and troubleshooting. Contact us via phone, email, or live chat for immediate assistance with your technical questions.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal" data-delay="700">
+                <button class="faq-question">
+                    <span>Can I get bulk discounts for large orders?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Absolutely! We offer competitive bulk pricing for fleet operators and construction companies. Contact our procurement team with your requirements for a custom quotation. Volume discounts are available for orders of 10+ units.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         TOP BRANDS
+    ============================================================ -->
+    <section class="brands-section" id="brands-section">
+        <div class="brands-inner">
+            <div class="brands-title reveal">Top Brands</div>
+            <div class="brands-grid reveal" data-delay="100">
+                <span class="brand-logo">CAT</span>
+                <span class="brand-logo">Komatsu</span>
+                <span class="brand-logo">John Deere</span>
+                <span class="brand-logo">Hitachi</span>
+                <span class="brand-logo">Volvo</span>
+                <span class="brand-logo">Doosan</span>
+                <span class="brand-logo">Case</span>
+                <span class="brand-logo">JCB</span>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ============================================================
+         FOOTER
+    ============================================================ -->
+    <footer class="vremp-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div style="font-size:1.9rem; font-weight:900; letter-spacing:-2px; background:linear-gradient(135deg,#fff,var(--primary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">VREMP</div>
+                <p>Premium truck spare parts and heavy construction machinery rentals since 2026. Trusted by 10,000+ professionals worldwide.</p>
+            </div>
+            <div class="footer-links">
+                <h6>Network</h6>
+                <ul>
+                    <li><a href="#">Distributors</a></li>
+                    <li><a href="#">Heavy Machinery Fleet</a></li>
+                    <li><a href="#">Fleet Partners</a></li>
+                </ul>
+            </div>
+            <div class="footer-socials">
+                <h6>Follow VREMP</h6>
+                <div class="social-icons">
+                    <a href="https://instagram.com/vremp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://twitter.com/vremp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://youtube.com/@vremp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://linkedin.com/company/vremp" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h6>Legal</h6>
+                <ul>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="returns.html">Return Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 VREMP GLOBAL. ALL RIGHTS RESERVED.</p>
+            <p>Powered by VREMP Industrial Solutions</p>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+         CART DRAWER
+    ============================================================ -->
+    <div class="cart-drawer-backdrop" id="cart-backdrop"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3 class="cart-title"><i class="fa-solid fa-cart-shopping" style="color:var(--primary);margin-right:.6rem;"></i>Order Cart</h3>
+            <button class="cart-close-btn" id="cart-close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-body-items">
+            <p class="cart-empty-msg"><i class="fa-solid fa-cart-shopping" style="font-size:2.5rem; color:var(--text-muted); display:block; margin-bottom:1rem;"></i>Your cart is empty.<br>Add parts or equipment from the catalog.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span class="cart-total-label">Subtotal</span>
+                <span class="cart-total-val" id="cart-total-amount">$0</span>
+            </div>
+            <button class="btn btn-primary" style="width:100%; justify-content:center;" id="checkout-trigger">
+                Proceed to Checkout <i class="fa-solid fa-lock"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         CHECKOUT MODAL
+    ============================================================ -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-box">
+            <button class="modal-close" id="checkout-modal-close"><i class="fa-solid fa-xmark"></i></button>
+
+            <!-- Checkout Form -->
+            <form id="checkout-form">
+                <div class="modal-head">
+                    <h3>Secure Checkout</h3>
+                    <p>Complete your order for spare parts and equipment rental</p>
+                </div>
+                <div class="form-grid">
+                    <!-- Dispatch Info -->
+                    <div class="form-col">
+                        <h5>1. Dispatch Details</h5>
+                        <div class="form-group">
+                            <label>Full Name / Contact Person</label>
+                            <input type="text" id="chk-name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery / Site Address</label>
+                            <input type="text" id="chk-address" required placeholder="123 Industrial Park Road">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="chk-phone" required placeholder="+1 (555) 019-2834">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="chk-email" required placeholder="john@company.com">
+                        </div>
+                    </div>
+
+                    <!-- Payment -->
+                    <div class="form-col">
+                        <h5>2. Secured Payment</h5>
+                        <!-- Live Card Visual -->
+                        <div class="card-visual">
+                            <div class="cv-top">
+                                <div class="cv-chip"></div>
+                                <div class="cv-brand">VREMP SECURE</div>
+                            </div>
+                            <div class="cv-number" id="cv-num">•••• •••• •••• ••••</div>
+                            <div class="cv-bottom">
+                                <div>
+                                    <div class="cv-label">Card Holder</div>
+                                    <div class="cv-val" id="cv-holder">YOUR NAME</div>
+                                </div>
+                                <div>
+                                    <div class="cv-label">Expires</div>
+                                    <div class="cv-val" id="cv-exp">MM/YY</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" id="card-holder" required placeholder="JOHN DOE">
+                        </div>
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" id="card-number" required maxlength="19" placeholder="4111 2222 3333 4444">
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" id="card-expiry" required maxlength="5" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="password" id="card-cvv" required maxlength="4" placeholder="•••">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:2rem;" id="pay-submit-btn">
+                    <span id="pay-btn-text"><i class="fa-solid fa-lock"></i> Authorize Secure Payment</span>
+                    <span id="pay-btn-loader" style="display:none;"><i class="fa-solid fa-circle-notch fa-spin"></i> Processing...</span>
+                </button>
+            </form>
+
+            <!-- Success State -->
+            <div class="success-state" id="checkout-success" style="display:none;">
+                <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+                <h4 style="font-size:1.4rem; margin-bottom:.5rem;">Transaction Authorized!</h4>
+                <p style="color:var(--text-muted);">Your order has been placed. Dispatch details have been registered.</p>
+                <div id="receipt-details"></div>
+                <button class="btn btn-outline" style="margin-top:1.5rem;" id="close-receipt-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         INQUIRY / PARTNER MODAL
+    ============================================================ -->
+    <div class="modal-overlay" id="inquiry-modal">
+        <div class="modal-box" style="max-width:560px;">
+            <button class="modal-close" id="inquiry-modal-close"><i class="fa-solid fa-xmark"></i></button>
+
+            <form id="inquiry-form">
+                <div class="modal-head">
+                    <h3>VREMP PRO Application</h3>
+                    <p>Partner &amp; Inquiry Request</p>
+                </div>
+                <div class="form-group">
+                    <label>Company / Fleet Name</label>
+                    <input type="text" required placeholder="Enter company or fleet name">
+                </div>
+                <div class="form-group">
+                    <label>Inquiry Type</label>
+                    <select required>
+                        <option value="" disabled selected>Select option...</option>
+                        <option value="parts">Truck Spare Parts Purchase</option>
+                        <option value="rental">Construction Equipment Rental</option>
+                        <option value="wholesale">Joint Partnership / Pro Network</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Details / Equipment of Interest</label>
+                    <textarea required rows="3" placeholder="Specify Actros/Scania/DAF parts, or construction machines" style="resize:vertical;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+                    <span id="inq-btn-text">Transmit Request</span>
+                    <span id="inq-btn-loader" style="display:none;"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+                </button>
+            </form>
+
+            <div class="success-state" id="inquiry-success" style="display:none;">
+                <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+                <h4>Transmission Received</h4>
+                <p style="color:var(--text-muted);">Our fleet support team will reach out with a tailored quote shortly.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+        }
+        if ('caches' in window) {
+            caches.keys().then(names => names.forEach(n => caches.delete(n)));
+        }
+    </script>
+</body>
+</html>
