@@ -3,99 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VREMP | Truck Spare Parts & OEM Sourcing</title>
-    <meta name="description" content="VREMP supplies truck spare parts, OEM sourcing, engine components, electrical systems, and fleet support.">
-    <meta name="theme-color" content="#1e40af">
+    <title>VREMP | Premium Truck Spare Parts & OEM Sourcing</title>
+    <meta name="description" content="VREMP delivers premium truck spare parts, engine components, braking systems, electrical parts, and urgent OEM sourcing for workshops, fleets, and industrial buyers worldwide.">
+    <meta name="theme-color" content="#f5f5f7">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/vremp.png">
+    <link rel="apple-touch-icon" href="assets/vremp.png">
+
+    <!-- Open Graph / Social Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vremauto.com/">
+    <meta property="og:title" content="VREMP | Premium Truck Spare Parts & OEM Sourcing">
+    <meta property="og:description" content="VREMP delivers premium truck spare parts, engine components, braking systems, electrical parts, and urgent OEM sourcing for workshops, fleets, and industrial buyers worldwide.">
+    <meta property="og:image" content="assets/vremp.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="VREMP | Premium Truck Spare Parts & OEM Sourcing">
+    <meta property="twitter:description" content="Premium truck spare parts, OEM sourcing, and 24/7 support for workshops, fleets, and industrial buyers worldwide.">
+    <meta property="twitter:image" content="assets/vremp.png">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "VREMP",
+      "url": "https://vremauto.com",
+      "logo": "assets/vremp.png",
+      "description": "Premium truck spare parts and OEM sourcing for workshops, fleets, and industrial buyers worldwide.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "availableLanguage": "English"
+      }
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <!-- Three.js for 3D hero particles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-    <!-- HEADER - EXACTLY AS IN SCREENSHOT -->
-    <header class="site-header">
-        <div class="header-shell">
-            <div class="header-bar">
+    <!-- SCROLL PROGRESS BAR -->
+    <div class="scroll-progress" id="scroll-progress"></div>
 
-                <!-- LEFT: VREMP LOGO -->
-                <a href="#" class="brand-mark" aria-label="VREMP home">
-                    <span class="brand-text">VREMP</span>
-                </a>
+    <!-- CURSOR DOT -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
 
-                <!-- CENTER: WHITE PILL NAVIGATION -->
-                <nav class="main-nav-pill" aria-label="Main navigation">
-                    <a href="#home" class="nav-link active">Home</a>
-                    <a href="#search" class="nav-link">Part Search</a>
-                    <a href="#parts" class="nav-link">Categories</a>
-                    <a href="#brands" class="nav-link">Brands</a>
-                    <a href="#shop" class="nav-link">Shop</a>
-                    <a href="#contact" class="nav-link">Contact</a>
-                </nav>
+    <!-- LOADING SCREEN -->
+    <div class="loading-screen" id="loading-screen">
+        <img src="assets/vremp.png" alt="VREMP" class="loading-logo">
+        <div class="loading-bar"></div>
+    </div>
 
-                <!-- RIGHT: ICONS -->
-                <div class="header-icons">
-                    <button class="icon-circle" aria-label="Settings">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <button class="icon-circle" aria-label="Search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                    <button class="icon-circle cart-icon" aria-label="Cart">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="cart-badge">0</span>
-                    </button>
-                </div>
+    <!-- FLOATING BACKGROUND SHAPES -->
+    <div class="bg-shapes">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-2"></div>
+        <div class="bg-shape bg-shape-3"></div>
+    </div>
 
+    <!-- GLASSMORPHISM HEADER -->
+    <header class="site-header" id="site-header">
+        <div class="container header-shell">
+            <!-- LEFT: VREMP LOGO -->
+            <a href="#" class="brand-mark" aria-label="VREMP home">
+                <img src="assets/vremp.png" alt="VREMP" class="brand-logo">
+            </a>
+
+            <!-- CENTER: GLASSMORPHISM NAVIGATION -->
+            <nav class="main-nav-pill" aria-label="Main navigation">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#search" class="nav-link">Part Search</a>
+                <a href="#shop" class="nav-link">Shop</a>
+                <a href="#brands" class="nav-link">Brands</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <!-- RIGHT: ICONS -->
+            <div class="header-icons">
+                <button class="icon-circle" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="icon-circle cart-icon" id="cart-toggle" aria-label="Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge">0</span>
+                </button>
+                <!-- HAMBURGER (mobile only) -->
+                <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </header>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <nav class="mobile-nav" aria-label="Mobile navigation">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#search" class="mobile-nav-link">Part Search</a>
+            <a href="#shop" class="mobile-nav-link">Shop</a>
+            <a href="#brands" class="mobile-nav-link">Brands</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+        </nav>
+        <div class="mobile-menu-footer">
+            <a href="https://wa.me/1234567890" class="btn btn-primary btn-full" target="_blank" rel="noopener">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
+            </a>
+        </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div class="cart-drawer-overlay" id="cart-overlay"></div>
+    <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart">
+        <div class="cart-drawer-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> Your Cart</h3>
+            <button class="cart-drawer-close" id="cart-close" aria-label="Close cart">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="cart-drawer-body" id="cart-body">
+            <div class="cart-empty" id="cart-empty">
+                <i class="fa-solid fa-box-open"></i>
+                <p>Your cart is empty</p>
+                <span>Add parts to get started</span>
+            </div>
+            <ul class="cart-items-list" id="cart-items-list"></ul>
+        </div>
+        <div class="cart-drawer-footer" id="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span class="cart-total-price" id="cart-total-price">$0.00</span>
+            </div>
+            <button class="btn btn-primary btn-full btn-glow">Proceed to Checkout</button>
+            <button class="btn btn-outline btn-full" id="cart-continue">Continue Shopping</button>
+        </div>
+    </aside>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+    <!-- SCROLL TO TOP -->
+    <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- WHATSAPP FLOATING BUTTON -->
+    <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
 
     <main>
 
         <!-- HERO SECTION -->
         <section class="hero-section" id="home">
+            <!-- Animated canvas background -->
+            <canvas class="hero-canvas" id="hero-canvas"></canvas>
+            <!-- Parallax layer -->
+            <div class="hero-parallax-layer" id="hero-parallax">
+                <div class="hero-orb hero-orb-1"></div>
+                <div class="hero-orb hero-orb-2"></div>
+            </div>
+
             <div class="container hero-container">
                 <div class="hero-copy">
-                    <div class="hero-eyebrow">Premium Spare Parts · OEM Sourcing · 24/7 Support</div>
+                    <div class="hero-eyebrow reveal-fade">
+                        <span>Premium Spare Parts · OEM Sourcing · 24/7 Support</span>
+                    </div>
                     <h1 class="hero-title">
-                        The Right Spare Part.<br>
-                        <span class="hero-accent">Right On Time.</span>
+                        <span class="split-line">
+                            <span class="split-inner">The Right Spare Part.</span>
+                        </span>
+                        <span class="split-line hero-accent">
+                            <span class="split-inner">Right On Time.</span>
+                        </span>
                     </h1>
-                    <p class="hero-desc">
+                    <p class="hero-desc reveal-up">
                         VREMP delivers premium truck spare parts, engine components, braking systems,
                         electrical parts, and urgent OEM sourcing for workshops, fleets, and industrial buyers worldwide.
                     </p>
-                    <div class="hero-cta-group">
-                        <a href="#shop" class="btn btn-primary">Shop Parts Now</a>
-                        <a href="#quote" class="btn btn-outline">Request Sourcing</a>
+                    <div class="hero-cta-group reveal-up reveal-delay-1">
+                        <a href="#shop" class="btn btn-primary btn-glow magnetic">Shop Parts Now</a>
+                        <a href="#search" class="btn btn-outline magnetic">Request Sourcing</a>
+                    </div>
+                    <div class="hero-stats reveal-up reveal-delay-2">
+                        <div class="hero-stat">
+                            <span class="hero-stat-num" data-count="50000">0</span><span class="hero-stat-suf">+</span>
+                            <span class="hero-stat-label">Parts</span>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-num" data-count="200">0</span><span class="hero-stat-suf">+</span>
+                            <span class="hero-stat-label">Brands</span>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-num" data-count="80">0</span><span class="hero-stat-suf">+</span>
+                            <span class="hero-stat-label">Countries</span>
+                        </div>
                     </div>
                 </div>
-                <div class="hero-visual">
+                <div class="hero-visual" id="hero-visual">
                     <div class="hero-img-wrap">
                         <img src="assets/car-4.png" alt="VREMP Truck Parts" class="hero-img">
+                        <div class="hero-img-glow"></div>
+                    </div>
+                    <div class="hero-float hero-float-1">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>Fast Delivery</span>
+                    </div>
+                    <div class="hero-float hero-float-2">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>OEM Quality</span>
+                    </div>
+                    <div class="hero-float hero-float-3">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>24h Support</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-scroll-hint" id="hero-scroll-hint">
+                <div class="scroll-hint-line"></div>
+                <span>Scroll</span>
+            </div>
+        </section>
+
+        <!-- TICKER BAR -->
+        <div class="ticker-bar" aria-hidden="true">
+            <div class="ticker-track">
+                <span class="ticker-item">OEM Certified Parts</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">Express Worldwide Shipping</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">50,000+ Parts in Stock</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">24h Sourcing Guarantee</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">200+ OEM Brands</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">ISO 9001 Quality</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">12-Month Warranty</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">80+ Countries Delivered</span>
+                <span class="ticker-sep">✦</span>
+                <!-- duplicate for seamless loop -->
+                <span class="ticker-item">OEM Certified Parts</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">Express Worldwide Shipping</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">50,000+ Parts in Stock</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">24h Sourcing Guarantee</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">200+ OEM Brands</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">ISO 9001 Quality</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">12-Month Warranty</span>
+                <span class="ticker-sep">✦</span>
+                <span class="ticker-item">80+ Countries Delivered</span>
+                <span class="ticker-sep">✦</span>
+            </div>
+        </div>
+
+        <!-- FEATURE SHOWCASE -->
+        <section class="feature-showcase" id="features">
+            <div class="showcase-panel showcase-panel-3">
+                <div class="container showcase-container">
+                    <div class="showcase-copy reveal-left">
+                        <div class="section-label">QUALITY GUARANTEE</div>
+                        <h2 class="showcase-title">Genuine parts.<br>Zero compromise.</h2>
+                        <p class="showcase-desc">Every part is sourced directly from certified OEM suppliers. Full documentation, 12-month warranty, and a 30-day return policy on every order.</p>
+                        <a href="#shop" class="btn btn-outline magnetic">Browse Shop <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div class="showcase-visual reveal-right">
+                        <div class="showcase-img-wrap">
+                            <img src="assets/part-1.png" alt="Genuine parts" class="showcase-img">
+                            <div class="showcase-badge-float">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>12-Month Warranty</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SHOP PARTS INTRO -->
+
+
+
+
+        <!-- PART SEARCH SECTION -->
+        <section class="part-search-section" id="search">
+            <div class="container">
+                <div class="section-header center">
+                    <div class="section-label">PART SEARCH</div>
+                    <h2 class="section-title">Find the exact part in seconds.</h2>
+                    <p class="section-desc">Enter your part number or select your vehicle to search our catalog of over 240,000 genuine OEM parts.</p>
+                </div>
+                <div class="search-card">
+                    <div class="search-tabs">
+                        <button class="search-tab active" data-tab="partnum"><i class="fa-solid fa-hashtag"></i> Part Number</button>
+                        <button class="search-tab" data-tab="vehicle"><i class="fa-solid fa-truck"></i> By Vehicle</button>
+                    </div>
+
+                    <div class="search-panel active" id="panel-partnum">
+                        <div class="search-main-row">
+                            <div class="search-input-wrap">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" placeholder="Enter part number, e.g. CAT-320-UC-01" class="search-input">
+                            </div>
+                            <select class="search-select">
+                                <option>All Categories</option>
+                                <option>Engine Parts</option>
+                                <option>Hydraulic Parts</option>
+                                <option>Undercarriage</option>
+                                <option>Electrical</option>
+                                <option>Braking Systems</option>
+                            </select>
+                            <button class="btn btn-primary btn-search">
+                                <i class="fa-solid fa-magnifying-glass"></i> Search
+                            </button>
+                        </div>
+                        <div class="search-quick">
+                            <span class="quick-label">Popular searches:</span>
+                            <a href="#" class="quick-chip">Air Filter 1R0726</a>
+                            <a href="#" class="quick-chip">CAT Injector</a>
+                            <a href="#" class="quick-chip">Turbocharger HX35</a>
+                            <a href="#" class="quick-chip">Brake Pad Set</a>
+                        </div>
+                    </div>
+
+                    <div class="search-panel" id="panel-vehicle">
+                        <div class="search-main-row">
+                            <select class="search-select">
+                                <option>Select Make</option>
+                                <option>Caterpillar</option>
+                                <option>Komatsu</option>
+                                <option>Volvo</option>
+                                <option>John Deere</option>
+                                <option>Hitachi</option>
+                                <option>Mercedes Actros</option>
+                            </select>
+                            <select class="search-select">
+                                <option>Select Model</option>
+                                <option>320 Excavator</option>
+                                <option>PC200 Excavator</option>
+                                <option>A40G Hauler</option>
+                                <option>Actros 1845</option>
+                            </select>
+                            <select class="search-select">
+                                <option>Select Year</option>
+                                <option>2020 - 2025</option>
+                                <option>2015 - 2019</option>
+                                <option>2010 - 2014</option>
+                                <option>Older</option>
+                            </select>
+                        </div>
+                        <div class="search-main-row search-row-single">
+                            <button class="btn btn-primary btn-search btn-full">
+                                <i class="fa-solid fa-magnifying-glass"></i> Find Parts for Vehicle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHOP PARTS -->
         <section class="shop-intro" id="shop">
             <div class="container">
-                <div class="section-header">
-                    <div class="section-label">SHOP PARTS</div>
-                    <h2 class="section-title">Trusted by 10,000+ professionals worldwide.</h2>
-                    <p class="section-desc">
-                        Add parts to your cart and proceed to secure checkout. Need bulk pricing? Contact us for a custom quote tailored to your fleet or workshop needs.
-                    </p>
-                </div>
 
                 <!-- PRODUCT GRID -->
                 <div class="shop-grid">
 
                     <!-- Product 1 -->
-                    <div class="shop-card">
+                    <div class="shop-card fade-in stagger-1">
                         <div class="shop-card-img">
                             <img src="assets/car-1.png" alt="Excavator">
                             <span class="product-tag">Popular</span>
@@ -115,7 +410,7 @@
                     </div>
 
                     <!-- Product 2 -->
-                    <div class="shop-card">
+                    <div class="shop-card fade-in stagger-2">
                         <div class="shop-card-img">
                             <img src="assets/car-2.png" alt="Backhoe">
                         </div>
@@ -134,7 +429,7 @@
                     </div>
 
                     <!-- Product 3 -->
-                    <div class="shop-card">
+                    <div class="shop-card fade-in stagger-3">
                         <div class="shop-card-img">
                             <img src="assets/car-3.png" alt="Crane">
                             <span class="product-tag tag-new">New</span>
@@ -154,7 +449,7 @@
                     </div>
 
                     <!-- Product 4 -->
-                    <div class="shop-card">
+                    <div class="shop-card fade-in stagger-4">
                         <div class="shop-card-img">
                             <img src="assets/car-5.png" alt="Wheel Loader">
                         </div>
@@ -173,7 +468,7 @@
                     </div>
 
                     <!-- Product 5 -->
-                    <div class="shop-card">
+                    <div class="shop-card fade-in stagger-5">
                         <div class="shop-card-img">
                             <img src="assets/part-1.png" alt="Brake Disc">
                             <span class="product-tag tag-sale">Sale</span>
@@ -186,14 +481,14 @@
                                 <span><i class="fa-solid fa-check"></i> Premium</span>
                             </div>
                             <div class="product-footer">
-                                <span class="product-price price-sale">$450 <span class="old-price">$620</span></span>
+                                <span class="product-price">$450 <span class="old-price">$620</span></span>
                                 <button class="btn-add-cart"><i class="fa-solid fa-cart-plus"></i></button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Product 6 -->
-                    <div class="shop-card">
+                    <div class="shop-card fade-in stagger-6">
                         <div class="shop-card-img">
                             <img src="assets/car-3.png" alt="Transmission">
                         </div>
@@ -215,58 +510,172 @@
             </div>
         </section>
 
-        <!-- CATEGORIES / PRODUCT PANELS -->
-        <section class="categories-section" id="parts">
+        <!-- HOW IT WORKS SECTION -->
+        <section class="how-it-works-section">
             <div class="container">
-                <div class="section-header center">
-                    <div class="section-label">CATEGORIES</div>
-                    <h2 class="section-title">Shop by Category</h2>
+                <div class="section-header center fade-in">
+                    <div class="section-label">HOW IT WORKS</div>
+                    <h2 class="section-title">From Search to Delivery in 3 Steps</h2>
+                    <p class="section-desc">We make sourcing industrial spare parts simple, fast, and reliable for professionals worldwide.</p>
                 </div>
-
-                <div class="category-grid">
-                    <div class="category-card">
-                        <div class="cat-icon"><i class="fa-solid fa-gear"></i></div>
-                        <h4>Engine Parts</h4>
-                        <p>Filters, injectors, turbochargers</p>
+                <div class="steps-grid">
+                    <div class="step-card fade-in stagger-1">
+                        <div class="step-number">01</div>
+                        <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <h4>Search or Request</h4>
+                        <p>Enter your part number or vehicle details. Can't find it? Submit a sourcing request and our team finds it for you within 24 hours.</p>
                     </div>
-                    <div class="category-card">
-                        <div class="cat-icon"><i class="fa-solid fa-droplet"></i></div>
-                        <h4>Hydraulic Parts</h4>
-                        <p>Pumps, valves, cylinders, hoses</p>
+                    <div class="step-connector fade-in stagger-2">
+                        <div class="step-line"></div>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </div>
-                    <div class="category-card">
-                        <div class="cat-icon"><i class="fa-solid fa-link"></i></div>
-                        <h4>Undercarriage</h4>
-                        <p>Tracks, rollers, idlers, links</p>
+                    <div class="step-card fade-in stagger-2">
+                        <div class="step-number">02</div>
+                        <div class="step-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                        <h4>Get Your Quote</h4>
+                        <p>Receive a competitive price instantly for stock items, or a custom quote for bulk and OEM-sourced parts tailored to your needs.</p>
                     </div>
-                    <div class="category-card">
-                        <div class="cat-icon"><i class="fa-solid fa-filter"></i></div>
-                        <h4>Filters</h4>
-                        <p>Oil, air, fuel, hydraulic filters</p>
+                    <div class="step-connector fade-in stagger-3">
+                        <div class="step-line"></div>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </div>
-                    <div class="category-card">
-                        <div class="cat-icon"><i class="fa-solid fa-bolt"></i></div>
-                        <h4>Electrical</h4>
-                        <p>Alternators, starters, sensors</p>
-                    </div>
-                    <div class="category-card">
-                        <div class="cat-icon"><i class="fa-solid fa-wrench"></i></div>
-                        <h4>Attachments</h4>
-                        <p>Buckets, hammers, grapples</p>
-                    </div>
-                    <div class="category-card">
-                        <div class="cat-icon"><i class="fa-solid fa-circle-dot"></i></div>
-                        <h4>Tires & Wheels</h4>
-                        <p>Heavy duty tires, rims, hubs</p>
+                    <div class="step-card fade-in stagger-3">
+                        <div class="step-number">03</div>
+                        <div class="step-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                        <h4>Fast Delivery</h4>
+                        <p>Parts are shipped express worldwide. Track your order in real time and get support from our team every step of the way.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container">
+                <div class="section-header center fade-in">
+                    <div class="section-label">TESTIMONIALS</div>
+                    <h2 class="section-title">Trusted by 10,000+ Professionals</h2>
+                    <p class="section-desc">From independent workshops to large fleet operators — here's what our customers say.</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in stagger-1">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"VREMP sourced a rare Komatsu hydraulic pump for us within 18 hours. Competitors quoted 3 weeks. Our excavator was back on site the next day. Absolutely unmatched service."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">MR</div>
+                            <div class="testimonial-info">
+                                <strong>Marcus R.</strong>
+                                <span>Fleet Manager · Australia</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in stagger-2">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"We've been sourcing Actros and Scania parts through VREMP for two years. The quality is consistently OEM-grade and pricing beats all our previous suppliers. Highly recommend."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">SK</div>
+                            <div class="testimonial-info">
+                                <strong>Sofia K.</strong>
+                                <span>Procurement Officer · Germany</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in stagger-3">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <p class="testimonial-text">"The bulk pricing for our workshop is exceptional. We order monthly and VREMP always delivers on time with full documentation. Their WhatsApp support team responds within minutes."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">JA</div>
+                            <div class="testimonial-info">
+                                <strong>James A.</strong>
+                                <span>Workshop Owner · South Africa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="section-header center fade-in">
+                    <div class="section-label">FAQ</div>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-desc">Everything you need to know about ordering with VREMP.</p>
+                </div>
+                <div class="faq-list fade-in">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>What is the minimum order quantity?</span>
+                            <i class="fa-solid fa-plus faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>There is no minimum order quantity for standard stock items. For bulk and OEM-sourced orders, we offer custom pricing starting from 5 units. Contact us for a tailored quote.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>How long does shipping take?</span>
+                            <i class="fa-solid fa-plus faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Express delivery is available within 24–48 hours for most regions. Standard international shipping takes 5–10 business days depending on your location. All orders include real-time tracking.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Are all parts genuine OEM?</span>
+                            <i class="fa-solid fa-plus faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes. All parts are sourced directly from certified OEM suppliers and authorized distributors. Every item includes original manufacturer documentation and is covered by a minimum 12-month warranty.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>What is your return policy?</span>
+                            <i class="fa-solid fa-plus faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We offer a 30-day hassle-free return policy on all stock items. If a part is defective or incorrectly supplied, we cover all return shipping costs and provide a full replacement or refund.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Can you source parts not listed in your catalog?</span>
+                            <i class="fa-solid fa-plus faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Absolutely. Our dedicated sourcing team specializes in finding hard-to-locate parts. Simply submit a sourcing request with your part number or equipment details and we'll respond within 24 hours with availability and pricing.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Do you offer bulk or fleet pricing?</span>
+                            <i class="fa-solid fa-plus faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes. We offer tiered pricing for workshops, fleet operators, and industrial buyers. Contact our team via the inquiry form or WhatsApp to discuss a custom pricing arrangement based on your volume and frequency.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
         <!-- BRAND STRIP - MOVING -->
         <section class="brand-strip-section" id="brands">
             <div class="container">
-                <div class="section-header center">
+                <div class="section-header center fade-in">
                     <div class="section-label">TRUSTED BRANDS</div>
                     <h2 class="section-title">OEM Parts from Industry Leaders</h2>
                 </div>
@@ -304,39 +713,39 @@
         <!-- CONTACT SECTION -->
         <section class="contact-section" id="contact">
             <div class="container contact-container">
-                <div class="section-header">
+                <div class="section-header fade-in">
                     <div class="section-label">CONTACT US</div>
                     <h2 class="section-title">Need Bulk Pricing or Custom Sourcing?</h2>
                     <p class="section-desc">
                         Our team is available 24/7 to help you find exactly the right parts at the best price.
                     </p>
                 </div>
-                <form class="contact-form">
+                <form class="contact-form fade-in-right">
                     <div class="form-row">
                         <div class="form-group">
                             <label>Full Name</label>
-                            <input type="text" placeholder="John Doe">
+                            <input type="text" placeholder="">
                         </div>
                         <div class="form-group">
                             <label>Company</label>
-                            <input type="text" placeholder="Your company">
+                            <input type="text" placeholder="">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" placeholder="john@company.com">
+                            <input type="email" placeholder="">
                         </div>
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="tel" placeholder="+1 (555) 123-4567">
+                            <input type="tel" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Message</label>
-                        <textarea rows="5" placeholder="Tell us about your parts requirements..."></textarea>
+                        <textarea rows="5" placeholder=""></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-full">Send Inquiry</button>
+                    <button type="submit" class="btn btn-primary btn-full btn-glow">Send Inquiry</button>
                 </form>
             </div>
         </section>
@@ -346,11 +755,11 @@
     <!-- FOOTER -->
     <footer class="site-footer">
         <div class="container footer-grid">
-            <div class="footer-brand-col">
-                <span class="brand-text brand-footer">VREMP</span>
+            <div class="footer-brand-col fade-in">
+                <img src="assets/vremp.png" alt="VREMP" class="brand-footer">
                 <p>Premium truck spare parts and heavy construction machinery sourcing for professionals worldwide.</p>
             </div>
-            <div class="footer-col">
+            <div class="footer-col fade-in stagger-1">
                 <h6>Shop</h6>
                 <ul>
                     <li><a href="#">Engine Parts</a></li>
@@ -359,7 +768,7 @@
                     <li><a href="#">Electrical</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="footer-col fade-in stagger-2">
                 <h6>Company</h6>
                 <ul>
                     <li><a href="#">About Us</a></li>
@@ -368,7 +777,7 @@
                     <li><a href="#">Contact</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="footer-col fade-in stagger-3">
                 <h6>Support</h6>
                 <ul>
                     <li><a href="#">Help Center</a></li>
