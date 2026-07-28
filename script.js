@@ -1,201 +1,37 @@
 /* ============================================================
-   VREMP — Main Script  |  Apple × Mercury × Motion
+   VREMP — Main Script
    ============================================================ */
 'use strict';
 
-/* ── Utility ────────────────────────────────────────────────── */
-const qs  = (s, ctx = document) => ctx.querySelector(s);
-const qsa = (s, ctx = document) => [...ctx.querySelectorAll(s)];
+/* ── EmailJS config ─────────────────────────────────────────
+   HOW TO SET UP (free, 5 min):
+   1. Go to https://www.emailjs.com and create a free account
+   2. Add an Email Service (Gmail recommended) → copy Service ID
+   3. Create an Email Template → copy Template ID
+      Template variables to use: {{from_name}}, {{reply_to}},
+      {{company}}, {{phone}}, {{message}}
+   4. Go to Account → copy your Public Key
+   5. Replace the three values below
+   --------------------------------------------------------- */
+const EMAILJS_PUBLIC_KEY  = '-TCmq_j4CY6exLNv7';
+const EMAILJS_SERVICE_ID  = 'service_xkc4s1k';
+const EMAILJS_TEMPLATE_ID = 'template_t438vj8';
+const EMAILJS_CART_TEMPLATE_ID = 'template_t438vj8';
+
+/* ── Helpers ────────────────────────────────────────────── */
+const qs  = s => document.querySelector(s);
+const qsa = s => [...document.querySelectorAll(s)];
+const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-const lerp  = (a, b, t)   => a + (b - a) * t;
 
 /* ============================================================
-   CUSTOM CURSOR
+   EMAILJS INIT
    ============================================================ */
-const cursorDot  = qs('#cursor-dot');
-const cursorRing = qs('#cursor-ring');
-
-if (cursorDot && cursorRing && window.matchMedia('(pointer: fine)').matches) {
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    let rafId;
-
-    document.addEventListener('mousemove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-        cursorDot.style.left = mx + 'px';
-        cursorDot.style.top  = my + 'px';
-    });
-
-    const animRing = () => {
-        rx = lerp(rx, mx, 0.12);
-        ry = lerp(ry, my, 0.12);
-        cursorRing.style.left = rx + 'px';
-        cursorRing.style.top  = ry + 'px';
-        rafId = requestAnimationFrame(animRing);
-    };
-    animRing();
-
-    // Hover state
-    document.addEventListener('mouseover', e => {
-        const el = e.target.closest('a, button, .magnetic, .faq-question, .search-tab, .quick-chip');
-        if (el) cursorRing.classList.add('hovering');
-    });
-    document.addEventListener('mouseout', e => {
-        const el = e.target.closest('a, button, .magnetic, .faq-question, .search-tab, .quick-chip');
-        if (el) cursorRing.classList.remove('hovering');
-    });
-
-    document.addEventListener('mousedown', () => cursorRing.classList.add('clicking'));
-    document.addEventListener('mouseup',   () => cursorRing.classList.remove('clicking'));
-}
-
-/* ============================================================
-   MAGNETIC BUTTONS
-   ============================================================ */
-qsa('.magnetic').forEach(el => {
-    el.addEventListener('mousemove', e => {
-        const r  = el.getBoundingClientRect();
-        const dx = e.clientX - (r.left + r.width / 2);
-        const dy = e.clientY - (r.top  + r.height / 2);
-        el.style.transform = `translate(${dx * 0.28}px, ${dy * 0.28}px)`;
-    });
-    el.addEventListener('mouseleave', () => {
-        el.style.transform = '';
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
 });
-
-/* ============================================================
-   HERO CANVAS — animated dot grid
-   ============================================================ */
-const canvas = qs('#hero-canvas');
-if (canvas) {
-    const ctx2d = canvas.getContext('2d');
-    let W, H, dots = [], mouseX = -9999, mouseY = -9999;
-    const SPACING = 44;
-    const RADIUS  = 1.2;
-    const GLOW_R  = 160;
-    const COLOR   = '0,102,255';
-
-    const buildDots = () => {
-        dots = [];
-        W = canvas.width  = canvas.offsetWidth;
-        H = canvas.height = canvas.offsetHeight;
-        const cols = Math.ceil(W / SPACING) + 1;
-        const rows = Math.ceil(H / SPACING) + 1;
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                dots.push({ x: c * SPACING, y: r * SPACING, ox: c * SPACING, oy: r * SPACING });
-            }
-        }
-    };
-
-    const drawDots = () => {
-        ctx2d.clearRect(0, 0, W, H);
-        for (const d of dots) {
-            const dx   = mouseX - d.ox;
-            const dy   = mouseY - d.oy;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const pull = Math.max(0, 1 - dist / GLOW_R);
-            const alpha = 0.12 + pull * 0.55;
-            const size  = RADIUS + pull * 1.8;
-            ctx2d.beginPath();
-            ctx2d.arc(d.ox, d.oy, size, 0, Math.PI * 2);
-            ctx2d.fillStyle = `rgba(${COLOR},${alpha})`;
-            ctx2d.fill();
-        }
-        requestAnimationFrame(drawDots);
-    };
-
-    buildDots();
-    drawDots();
-
-    window.addEventListener('resize', buildDots);
-    document.addEventListener('mousemove', e => {
-        const r = canvas.getBoundingClientRect();
-        mouseX = e.clientX - r.left;
-        mouseY = e.clientY - r.top;
-    });
-}
-
-/* ============================================================
-   HERO PARALLAX — visual floats on scroll
-   ============================================================ */
-const heroVisual    = qs('#hero-visual');
-const heroOrb1      = qs('.hero-orb-1');
-const heroOrb2      = qs('.hero-orb-2');
-const heroScrollHint = qs('#hero-scroll-hint');
-
-window.addEventListener('scroll', () => {
-    const sy = window.scrollY;
-    if (heroVisual)  heroVisual.style.transform  = `translateY(${sy * 0.18}px)`;
-    if (heroOrb1)    heroOrb1.style.transform     = `translateY(${sy * 0.12}px)`;
-    if (heroOrb2)    heroOrb2.style.transform     = `translateY(${-sy * 0.08}px)`;
-    if (heroScrollHint) heroScrollHint.classList.toggle('hidden', sy > 120);
-}, { passive: true });
-
-/* ============================================================
-   HERO SPLIT-LINE TEXT REVEAL (on page load)
-   ============================================================ */
-const splitInners = qsa('.split-inner');
-setTimeout(() => {
-    splitInners.forEach((el, i) => {
-        setTimeout(() => el.classList.add('revealed'), i * 180);
-    });
-}, 400);
-
-/* ============================================================
-   HERO INLINE STAT COUNTERS (run immediately on load)
-   ============================================================ */
-const countEl = (el) => {
-    const target = parseInt(el.dataset.count, 10);
-    const dur    = 2000;
-    const start  = performance.now();
-    const step   = (now) => {
-        const p = clamp((now - start) / dur, 0, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.floor(eased * target).toLocaleString('en-US');
-        if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-};
-
-setTimeout(() => {
-    qsa('.hero-stat-num[data-count]').forEach(countEl);
-}, 1600);
-
-/* ============================================================
-   REVEAL ON SCROLL — reveal-up / reveal-left / reveal-right / reveal-fade
-   ============================================================ */
-const revealEls = qsa('.reveal-fade, .reveal-up, .reveal-left, .reveal-right');
-
-const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('on');
-        revealObs.unobserve(entry.target);
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
-
-revealEls.forEach(el => revealObs.observe(el));
-
-/* ============================================================
-   SHOWCASE PANEL PARALLAX — image slight drift on scroll
-   ============================================================ */
-const showcaseImgs = qsa('.showcase-img-wrap');
-
-const showcaseScroll = () => {
-    showcaseImgs.forEach(wrap => {
-        const rect  = wrap.getBoundingClientRect();
-        const wh    = window.innerHeight;
-        const ratio = (wh - rect.top) / (wh + rect.height);
-        const shift = (ratio - 0.5) * 40;
-        const img   = wrap.querySelector('.showcase-img');
-        if (img) img.style.transform = `translateY(${shift}px)`;
-    });
-};
-
-window.addEventListener('scroll', showcaseScroll, { passive: true });
-showcaseScroll();
 
 /* ============================================================
    LOADING SCREEN
@@ -211,7 +47,7 @@ if (loadingScreen) {
 }
 
 /* ============================================================
-   HEADER — scroll state
+   HEADER SCROLL
    ============================================================ */
 const header = qs('#site-header');
 if (header) {
@@ -234,7 +70,6 @@ const updateNav = () => {
         link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
     });
 };
-
 window.addEventListener('scroll', updateNav, { passive: true });
 updateNav();
 
@@ -244,7 +79,7 @@ updateNav();
 document.addEventListener('click', e => {
     const anchor = e.target.closest('a[href^="#"]');
     if (!anchor) return;
-    const id     = anchor.getAttribute('href');
+    const id = anchor.getAttribute('href');
     if (id === '#') return;
     const target = qs(id);
     if (!target) return;
@@ -280,7 +115,6 @@ hamburger?.addEventListener('click', () =>
     mobileMenu?.classList.contains('open') ? closeMobileMenu() : openMobileMenu()
 );
 menuClose?.addEventListener('click', closeMobileMenu);
-
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeMobileMenu(); closeCart(); }
 });
@@ -288,11 +122,11 @@ document.addEventListener('keydown', e => {
 /* ============================================================
    CART STATE
    ============================================================ */
-const cartState    = [];
-const cartBadgeEl  = qs('.cart-badge');
+const cartState     = [];
+const cartBadgeEl   = qs('.cart-badge');
 const cartItemsList = qs('#cart-items-list');
-const cartEmptyEl  = qs('#cart-empty');
-const cartTotalEl  = qs('#cart-total-price');
+const cartEmptyEl   = qs('#cart-empty');
+const cartTotalEl   = qs('#cart-total-price');
 
 const updateCartBadge = () => {
     if (!cartBadgeEl) return;
@@ -304,10 +138,11 @@ const updateCartBadge = () => {
 const renderCart = () => {
     if (!cartItemsList) return;
     const empty = cartState.length === 0;
-    if (cartEmptyEl)   cartEmptyEl.style.display  = empty ? 'flex' : 'none';
+    if (cartEmptyEl) cartEmptyEl.style.display = empty ? 'flex' : 'none';
     cartItemsList.style.display = empty ? 'none' : 'flex';
     cartItemsList.innerHTML = '';
     let total = 0;
+
     cartState.forEach((item, i) => {
         const raw = parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0;
         total += raw;
@@ -325,6 +160,7 @@ const renderCart = () => {
             </button>`;
         cartItemsList.appendChild(li);
     });
+
     if (cartTotalEl) cartTotalEl.textContent = total > 0
         ? `$${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
         : '$0.00';
@@ -334,7 +170,8 @@ cartItemsList?.addEventListener('click', e => {
     const btn = e.target.closest('.cart-item-remove');
     if (!btn) return;
     cartState.splice(parseInt(btn.dataset.index, 10), 1);
-    updateCartBadge(); renderCart();
+    updateCartBadge();
+    renderCart();
 });
 
 /* ============================================================
@@ -363,6 +200,65 @@ cartToggle?.addEventListener('click', openCart);
 cartClose?.addEventListener('click', closeCart);
 cartContinue?.addEventListener('click', closeCart);
 cartOverlay?.addEventListener('click', closeCart);
+
+/* ============================================================
+   CART CHECKOUT — sends quote request email
+   ============================================================ */
+const checkoutBtn = qs('#checkout-btn');
+checkoutBtn?.addEventListener('click', () => {
+    if (cartState.length === 0) return;
+
+    const itemsList = cartState.map((item, i) =>
+        `${i + 1}. ${item.title} (${item.category}) — ${item.price}`
+    ).join('\n');
+
+    const total = cartState.reduce((sum, item) => {
+        return sum + (parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0);
+    }, 0);
+
+    const btn = checkoutBtn;
+    const orig = btn.innerHTML;
+
+    if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+        /* EmailJS not configured yet — open mailto as fallback */
+        const subject = encodeURIComponent('VREMP Quote Request');
+        const body = encodeURIComponent(
+            `Hello VREMP Team,\n\nI would like a quote for the following parts:\n\n${itemsList}\n\nEstimated Total: $${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}\n\nPlease contact me with pricing and availability.\n\nThank you`
+        );
+        window.location.href = `mailto:info@vrempauto.com?subject=${subject}&body=${body}`;
+        closeCart();
+        return;
+    }
+
+    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
+    btn.disabled  = true;
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CART_TEMPLATE_ID, {
+        items_list: itemsList,
+        total:      `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+        item_count: cartState.length,
+    }).then(() => {
+        btn.innerHTML  = '<i class="fa-solid fa-check"></i> Quote Sent!';
+        btn.style.background  = 'var(--green)';
+        btn.style.borderColor = 'var(--green)';
+        btn.style.color = '#000';
+        cartState.length = 0;
+        updateCartBadge();
+        renderCart();
+        setTimeout(() => {
+            btn.innerHTML         = orig;
+            btn.style.background  = '';
+            btn.style.borderColor = '';
+            btn.style.color       = '';
+            btn.disabled          = false;
+            closeCart();
+        }, 3000);
+    }).catch(() => {
+        btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — try email';
+        btn.disabled  = false;
+        setTimeout(() => { btn.innerHTML = orig; }, 3000);
+    });
+});
 
 /* ============================================================
    ADD TO CART + TOAST
@@ -396,8 +292,11 @@ qsa('.btn-add-cart').forEach(btn => {
         clone?.querySelector('.old-price')?.remove();
         const price = clone?.textContent.trim() || '';
         const img   = card?.querySelector('.shop-card-img img')?.src || '';
+
         cartState.push({ title, category, price, img });
-        updateCartBadge(); showToast({ title, category, price, img });
+        updateCartBadge();
+        showToast({ title, category, price, img });
+
         const orig = this.innerHTML;
         this.innerHTML = '<i class="fa-solid fa-check"></i>';
         this.style.background  = 'var(--green)';
@@ -436,9 +335,66 @@ qsa('.faq-question').forEach(btn => {
             el.classList.remove('open');
             el.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
         });
-        if (!isOpen) { item.classList.add('open'); this.setAttribute('aria-expanded', 'true'); }
+        if (!isOpen) {
+            item.classList.add('open');
+            this.setAttribute('aria-expanded', 'true');
+        }
     });
 });
+
+/* ============================================================
+   CONTACT FORM — EmailJS
+   ============================================================ */
+const contactForm = qs('#contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const btn  = this.querySelector('button[type="submit"]');
+        const orig = btn.innerHTML;
+
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
+        btn.disabled  = true;
+
+        if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+            /* Fallback — open mailto */
+            const name    = this.querySelector('[name="from_name"]')?.value || '';
+            const email   = this.querySelector('[name="reply_to"]')?.value || '';
+            const company = this.querySelector('[name="company"]')?.value || '';
+            const phone   = this.querySelector('[name="phone"]')?.value || '';
+            const message = this.querySelector('[name="message"]')?.value || '';
+            const subject = encodeURIComponent('VREMP Inquiry from ' + name);
+            const body    = encodeURIComponent(
+                `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nPhone: ${phone}\n\n${message}`
+            );
+            window.location.href = `mailto:info@vrempauto.com?subject=${subject}&body=${body}`;
+            btn.innerHTML = orig;
+            btn.disabled  = false;
+            return;
+        }
+
+        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this)
+            .then(() => {
+                btn.innerHTML         = '<i class="fa-solid fa-check"></i> Sent!';
+                btn.style.background  = 'var(--green)';
+                btn.style.borderColor = 'var(--green)';
+                btn.style.color       = '#000';
+                contactForm.reset();
+                setTimeout(() => {
+                    btn.innerHTML         = orig;
+                    btn.style.background  = '';
+                    btn.style.borderColor = '';
+                    btn.style.color       = '';
+                    btn.disabled          = false;
+                }, 3000);
+            })
+            .catch((err) => {
+                console.error('EmailJS error:', err);
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — try again';
+                btn.disabled  = false;
+                setTimeout(() => { btn.innerHTML = orig; }, 3000);
+            });
+    });
+}
 
 /* ============================================================
    SCROLL-TO-TOP
@@ -452,7 +408,7 @@ if (scrollBtn) {
 }
 
 /* ============================================================
-   FADE-IN ON SCROLL (legacy .fade-in classes)
+   LEGACY FADE-IN
    ============================================================ */
 const fadeEls = qsa('.fade-in, .fade-in-left, .fade-in-right, .fade-in-scale');
 if ('IntersectionObserver' in window) {
@@ -469,35 +425,7 @@ if ('IntersectionObserver' in window) {
 }
 
 /* ============================================================
-   CONTACT FORM
-   ============================================================ */
-const contactForm = qs('.contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const btn  = this.querySelector('button[type="submit"]');
-        const orig = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
-        btn.disabled  = true;
-        setTimeout(() => {
-            btn.innerHTML         = '<i class="fa-solid fa-check"></i> Sent!';
-            btn.style.background  = 'var(--green)';
-            btn.style.borderColor = 'var(--green)';
-            btn.style.color       = '#000';
-            this.reset();
-            setTimeout(() => {
-                btn.innerHTML         = orig;
-                btn.style.background  = '';
-                btn.style.borderColor = '';
-                btn.style.color       = '';
-                btn.disabled          = false;
-            }, 2500);
-        }, 1200);
-    });
-}
-
-/* ============================================================
-   RIPPLE on .btn
+   RIPPLE
    ============================================================ */
 document.addEventListener('click', e => {
     const btn = e.target.closest('.btn');
@@ -511,7 +439,8 @@ document.addEventListener('click', e => {
         position: 'absolute', width: `${s}px`, height: `${s}px`,
         left: `${x}px`, top: `${y}px`, borderRadius: '50%',
         background: 'rgba(255,255,255,0.1)', transform: 'scale(0)',
-        animation: 'rippleAnim 0.55s ease-out forwards', pointerEvents: 'none', zIndex: '10',
+        animation: 'rippleAnim 0.55s ease-out forwards',
+        pointerEvents: 'none', zIndex: '10',
     });
     btn.appendChild(rip);
     setTimeout(() => rip.remove(), 600);

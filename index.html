@@ -45,6 +45,11 @@
     <link rel="stylesheet" href="style.css">
     <!-- Three.js for 3D hero particles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
 
@@ -117,7 +122,7 @@
             <a href="#contact" class="mobile-nav-link">Contact</a>
         </nav>
         <div class="mobile-menu-footer">
-            <a href="https://wa.me/1234567890" class="btn btn-primary btn-full" target="_blank" rel="noopener">
+            <a href="https://wa.me/48881754311" class="btn btn-primary btn-full" target="_blank" rel="noopener">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
             </a>
         </div>
@@ -145,7 +150,7 @@
                 <span>Total</span>
                 <span class="cart-total-price" id="cart-total-price">$0.00</span>
             </div>
-            <button class="btn btn-primary btn-full btn-glow">Proceed to Checkout</button>
+            <button class="btn btn-primary btn-full btn-glow" id="checkout-btn">Request Quote by Email</button>
             <button class="btn btn-outline btn-full" id="cart-continue">Continue Shopping</button>
         </div>
     </aside>
@@ -158,22 +163,18 @@
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
-    <!-- WHATSAPP FLOATING BUTTON -->
-    <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-        <span class="whatsapp-tooltip">Chat with us</span>
-    </a>
+
 
     <main>
 
         <!-- HERO SECTION -->
         <section class="hero-section" id="home">
-            <!-- Animated canvas background -->
-            <canvas class="hero-canvas" id="hero-canvas"></canvas>
-            <!-- Parallax layer -->
-            <div class="hero-parallax-layer" id="hero-parallax">
-                <div class="hero-orb hero-orb-1"></div>
-                <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-visual" id="hero-visual">
+                <!-- Parallax layer -->
+                <div class="hero-parallax-layer" id="hero-parallax">
+                    <div class="hero-orb hero-orb-1"></div>
+                    <div class="hero-orb hero-orb-2"></div>
+                </div>
             </div>
 
             <div class="container hero-container">
@@ -214,24 +215,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero-visual" id="hero-visual">
-                    <div class="hero-img-wrap">
-                        <img src="assets/car-4.png" alt="VREMP Truck Parts" class="hero-img">
-                        <div class="hero-img-glow"></div>
-                    </div>
-                    <div class="hero-float hero-float-1">
-                        <i class="fa-solid fa-truck-fast"></i>
-                        <span>Fast Delivery</span>
-                    </div>
-                    <div class="hero-float hero-float-2">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <span>OEM Quality</span>
-                    </div>
-                    <div class="hero-float hero-float-3">
-                        <i class="fa-solid fa-bolt"></i>
-                        <span>24h Support</span>
-                    </div>
-                </div>
             </div>
             <div class="hero-scroll-hint" id="hero-scroll-hint">
                 <div class="scroll-hint-line"></div>
@@ -239,78 +222,17 @@
             </div>
         </section>
 
-        <!-- TICKER BAR -->
-        <div class="ticker-bar" aria-hidden="true">
-            <div class="ticker-track">
-                <span class="ticker-item">OEM Certified Parts</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">Express Worldwide Shipping</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">50,000+ Parts in Stock</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">24h Sourcing Guarantee</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">200+ OEM Brands</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">ISO 9001 Quality</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">12-Month Warranty</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">80+ Countries Delivered</span>
-                <span class="ticker-sep">✦</span>
-                <!-- duplicate for seamless loop -->
-                <span class="ticker-item">OEM Certified Parts</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">Express Worldwide Shipping</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">50,000+ Parts in Stock</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">24h Sourcing Guarantee</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">200+ OEM Brands</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">ISO 9001 Quality</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">12-Month Warranty</span>
-                <span class="ticker-sep">✦</span>
-                <span class="ticker-item">80+ Countries Delivered</span>
-                <span class="ticker-sep">✦</span>
-            </div>
-        </div>
-
-        <!-- FEATURE SHOWCASE -->
-        <section class="feature-showcase" id="features">
-            <div class="showcase-panel showcase-panel-3">
-                <div class="container showcase-container">
-                    <div class="showcase-copy reveal-left">
-                        <div class="section-label">QUALITY GUARANTEE</div>
-                        <h2 class="showcase-title">Genuine parts.<br>Zero compromise.</h2>
-                        <p class="showcase-desc">Every part is sourced directly from certified OEM suppliers. Full documentation, 12-month warranty, and a 30-day return policy on every order.</p>
-                        <a href="#shop" class="btn btn-outline magnetic">Browse Shop <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                    <div class="showcase-visual reveal-right">
-                        <div class="showcase-img-wrap">
-                            <img src="assets/part-1.png" alt="Genuine parts" class="showcase-img">
-                            <div class="showcase-badge-float">
-                                <i class="fa-solid fa-shield-halved"></i>
-                                <span>12-Month Warranty</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
 
 
 
 
-        <!-- PART SEARCH SECTION -->
-        <section class="part-search-section" id="search">
+
+        <!-- PART SEARCH SECTION -->        <section class="part-search-section" id="search">
             <div class="container">
                 <div class="section-header center">
                     <div class="section-label">PART SEARCH</div>
-                    <h2 class="section-title">Find the exact part in seconds.</h2>
+                    <h2 class="section-title" data-split>Find the exact part in seconds.</h2>
                     <p class="section-desc">Enter your part number or select your vehicle to search our catalog of over 240,000 genuine OEM parts.</p>
                 </div>
                 <div class="search-card">
@@ -385,6 +307,11 @@
         <!-- SHOP PARTS -->
         <section class="shop-intro" id="shop">
             <div class="container">
+                <div class="section-header center">
+                    <div class="section-label">SHOP PARTS</div>
+                    <h2 class="section-title" data-split>Premium OEM Parts. Ready to Ship.</h2>
+                    <p class="section-desc">Add parts to your inquiry and we'll send you a competitive quote. Bulk pricing available for workshops and fleet operators.</p>
+                </div>
 
                 <!-- PRODUCT GRID -->
                 <div class="shop-grid">
@@ -515,7 +442,7 @@
             <div class="container">
                 <div class="section-header center fade-in">
                     <div class="section-label">HOW IT WORKS</div>
-                    <h2 class="section-title">From Search to Delivery in 3 Steps</h2>
+                    <h2 class="section-title" data-split>From Search to Delivery in 3 Steps</h2>
                     <p class="section-desc">We make sourcing industrial spare parts simple, fast, and reliable for professionals worldwide.</p>
                 </div>
                 <div class="steps-grid">
@@ -551,8 +478,7 @@
 
 
 
-        <!-- TESTIMONIALS SECTION -->
-        <section class="testimonials-section">
+        <!-- TESTIMONIALS SECTION -->        <section class="testimonials-section">
             <div class="container">
                 <div class="section-header center fade-in">
                     <div class="section-label">TESTIMONIALS</div>
@@ -672,8 +598,7 @@
 
 
 
-        <!-- BRAND STRIP - MOVING -->
-        <section class="brand-strip-section" id="brands">
+        <!-- BRAND STRIP - MOVING -->        <section class="brand-strip-section" id="brands">
             <div class="container">
                 <div class="section-header center fade-in">
                     <div class="section-label">TRUSTED BRANDS</div>
@@ -719,31 +644,45 @@
                     <p class="section-desc">
                         Our team is available 24/7 to help you find exactly the right parts at the best price.
                     </p>
+                    <div class="contact-info-list">
+                        <a href="mailto:info@vrempauto.com" class="contact-info-item">
+                            <div class="contact-info-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <span>info@vrempauto.com</span>
+                        </a>
+                        <a href="tel:+48881754311" class="contact-info-item">
+                            <div class="contact-info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <span>+48 881 754 311</span>
+                        </a>
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <span>Kigali, Rwanda</span>
+                        </div>
+                    </div>
                 </div>
-                <form class="contact-form fade-in-right">
+                <form class="contact-form" id="contact-form">
                     <div class="form-row">
                         <div class="form-group">
                             <label>Full Name</label>
-                            <input type="text" placeholder="">
+                            <input type="text" name="from_name" placeholder="" required>
                         </div>
                         <div class="form-group">
                             <label>Company</label>
-                            <input type="text" placeholder="">
+                            <input type="text" name="company" placeholder="">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" placeholder="">
+                            <input type="email" name="reply_to" placeholder="" required>
                         </div>
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="tel" placeholder="">
+                            <input type="tel" name="phone" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Message</label>
-                        <textarea rows="5" placeholder=""></textarea>
+                        <textarea name="message" rows="5" placeholder=""></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full btn-glow">Send Inquiry</button>
                 </form>
@@ -799,5 +738,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="motion.js"></script>
 </body>
 </html>
