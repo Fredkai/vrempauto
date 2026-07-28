@@ -25,6 +25,179 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
 /* ============================================================
+   PRODUCT DATA & SEARCH
+*/
+let PRODUCTS = [];
+const productGrid = qs('.shop-grid');
+const searchResultsLabel = qs('#search-results');
+
+const loadProducts = async () => {
+    try {
+        const response = await fetch('products.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        PRODUCTS = await response.json();
+    } catch (error) {
+        console.error('Failed to load products.json:', error);
+        PRODUCTS = [];
+    }
+};
+
+const normaliseText = (value) => String(value || '').toLowerCase();
+
+const productMatchesSearch = (product, query, category) => {
+    const text = [product.title, product.category, product.desc, product.sku, product.make, product.model, product.year, ...(product.keywords || [])].join(' ').toLowerCase();
+    const queryMatch = !query || text.includes(query.toLowerCase());
+    const categoryMatch = !category || category === 'All Categories' || product.category.toLowerCase().includes(category.toLowerCase());
+    return queryMatch && categoryMatch;
+};
+
+const filterProducts = ({ query = '', category = 'All Categories', make = '', model = '', year = '' }) => {
+    let results = PRODUCTS.slice();
+    if (category && category !== 'All Categories') {
+        results = results.filter(product => product.category.toLowerCase().includes(category.toLowerCase()));
+    }
+    if (make && make !== 'Select Make') {
+        results = results.filter(product => product.make.toLowerCase().includes(make.toLowerCase()));
+    }
+    if (model && model !== 'Select Model') {
+        results = results.filter(product => product.model.toLowerCase().includes(model.toLowerCase()));
+    }
+    if (year && year !== 'Select Year') {
+        results = results.filter(product => product.year.toLowerCase().includes(year.toLowerCase()));
+    }
+    if (query) {
+        results = results.filter(product => productMatchesSearch(product, query, category));
+    }
+    return results;
+};
+
+const buildProductCard = (product, index) => {
+    const priceLabel = product.oldPrice
+        ? `${product.price} <span class="old-price">${product.oldPrice}</span>`
+        : product.price;
+    const featureSpans = product.features.map(feature => `<span><i class="fa-solid fa-check"></i> ${feature}</span>`).join('');
+    return `
+        <div class="shop-card fade-in stagger-${(index % 6) + 1}" data-product-id="${product.id}" data-sku="${product.sku}" data-stock="${product.stock}" data-desc="${product.desc}">
+            <div class="shop-card-img">
+                <img src="${product.img}" alt="${product.title}">
+            </div>
+            <div class="shop-card-body">
+                <div class="product-category">${product.category}</div>
+                <h4 class="product-title">${product.title}</h4>
+                <div class="product-specs">
+                    ${featureSpans}
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">${priceLabel}</span>
+                    <button class="btn-add-cart" aria-label="Add to cart"><i class="fa-solid fa-cart-plus"></i></button>
+                </div>
+            </div>
+        </div>`;
+};
+
+const renderProducts = (products) => {
+    if (!productGrid) return;
+    if (!products || products.length === 0) {
+        productGrid.innerHTML = `
+            <div class="shop-empty-state">
+                <h3>No parts match your search.</h3>
+                <p>Try a different part number, category, or vehicle selection.</p>
+            </div>`;
+        return;
+    }
+    productGrid.innerHTML = products.map(buildProductCard).join('');
+};
+
+const updateSearchSummary = ({ total, queryText, searchType }) => {
+    if (!searchResultsLabel) return;
+    const queryPart = queryText ? ` for "${queryText}"` : '';
+    if (total === 0) {
+        searchResultsLabel.textContent = `No parts match${queryPart}.`;
+        return;
+    }
+    searchResultsLabel.textContent = `Showing ${total} part${total === 1 ? '' : 's'}${queryPart}.`;
+};
+
+const getProductById = (id) => PRODUCTS.find(product => product.id === id);
+
+const addProductToCart = (product) => {
+    if (!product) return;
+    cartState.push({ title: product.title, category: product.category, price: product.price, img: product.img });
+    updateCartBadge();
+    showToast(product);
+};
+
+const initProductListEvents = () => {
+    document.addEventListener('click', (event) => {
+        const cartButton = event.target.closest('.btn-add-cart');
+        if (cartButton) {
+            event.stopPropagation();
+            const card = cartButton.closest('.shop-card');
+            const productId = card?.dataset.productId;
+            const product = getProductById(productId);
+            addProductToCart(product);
+            cartButton.innerHTML = '<i class="fa-solid fa-check"></i>';
+            cartButton.style.background = 'var(--green)';
+            cartButton.style.borderColor = 'var(--green)';
+            cartButton.style.color = '#000';
+            setTimeout(() => {
+                cartButton.innerHTML = '<i class="fa-solid fa-cart-plus"></i>';
+                cartButton.style.background = '';
+                cartButton.style.borderColor = '';
+                cartButton.style.color = '';
+            }, 700);
+            return;
+        }
+        const card = event.target.closest('.shop-card');
+        if (card && !event.target.closest('.btn-add-cart')) {
+            const productId = card.dataset.productId;
+            const product = getProductById(productId);
+            if (product) openProductDetail(product);
+        }
+    });
+};
+
+const performPartSearch = () => {
+    const queryInput = qs('.search-input')?.value.trim() || '';
+    const category = qs('#search-category')?.value || 'All Categories';
+    const results = filterProducts({ query: queryInput, category });
+    renderProducts(results);
+    const queryText = queryInput || (category === 'All Categories' ? '' : category);
+    updateSearchSummary({ total: results.length, queryText, searchType: 'part search' });
+};
+
+const performVehicleSearch = () => {
+    const make = qs('#search-make')?.value || '';
+    const model = qs('#search-model')?.value || '';
+    const year = qs('#search-year')?.value || '';
+    const results = filterProducts({ make, model, year });
+    const summaryQuery = [make, model, year].filter(Boolean).join(' ').trim();
+    renderProducts(results);
+    updateSearchSummary({ total: results.length, queryText: summaryQuery || 'vehicle search', searchType: 'vehicle search' });
+};
+
+const initSearch = () => {
+    const [partSearchBtn, vehicleSearchBtn] = qsa('.btn-search');
+    partSearchBtn?.addEventListener('click', (event) => {
+        event.preventDefault();
+        performPartSearch();
+    });
+    vehicleSearchBtn?.addEventListener('click', (event) => {
+        event.preventDefault();
+        performVehicleSearch();
+    });
+    qsa('.quick-chip').forEach(chip => {
+        chip.addEventListener('click', (event) => {
+            event.preventDefault();
+            const query = chip.textContent.trim();
+            const input = qs('.search-input');
+            if (input) input.value = query;
+            performPartSearch();
+        });
+    });
+};
+
+/* ============================================================
    EMAILJS INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -205,6 +378,58 @@ cartOverlay?.addEventListener('click', closeCart);
    CART CHECKOUT — sends quote request email
    ============================================================ */
 const checkoutBtn = qs('#checkout-btn');
+const stripeCheckoutBtn = qs('#stripe-checkout-btn');
+const paypalCheckoutBtn = qs('#paypal-checkout-btn');
+
+const createPaymentSession = async (endpoint, payload, button) => {
+    if (!button) return null;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Redirecting…';
+    button.disabled = true;
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error('checkout failed');
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        button.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Try Again';
+        setTimeout(() => { button.innerHTML = originalText; button.disabled = false; }, 2200);
+        return null;
+    }
+};
+
+const handleStripeCheckout = async () => {
+    if (cartState.length === 0) return;
+    const session = await createPaymentSession('/api/checkout-session', {
+        cart: cartState,
+        success_url: `${window.location.origin}/checkout-success.html`,
+        cancel_url: `${window.location.origin}/checkout-cancel.html`,
+    }, stripeCheckoutBtn);
+    if (session?.url) {
+        window.location.href = session.url;
+    }
+};
+
+const handlePaypalCheckout = async () => {
+    if (cartState.length === 0) return;
+    const order = await createPaymentSession('/api/paypal-order', {
+        cart: cartState,
+        return_url: `${window.location.origin}/checkout-success.html`,
+        cancel_url: `${window.location.origin}/checkout-cancel.html`,
+    }, paypalCheckoutBtn);
+    if (order?.approveUrl) {
+        window.location.href = order.approveUrl;
+    }
+};
+
+stripeCheckoutBtn?.addEventListener('click', handleStripeCheckout);
+paypalCheckoutBtn?.addEventListener('click', handlePaypalCheckout);
+
 checkoutBtn?.addEventListener('click', () => {
     if (cartState.length === 0) return;
 
@@ -282,33 +507,113 @@ const showToast = (item) => {
     }, 2800);
 };
 
-qsa('.btn-add-cart').forEach(btn => {
-    btn.addEventListener('click', function () {
-        const card     = this.closest('.shop-card');
-        const title    = card?.querySelector('.product-title')?.textContent.trim() || 'Part';
-        const category = card?.querySelector('.product-category')?.textContent.trim() || '';
-        const priceEl  = card?.querySelector('.product-price');
-        const clone    = priceEl?.cloneNode(true);
-        clone?.querySelector('.old-price')?.remove();
-        const price = clone?.textContent.trim() || '';
-        const img   = card?.querySelector('.shop-card-img img')?.src || '';
+const productDetailOverlay = qs('#product-detail-overlay');
+const productDetailClose   = qs('#product-detail-close');
+const productDetailImage   = qs('#product-detail-image');
+const productDetailCategory= qs('#product-detail-category');
+const productDetailTitle   = qs('#product-detail-title');
+const productDetailDesc    = qs('#product-detail-desc');
+const productDetailSku     = qs('#product-detail-sku');
+const productDetailStock   = qs('#product-detail-stock');
+const productDetailFeatures= qs('#product-detail-features');
+const productDetailPrice   = qs('#product-detail-price');
+const modalAddCartBtn      = qs('#modal-add-cart');
+const modalRequestQuoteBtn = qs('#modal-request-quote');
+let currentProductDetail = null;
 
-        cartState.push({ title, category, price, img });
-        updateCartBadge();
-        showToast({ title, category, price, img });
+const formatFeatures = (card) => {
+    return [...card.querySelectorAll('.product-specs span')].map(span => span.textContent.trim());
+};
 
-        const orig = this.innerHTML;
-        this.innerHTML = '<i class="fa-solid fa-check"></i>';
-        this.style.background  = 'var(--green)';
-        this.style.borderColor = 'var(--green)';
-        this.style.color       = '#000';
+const openProductDetail = (product) => {
+    if (!productDetailOverlay) return;
+    currentProductDetail = product;
+    productDetailImage.src = product.img;
+    productDetailImage.alt = product.title;
+    productDetailCategory.textContent = product.category;
+    productDetailTitle.textContent = product.title;
+    productDetailDesc.textContent = product.desc || 'Premium part engineered for professional-grade performance and reliable service life.';
+    productDetailSku.textContent = product.sku || 'N/A';
+    productDetailStock.textContent = product.stock || 'Check availability';
+    productDetailPrice.textContent = product.price;
+    productDetailFeatures.innerHTML = product.features.map(feature => `<li>${feature}</li>`).join('');
+    productDetailOverlay.classList.add('open');
+    productDetailOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+};
+
+const closeProductDetail = () => {
+    if (!productDetailOverlay) return;
+    productDetailOverlay.classList.remove('open');
+    productDetailOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    currentProductDetail = null;
+};
+
+productDetailClose?.addEventListener('click', closeProductDetail);
+productDetailOverlay?.addEventListener('click', (event) => {
+    if (event.target === productDetailOverlay) closeProductDetail();
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeProductDetail();
+});
+
+const requestQuoteForProduct = (product) => {
+    const itemsList = [`1. ${product.title} (${product.category}) — ${product.price}`].join('\n');
+    const total = parseFloat(product.price.replace(/[^0-9.]/g, '')) || 0;
+    if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+        const subject = encodeURIComponent(`VREMP Quote Request: ${product.title}`);
+        const body = encodeURIComponent(
+            `Hello VREMP Team,\n\nI would like a quote for the following part:\n\n${itemsList}\n\nEstimated Total: $${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}\n\nPlease contact me with pricing and availability.\n\nThank you`
+        );
+        window.location.href = `mailto:info@vrempauto.com?subject=${subject}&body=${body}`;
+        closeProductDetail();
+        return;
+    }
+
+    modalRequestQuoteBtn.disabled = true;
+    modalRequestQuoteBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CART_TEMPLATE_ID, {
+        items_list: itemsList,
+        total:      `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+        item_count: 1,
+    }).then(() => {
+        modalRequestQuoteBtn.innerHTML = '<i class="fa-solid fa-check"></i> Request Sent';
+        modalRequestQuoteBtn.style.background  = 'var(--green)';
+        modalRequestQuoteBtn.style.borderColor = 'var(--green)';
+        modalRequestQuoteBtn.style.color = '#000';
         setTimeout(() => {
-            this.innerHTML         = orig;
-            this.style.background  = '';
-            this.style.borderColor = '';
-            this.style.color       = '';
-        }, 700);
+            modalRequestQuoteBtn.innerHTML = 'Request Quote';
+            modalRequestQuoteBtn.style.background  = '';
+            modalRequestQuoteBtn.style.borderColor = '';
+            modalRequestQuoteBtn.style.color = '';
+            modalRequestQuoteBtn.disabled = false;
+            closeProductDetail();
+        }, 2200);
+    }).catch(() => {
+        modalRequestQuoteBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed';
+        modalRequestQuoteBtn.disabled = false;
+        setTimeout(() => { modalRequestQuoteBtn.innerHTML = 'Request Quote'; }, 2200);
     });
+};
+
+modalAddCartBtn?.addEventListener('click', () => {
+    if (!currentProductDetail) return;
+    cartState.push({
+        title: currentProductDetail.title,
+        category: currentProductDetail.category,
+        price: currentProductDetail.price,
+        img: currentProductDetail.img,
+    });
+    updateCartBadge();
+    showToast(currentProductDetail);
+    closeProductDetail();
+});
+
+modalRequestQuoteBtn?.addEventListener('click', () => {
+    if (!currentProductDetail) return;
+    requestQuoteForProduct(currentProductDetail);
 });
 
 /* ============================================================
@@ -449,4 +754,15 @@ document.addEventListener('click', e => {
 /* ============================================================
    INIT
    ============================================================ */
-renderCart();
+const initApp = async () => {
+    await loadProducts();
+    renderCart();
+    renderProducts(PRODUCTS);
+    initSearch();
+    initProductListEvents();
+};
+
+initApp();
+renderProducts(PRODUCTS);
+initSearch();
+initProductListEvents();

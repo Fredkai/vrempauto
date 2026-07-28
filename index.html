@@ -3,24 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VREMP | Premium Truck Spare Parts & OEM Sourcing</title>
+    <title>VREMP</title>
     <meta name="description" content="VREMP delivers premium truck spare parts, engine components, braking systems, electrical parts, and urgent OEM sourcing for workshops, fleets, and industrial buyers worldwide.">
     <meta name="theme-color" content="#f5f5f7">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/vremp.png">
-    <link rel="apple-touch-icon" href="assets/vremp.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/vre.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/vre.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/vre.png">
 
     <!-- Open Graph / Social Meta Tags -->
+    <link rel="canonical" href="https://vrempauto.com/">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://vremauto.com/">
+    <meta property="og:url" content="https://vrempauto.com/">
     <meta property="og:title" content="VREMP | Premium Truck Spare Parts & OEM Sourcing">
     <meta property="og:description" content="VREMP delivers premium truck spare parts, engine components, braking systems, electrical parts, and urgent OEM sourcing for workshops, fleets, and industrial buyers worldwide.">
     <meta property="og:image" content="assets/vremp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:title" content="VREMP | Premium Truck Spare Parts & OEM Sourcing">
     <meta property="twitter:description" content="Premium truck spare parts, OEM sourcing, and 24/7 support for workshops, fleets, and industrial buyers worldwide.">
     <meta property="twitter:image" content="assets/vremp.png">
+
+    <!-- Stripe JS SDK -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init('-TCmq_j4CY6exLNv7');
+        }
+    </script>
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -28,7 +42,7 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "VREMP",
-      "url": "https://vremauto.com",
+      "url": "https://vrempauto.com",
       "logo": "assets/vremp.png",
       "description": "Premium truck spare parts and OEM sourcing for workshops, fleets, and industrial buyers worldwide.",
       "contactPoint": {
@@ -122,7 +136,7 @@
             <a href="#contact" class="mobile-nav-link">Contact</a>
         </nav>
         <div class="mobile-menu-footer">
-            <a href="https://wa.me/48881754311" class="btn btn-primary btn-full" target="_blank" rel="noopener">
+            <a href="https://wa.me/48881754311" class="btn btn-primary btn-full" target="_blank" rel="noopener noreferrer">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
             </a>
         </div>
@@ -150,13 +164,51 @@
                 <span>Total</span>
                 <span class="cart-total-price" id="cart-total-price">$0.00</span>
             </div>
-            <button class="btn btn-primary btn-full btn-glow" id="checkout-btn">Request Quote by Email</button>
-            <button class="btn btn-outline btn-full" id="cart-continue">Continue Shopping</button>
+            <div class="cart-payment-actions">
+                <button class="btn btn-primary btn-full btn-glow" id="stripe-checkout-btn">Pay with Card</button>
+                <button class="btn btn-outline btn-full" id="paypal-checkout-btn">Pay with PayPal</button>
+                <button class="btn btn-primary btn-full btn-glow" id="checkout-btn">Request Quote by Email</button>
+                <button class="btn btn-outline btn-full" id="cart-continue">Continue Shopping</button>
+            </div>
         </div>
     </aside>
 
     <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div class="product-detail-modal-overlay" id="product-detail-overlay" aria-hidden="true">
+        <div class="product-detail-modal" role="dialog" aria-modal="true" aria-labelledby="product-detail-title">
+            <button class="modal-close" id="product-detail-close" aria-label="Close details">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="product-detail-grid">
+                <div class="product-detail-image">
+                    <img src="" alt="" id="product-detail-image">
+                </div>
+                <div class="product-detail-content">
+                    <div class="product-detail-meta">
+                        <div class="product-category" id="product-detail-category"></div>
+                        <h2 class="product-detail-title" id="product-detail-title"></h2>
+                        <p class="product-detail-desc" id="product-detail-desc"></p>
+                        <div class="product-detail-stats">
+                            <span><strong>SKU:</strong> <span id="product-detail-sku"></span></span>
+                            <span><strong>Availability:</strong> <span id="product-detail-stock"></span></span>
+                        </div>
+                        <div class="product-detail-features">
+                            <h4>Key Features</h4>
+                            <ul id="product-detail-features"></ul>
+                        </div>
+                    </div>
+                    <div class="product-detail-actions">
+                        <span class="product-detail-price" id="product-detail-price"></span>
+                        <button type="button" class="btn btn-primary btn-full btn-glow" id="modal-add-cart">Add to Inquiry</button>
+                        <button type="button" class="btn btn-outline btn-full" id="modal-request-quote">Request Quote</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- SCROLL TO TOP -->
     <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
@@ -247,7 +299,7 @@
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 <input type="text" placeholder="Enter part number, e.g. CAT-320-UC-01" class="search-input">
                             </div>
-                            <select class="search-select">
+                            <select class="search-select" id="search-category">
                                 <option>All Categories</option>
                                 <option>Engine Parts</option>
                                 <option>Hydraulic Parts</option>
@@ -255,7 +307,7 @@
                                 <option>Electrical</option>
                                 <option>Braking Systems</option>
                             </select>
-                            <button class="btn btn-primary btn-search">
+                            <button class="btn btn-primary btn-search" aria-label="Search part">
                                 <i class="fa-solid fa-magnifying-glass"></i> Search
                             </button>
                         </div>
@@ -267,10 +319,11 @@
                             <a href="#" class="quick-chip">Brake Pad Set</a>
                         </div>
                     </div>
+                    <div class="search-results" id="search-results">Showing all parts.</div>
 
                     <div class="search-panel" id="panel-vehicle">
                         <div class="search-main-row">
-                            <select class="search-select">
+                            <select class="search-select" id="search-make">
                                 <option>Select Make</option>
                                 <option>Caterpillar</option>
                                 <option>Komatsu</option>
@@ -279,14 +332,14 @@
                                 <option>Hitachi</option>
                                 <option>Mercedes Actros</option>
                             </select>
-                            <select class="search-select">
+                            <select class="search-select" id="search-model">
                                 <option>Select Model</option>
                                 <option>320 Excavator</option>
                                 <option>PC200 Excavator</option>
                                 <option>A40G Hauler</option>
                                 <option>Actros 1845</option>
                             </select>
-                            <select class="search-select">
+                            <select class="search-select" id="search-year">
                                 <option>Select Year</option>
                                 <option>2020 - 2025</option>
                                 <option>2015 - 2019</option>
@@ -295,7 +348,7 @@
                             </select>
                         </div>
                         <div class="search-main-row search-row-single">
-                            <button class="btn btn-primary btn-search btn-full">
+                            <button class="btn btn-primary btn-search btn-full" aria-label="Search vehicle parts">
                                 <i class="fa-solid fa-magnifying-glass"></i> Find Parts for Vehicle
                             </button>
                         </div>
@@ -314,126 +367,7 @@
                 </div>
 
                 <!-- PRODUCT GRID -->
-                <div class="shop-grid">
-
-                    <!-- Product 1 -->
-                    <div class="shop-card fade-in stagger-1">
-                        <div class="shop-card-img">
-                            <img src="assets/car-1.png" alt="Excavator">
-                            <span class="product-tag">Popular</span>
-                        </div>
-                        <div class="shop-card-body">
-                            <div class="product-category">Excavator Parts</div>
-                            <h4 class="product-title">Caterpillar 320 Undercarriage Kit</h4>
-                            <div class="product-specs">
-                                <span><i class="fa-solid fa-check"></i> OEM Grade</span>
-                                <span><i class="fa-solid fa-check"></i> Fast Delivery</span>
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-price">$2,450</span>
-                                <button class="btn-add-cart"><i class="fa-solid fa-cart-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 2 -->
-                    <div class="shop-card fade-in stagger-2">
-                        <div class="shop-card-img">
-                            <img src="assets/car-2.png" alt="Backhoe">
-                        </div>
-                        <div class="shop-card-body">
-                            <div class="product-category">Backhoe Loader</div>
-                            <h4 class="product-title">Hydraulic Pump Assembly</h4>
-                            <div class="product-specs">
-                                <span><i class="fa-solid fa-check"></i> Genuine Parts</span>
-                                <span><i class="fa-solid fa-check"></i> 1-Year Warranty</span>
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-price">$1,890</span>
-                                <button class="btn-add-cart"><i class="fa-solid fa-cart-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 3 -->
-                    <div class="shop-card fade-in stagger-3">
-                        <div class="shop-card-img">
-                            <img src="assets/car-3.png" alt="Crane">
-                            <span class="product-tag tag-new">New</span>
-                        </div>
-                        <div class="shop-card-body">
-                            <div class="product-category">Crane Components</div>
-                            <h4 class="product-title">Liebherr Heavy Duty Cable</h4>
-                            <div class="product-specs">
-                                <span><i class="fa-solid fa-check"></i> High Tensile</span>
-                                <span><i class="fa-solid fa-check"></i> Tested</span>
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-price">$3,200</span>
-                                <button class="btn-add-cart"><i class="fa-solid fa-cart-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 4 -->
-                    <div class="shop-card fade-in stagger-4">
-                        <div class="shop-card-img">
-                            <img src="assets/car-5.png" alt="Wheel Loader">
-                        </div>
-                        <div class="shop-card-body">
-                            <div class="product-category">Wheel Loader</div>
-                            <h4 class="product-title">Komatsu Engine Filter Set</h4>
-                            <div class="product-specs">
-                                <span><i class="fa-solid fa-check"></i> OEM Spec</span>
-                                <span><i class="fa-solid fa-check"></i> Complete Kit</span>
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-price">$780</span>
-                                <button class="btn-add-cart"><i class="fa-solid fa-cart-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 5 -->
-                    <div class="shop-card fade-in stagger-5">
-                        <div class="shop-card-img">
-                            <img src="assets/part-1.png" alt="Brake Disc">
-                            <span class="product-tag tag-sale">Sale</span>
-                        </div>
-                        <div class="shop-card-body">
-                            <div class="product-category">Braking Systems</div>
-                            <h4 class="product-title">Actros Ventilated Brake Disc</h4>
-                            <div class="product-specs">
-                                <span><i class="fa-solid fa-check"></i> Cast Iron</span>
-                                <span><i class="fa-solid fa-check"></i> Premium</span>
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-price">$450 <span class="old-price">$620</span></span>
-                                <button class="btn-add-cart"><i class="fa-solid fa-cart-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 6 -->
-                    <div class="shop-card fade-in stagger-6">
-                        <div class="shop-card-img">
-                            <img src="assets/car-3.png" alt="Transmission">
-                        </div>
-                        <div class="shop-card-body">
-                            <div class="product-category">Transmission</div>
-                            <h4 class="product-title">Howo Heavy Clutch Plate Kit</h4>
-                            <div class="product-specs">
-                                <span><i class="fa-solid fa-check"></i> High Torque</span>
-                                <span><i class="fa-solid fa-check"></i> Steel Springs</span>
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-price">$1,120</span>
-                                <button class="btn-add-cart"><i class="fa-solid fa-cart-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <div class="shop-grid"></div>
             </div>
         </section>
 
@@ -662,27 +596,27 @@
                 <form class="contact-form" id="contact-form">
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" name="from_name" placeholder="" required>
+                            <label for="from_name">Full Name</label>
+                            <input id="from_name" type="text" name="from_name" placeholder="John Doe" required>
                         </div>
                         <div class="form-group">
-                            <label>Company</label>
-                            <input type="text" name="company" placeholder="">
+                            <label for="company">Company</label>
+                            <input id="company" type="text" name="company" placeholder="Acme Logistics">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="reply_to" placeholder="" required>
+                            <label for="reply_to">Email</label>
+                            <input id="reply_to" type="email" name="reply_to" placeholder="john@example.com" required>
                         </div>
                         <div class="form-group">
-                            <label>Phone</label>
-                            <input type="tel" name="phone" placeholder="">
+                            <label for="phone">Phone</label>
+                            <input id="phone" type="tel" name="phone" placeholder="+1 555 123 4567">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Message</label>
-                        <textarea name="message" rows="5" placeholder=""></textarea>
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell us about the parts or bulk sourcing you need..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full btn-glow">Send Inquiry</button>
                 </form>
@@ -722,7 +656,7 @@
                     <li><a href="#">Help Center</a></li>
                     <li><a href="#">Track Order</a></li>
                     <li><a href="#">Returns</a></li>
-                    <li><a href="#">Privacy</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
                 </ul>
             </div>
         </div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful | VREMP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="checkout-page">
+    <section class="checkout-message" id="checkout-message">
+      <h1 id="checkout-title">Payment Completed</h1>
+      <p id="checkout-text">Your order has been successfully processed. Thank you for choosing VREMP.</p>
+      <a href="index.html" class="btn btn-primary btn-full">Return to Shop</a>
+    </section>
+  </main>
+  <script>
+    const checkoutTitle = document.getElementById('checkout-title');
+    const checkoutText = document.getElementById('checkout-text');
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token') || params.get('orderID');
+
+    if (token) {
+      checkoutTitle.textContent = 'Finalizing Your Payment';
+      checkoutText.textContent = 'Please wait while we confirm your PayPal order.';
+
+      fetch('/api/paypal-capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderID: token })
+      })
+      .then(async response => {
+        if (!response.ok) {
+          const error = await response.json().catch(() => ({}));
+          throw new Error(error.error || 'Unable to finalize payment.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        checkoutTitle.textContent = 'Payment Completed';
+        checkoutText.innerHTML = `Your PayPal payment has been confirmed. Order ID: <strong>${data.order.id}</strong>. Thank you for choosing VREMP.`;
+      })
+      .catch(error => {
+        console.error(error);
+        checkoutTitle.textContent = 'Payment Confirmation Failed';
+        checkoutText.innerHTML = `We could not confirm your PayPal order automatically. Please contact support with this code: <strong>${token}</strong>.`;
+      });
+    }
+  </script>
+</body>
+</html>
