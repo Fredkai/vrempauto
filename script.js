@@ -694,9 +694,10 @@ if (contactForm) {
             })
             .catch((err) => {
                 console.error('EmailJS error:', err);
-                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — try again';
+                const code = err?.status || err?.text || JSON.stringify(err);
+                btn.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Failed (${code})`;
                 btn.disabled  = false;
-                setTimeout(() => { btn.innerHTML = orig; }, 3000);
+                setTimeout(() => { btn.innerHTML = orig; }, 4000);
             });
     });
 }
