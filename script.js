@@ -694,9 +694,10 @@ if (contactForm) {
             })
             .catch((err) => {
                 console.error('EmailJS error:', err);
-                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — try again';
+                const code = err?.status || err?.text || JSON.stringify(err);
+                btn.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Failed (${code})`;
                 btn.disabled  = false;
-                setTimeout(() => { btn.innerHTML = orig; }, 3000);
+                setTimeout(() => { btn.innerHTML = orig; }, 4000);
             });
     });
 }
@@ -762,6 +763,7 @@ const initApp = async () => {
     initProductListEvents();
     await loadRentals();
     initRentalEvents();
+    initCustomSelects();
 };
 
 initApp();
@@ -815,7 +817,6 @@ const initRentalEvents = () => {
         const id = card?.dataset.id;
         const rental = RENTALS.find(r => r.id === id);
         if (rental) {
-            // Prefill contact form message and scroll to contact
             const msg = qs('#message');
             const name = qs('#from_name');
             if (msg) msg.value = `Inquiry: Rental request for ${rental.title} (${rental.id}). Please contact me with availability and rates.`;
@@ -824,3 +825,46 @@ const initRentalEvents = () => {
         }
     });
 };
+
+/* ============================================================
+   CUSTOM SELECT DROPDOWNS
+   ============================================================ */
+const initCustomSelects = () => {
+    document.querySelectorAll('.custom-select').forEach(select => {
+        const btn   = select.querySelector('.custom-select-btn');
+        const list  = select.querySelector('.custom-select-list');
+        const label = select.querySelector('.custom-select-label');
+
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const isOpen = select.classList.contains('open');
+            document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
+            if (!isOpen) select.classList.add('open');
+        });
+
+        list.querySelectorAll('li').forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation();
+                const value = item.dataset.value;
+                select.dataset.value = value;
+                label.textContent = item.textContent;
+                list.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
+                item.classList.add('selected');
+                select.classList.remove('open');
+            });
+        });
+    });
+
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
+        }
+    });
+};
+
+initCustomSelects();
+
