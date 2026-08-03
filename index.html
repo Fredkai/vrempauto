@@ -222,17 +222,46 @@
         <!-- HERO SECTION -->
         <section class="hero-section" id="home">
             <div class="hero-visual" id="hero-visual">
-                <!-- Parallax layer -->
                 <div class="hero-parallax-layer" id="hero-parallax">
                     <div class="hero-orb hero-orb-1"></div>
                     <div class="hero-orb hero-orb-2"></div>
+                </div>
+                <div class="hero-mesh">
+                    <div class="hero-card hero-card-main">
+                        <div class="hero-card-top">
+                            <span class="hero-pill">Global Warehouse Network</span>
+                            <span class="hero-pill muted">OEM Certified</span>
+                        </div>
+                        <div class="hero-card-grid">
+                            <div class="hero-metric-card">
+                                <strong>50,000+</strong>
+                                <span>parts in stock</span>
+                            </div>
+                            <div class="hero-metric-card">
+                                <strong>24/7</strong>
+                                <span>support desk</span>
+                            </div>
+                            <div class="hero-metric-card">
+                                <strong>80+</strong>
+                                <span>countries served</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-card hero-card-side floating-card">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <span>Heavy-duty sourcing</span>
+                    </div>
+                    <div class="hero-card hero-card-side alt floating-card">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>Express logistics</span>
+                    </div>
                 </div>
             </div>
 
             <div class="container hero-container">
                 <div class="hero-copy">
                     <div class="hero-eyebrow reveal-fade">
-                        <span>Premium Spare Parts · OEM Sourcing · 24/7 Support</span>
+                        <span>Global B2B parts marketplace · OEM sourcing · 24/7 support</span>
                     </div>
                     <h1 class="hero-title">
                         <span class="split-line">
@@ -243,12 +272,12 @@
                         </span>
                     </h1>
                     <p class="hero-desc reveal-up">
-                        VREMP delivers premium truck spare parts, engine components, braking systems,
-                        electrical parts, and urgent OEM sourcing for workshops, fleets, and industrial buyers worldwide.
+                        Premium truck spare parts, heavy construction components, OEM sourcing, and worldwide industrial logistics for dealers, workshops, fleets, and distributors.
                     </p>
                     <div class="hero-cta-group reveal-up reveal-delay-1">
-                        <a href="#shop" class="btn btn-primary btn-glow magnetic">Shop Parts Now</a>
-                        <a href="#search" class="btn btn-outline magnetic">Request Sourcing</a>
+                        <a href="#shop" class="btn btn-primary btn-glow magnetic">Shop Parts</a>
+                        <a href="#search" class="btn btn-outline magnetic">Request Quote</a>
+                        <a href="#search" class="btn btn-outline magnetic">Search Parts</a>
                     </div>
                     <div class="hero-stats reveal-up reveal-delay-2">
                         <div class="hero-stat">
@@ -271,6 +300,53 @@
             <div class="hero-scroll-hint" id="hero-scroll-hint">
                 <div class="scroll-hint-line"></div>
                 <span>Scroll</span>
+            </div>
+        </section>
+
+        <section class="enterprise-section" id="platform">
+            <div class="container">
+                <div class="section-header center">
+                    <div class="section-label">ENTERPRISE OPERATIONS</div>
+                    <h2 class="section-title" data-split>Rwanda-based sourcing built for regional workshops and fleets.</h2>
+                    <p class="section-desc">From Kigali distribution to neighbouring markets, VREMP combines local stock visibility, fast procurement, and trusted OEM partners for Rwandan industry.</p>
+                </div>
+                <div class="enterprise-grid">
+                    <article class="enterprise-card">
+                        <div class="enterprise-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <h3>Local Part Search</h3>
+                        <p>Find parts by OEM number, VIN, barcode, machine model, or engine code with intelligent matching and regional availability hints.</p>
+                    </article>
+                    <article class="enterprise-card">
+                        <div class="enterprise-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3>Verified Rwanda Supply</h3>
+                        <p>Source warranty-backed components and OEM-certified replacements through our Kigali-based procurement network.</p>
+                    </article>
+                    <article class="enterprise-card">
+                        <div class="enterprise-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3>Regional Pricing</h3>
+                        <p>Access pricing designed for local workshops, fleet operators, and construction teams, with quicker quotes for bulk and repeat orders.</p>
+                    </article>
+                    <article class="enterprise-card">
+                        <div class="enterprise-icon"><i class="fa-solid fa-globe"></i></div>
+                        <h3>Regional Delivery</h3>
+                        <p>Move parts across Rwanda and nearby countries with fast dispatch from Kigali, customs support, and logistics coordination.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rental & Equipment: replaced Trust & Certification per request -->
+        <section class="rental-section">
+            <div class="container">
+                <div class="section-header center">
+                    <div class="section-label">RENTAL & EQUIPMENT</div>
+                    <h2 class="section-title">On-demand rental fleet for construction and heavy equipment</h2>
+                    <p class="section-desc">Rent excavators, loaders, generators and support equipment from our Kigali hub. Flexible terms, trained operators, and rapid regional delivery.</p>
+                </div>
+
+                <div class="rental-grid" id="rental-grid" aria-live="polite">
+                    <!-- Rental items will be rendered here from rentals.json -->
+                </div>
             </div>
         </section>
 
@@ -371,53 +447,14 @@
             </div>
         </section>
 
-        <!-- HOW IT WORKS SECTION -->
-        <section class="how-it-works-section">
-            <div class="container">
-                <div class="section-header center fade-in">
-                    <div class="section-label">HOW IT WORKS</div>
-                    <h2 class="section-title" data-split>From Search to Delivery in 3 Steps</h2>
-                    <p class="section-desc">We make sourcing industrial spare parts simple, fast, and reliable for professionals worldwide.</p>
-                </div>
-                <div class="steps-grid">
-                    <div class="step-card fade-in stagger-1">
-                        <div class="step-number">01</div>
-                        <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                        <h4>Search or Request</h4>
-                        <p>Enter your part number or vehicle details. Can't find it? Submit a sourcing request and our team finds it for you within 24 hours.</p>
-                    </div>
-                    <div class="step-connector fade-in stagger-2">
-                        <div class="step-line"></div>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                    <div class="step-card fade-in stagger-2">
-                        <div class="step-number">02</div>
-                        <div class="step-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                        <h4>Get Your Quote</h4>
-                        <p>Receive a competitive price instantly for stock items, or a custom quote for bulk and OEM-sourced parts tailored to your needs.</p>
-                    </div>
-                    <div class="step-connector fade-in stagger-3">
-                        <div class="step-line"></div>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                    <div class="step-card fade-in stagger-3">
-                        <div class="step-number">03</div>
-                        <div class="step-icon"><i class="fa-solid fa-truck-fast"></i></div>
-                        <h4>Fast Delivery</h4>
-                        <p>Parts are shipped express worldwide. Track your order in real time and get support from our team every step of the way.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
+        
 
         <!-- TESTIMONIALS SECTION -->        <section class="testimonials-section">
             <div class="container">
                 <div class="section-header center fade-in">
-                    <div class="section-label">TESTIMONIALS</div>
-                    <h2 class="section-title">Trusted by 10,000+ Professionals</h2>
-                    <p class="section-desc">From independent workshops to large fleet operators — here's what our customers say.</p>
+                    <div class="section-label">CLIENT SUCCESS</div>
+                    <h2 class="section-title">Trusted by operators who cannot afford downtime</h2>
+                    <p class="section-desc">From independent workshops to global fleet networks, these are the teams that rely on VREMP every day.</p>
                 </div>
                 <div class="testimonials-grid">
                     <div class="testimonial-card fade-in stagger-1">
@@ -505,7 +542,7 @@
                             <i class="fa-solid fa-plus faq-icon"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>We offer a 30-day hassle-free return policy on all stock items. If a part is defective or incorrectly supplied, we cover all return shipping costs and provide a full replacement or refund.</p>
+                            <p>We offer a 30-day hassle-free return policy on all stock items. If a part is defective or incorrect, our team will help resolve the issue quickly.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -519,11 +556,11 @@
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span>Do you offer bulk or fleet pricing?</span>
+                            <span>Do you offer local Kigali sourcing and delivery?</span>
                             <i class="fa-solid fa-plus faq-icon"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>Yes. We offer tiered pricing for workshops, fleet operators, and industrial buyers. Contact our team via the inquiry form or WhatsApp to discuss a custom pricing arrangement based on your volume and frequency.</p>
+                            <p>Yes. We can source and deliver parts locally from Kigali with fast turnaround for workshops, fleets, and construction teams operating in Rwanda and nearby regions.</p>
                         </div>
                     </div>
                 </div>
@@ -597,11 +634,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="from_name">Full Name</label>
-                            <input id="from_name" type="text" name="from_name" placeholder="John Doe" required>
+                            <input id="from_name" type="text" name="from_name" placeholder="Your full name" required>
                         </div>
                         <div class="form-group">
                             <label for="company">Company</label>
-                            <input id="company" type="text" name="company" placeholder="Acme Logistics">
+                            <input id="company" type="text" name="company" placeholder="">
                         </div>
                     </div>
                     <div class="form-row">
@@ -661,7 +698,7 @@
             </div>
         </div>
         <div class="footer-bottom container">
-            <p>© 2026 VREMP Global. All rights reserved.</p>
+            <p>Developed by KaiTech • © 2026 VREMP Global. All rights reserved.</p>
             <div class="footer-socials">
                 <a href="#"><i class="fa-brands fa-linkedin"></i></a>
                 <a href="#"><i class="fa-brands fa-x-twitter"></i></a>

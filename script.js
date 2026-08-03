@@ -760,9 +760,67 @@ const initApp = async () => {
     renderProducts(PRODUCTS);
     initSearch();
     initProductListEvents();
+    await loadRentals();
+    initRentalEvents();
 };
 
 initApp();
 renderProducts(PRODUCTS);
 initSearch();
 initProductListEvents();
+
+/* ============================================================
+   RENTALS — dynamic rental grid
+  ============================================================ */
+let RENTALS = [];
+const rentalGrid = qs('#rental-grid');
+
+const loadRentals = async () => {
+    try {
+        const res = await fetch('rentals.json');
+        if (!res.ok) throw new Error('Failed to load rentals.json');
+        RENTALS = await res.json();
+        renderRentals(RENTALS);
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+const buildRentalCard = (rental) => `
+    <article class="rental-card" data-id="${rental.id}">
+        <div class="rental-thumb"><img src="${rental.img}" alt="${rental.title}"></div>
+        <h4>${rental.title}</h4>
+        <p class="rental-meta">${rental.meta}</p>
+        <div class="rental-rates">
+            <span>${rental.rates.daily}/day</span>
+            <span>${rental.rates.weekly}/week</span>
+        </div>
+        <div style="margin-top:0.7rem;"><button class="btn btn-outline btn-sm btn-request-rental">Request Rental</button></div>
+    </article>`;
+
+const renderRentals = (items) => {
+    if (!rentalGrid) return;
+    if (!items || items.length === 0) {
+        rentalGrid.innerHTML = '<p class="muted">No rental items available.</p>';
+        return;
+    }
+    rentalGrid.innerHTML = items.map(buildRentalCard).join('');
+};
+
+const initRentalEvents = () => {
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-request-rental');
+        if (!btn) return;
+        const card = btn.closest('.rental-card');
+        const id = card?.dataset.id;
+        const rental = RENTALS.find(r => r.id === id);
+        if (rental) {
+            // Prefill contact form message and scroll to contact
+            const msg = qs('#message');
+            const name = qs('#from_name');
+            if (msg) msg.value = `Inquiry: Rental request for ${rental.title} (${rental.id}). Please contact me with availability and rates.`;
+            if (name) name.focus();
+            document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+};
