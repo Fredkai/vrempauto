@@ -766,3 +766,50 @@ initApp();
 renderProducts(PRODUCTS);
 initSearch();
 initProductListEvents();
+
+/* ============================================================
+   CUSTOM SELECT DROPDOWNS
+   ============================================================ */
+const initCustomSelects = () => {
+    document.querySelectorAll('.custom-select').forEach(select => {
+        const btn   = select.querySelector('.custom-select-btn');
+        const list  = select.querySelector('.custom-select-list');
+        const label = select.querySelector('.custom-select-label');
+
+        // Toggle open/close
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const isOpen = select.classList.contains('open');
+            // Close all others first
+            document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
+            if (!isOpen) select.classList.add('open');
+        });
+
+        // Select an option
+        list.querySelectorAll('li').forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation();
+                const value = item.dataset.value;
+                select.dataset.value = value;
+                label.textContent = item.textContent;
+                list.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
+                item.classList.add('selected');
+                select.classList.remove('open');
+            });
+        });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
+        }
+    });
+};
+
+initCustomSelects();

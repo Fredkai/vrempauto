@@ -26,15 +26,8 @@
     <meta property="twitter:description" content="Premium truck spare parts, OEM sourcing, and 24/7 support for workshops, fleets, and industrial buyers worldwide.">
     <meta property="twitter:image" content="assets/vremp.png">
 
-    <!-- Stripe JS SDK -->
-    <script src="https://js.stripe.com/v3/"></script>
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-        if (typeof emailjs !== 'undefined') {
-            emailjs.init('-TCmq_j4CY6exLNv7');
-        }
-    </script>
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -299,14 +292,20 @@
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 <input type="text" placeholder="Enter part number, e.g. CAT-320-UC-01" class="search-input">
                             </div>
-                            <select class="search-select" id="search-category">
-                                <option>All Categories</option>
-                                <option>Engine Parts</option>
-                                <option>Hydraulic Parts</option>
-                                <option>Undercarriage</option>
-                                <option>Electrical</option>
-                                <option>Braking Systems</option>
-                            </select>
+                            <div class="custom-select" id="search-category" data-value="All Categories">
+                                <button class="custom-select-btn" type="button">
+                                    <span class="custom-select-label">All Categories</span>
+                                    <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
+                                </button>
+                                <ul class="custom-select-list">
+                                    <li data-value="All Categories">All Categories</li>
+                                    <li data-value="Engine Parts">Engine Parts</li>
+                                    <li data-value="Hydraulic Parts">Hydraulic Parts</li>
+                                    <li data-value="Undercarriage">Undercarriage</li>
+                                    <li data-value="Electrical">Electrical</li>
+                                    <li data-value="Braking Systems">Braking Systems</li>
+                                </ul>
+                            </div>
                             <button class="btn btn-primary btn-search" aria-label="Search part">
                                 <i class="fa-solid fa-magnifying-glass"></i> Search
                             </button>
@@ -323,29 +322,44 @@
 
                     <div class="search-panel" id="panel-vehicle">
                         <div class="search-main-row">
-                            <select class="search-select" id="search-make">
-                                <option>Select Make</option>
-                                <option>Caterpillar</option>
-                                <option>Komatsu</option>
-                                <option>Volvo</option>
-                                <option>John Deere</option>
-                                <option>Hitachi</option>
-                                <option>Mercedes Actros</option>
-                            </select>
-                            <select class="search-select" id="search-model">
-                                <option>Select Model</option>
-                                <option>320 Excavator</option>
-                                <option>PC200 Excavator</option>
-                                <option>A40G Hauler</option>
-                                <option>Actros 1845</option>
-                            </select>
-                            <select class="search-select" id="search-year">
-                                <option>Select Year</option>
-                                <option>2020 - 2025</option>
-                                <option>2015 - 2019</option>
-                                <option>2010 - 2014</option>
-                                <option>Older</option>
-                            </select>
+                            <div class="custom-select" id="search-make" data-value="">
+                                <button class="custom-select-btn" type="button">
+                                    <span class="custom-select-label">Select Make</span>
+                                    <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
+                                </button>
+                                <ul class="custom-select-list">
+                                    <li data-value="Caterpillar">Caterpillar</li>
+                                    <li data-value="Komatsu">Komatsu</li>
+                                    <li data-value="Volvo">Volvo</li>
+                                    <li data-value="John Deere">John Deere</li>
+                                    <li data-value="Hitachi">Hitachi</li>
+                                    <li data-value="Mercedes Actros">Mercedes Actros</li>
+                                </ul>
+                            </div>
+                            <div class="custom-select" id="search-model" data-value="">
+                                <button class="custom-select-btn" type="button">
+                                    <span class="custom-select-label">Select Model</span>
+                                    <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
+                                </button>
+                                <ul class="custom-select-list">
+                                    <li data-value="320 Excavator">320 Excavator</li>
+                                    <li data-value="PC200 Excavator">PC200 Excavator</li>
+                                    <li data-value="A40G Hauler">A40G Hauler</li>
+                                    <li data-value="Actros 1845">Actros 1845</li>
+                                </ul>
+                            </div>
+                            <div class="custom-select" id="search-year" data-value="">
+                                <button class="custom-select-btn" type="button">
+                                    <span class="custom-select-label">Select Year</span>
+                                    <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
+                                </button>
+                                <ul class="custom-select-list">
+                                    <li data-value="2020 - 2025">2020 - 2025</li>
+                                    <li data-value="2015 - 2019">2015 - 2019</li>
+                                    <li data-value="2010 - 2014">2010 - 2014</li>
+                                    <li data-value="Older">Older</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="search-main-row search-row-single">
                             <button class="btn btn-primary btn-search btn-full" aria-label="Search vehicle parts">
@@ -597,26 +611,26 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="from_name">Full Name</label>
-                            <input id="from_name" type="text" name="from_name" placeholder="John Doe" required>
+                            <input id="from_name" type="text" name="from_name" placeholder="" required>
                         </div>
                         <div class="form-group">
                             <label for="company">Company</label>
-                            <input id="company" type="text" name="company" placeholder="Acme Logistics">
+                            <input id="company" type="text" name="company" placeholder="">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="reply_to">Email</label>
-                            <input id="reply_to" type="email" name="reply_to" placeholder="john@example.com" required>
+                            <input id="reply_to" type="email" name="reply_to" placeholder="" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input id="phone" type="tel" name="phone" placeholder="+1 555 123 4567">
+                            <input id="phone" type="tel" name="phone" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Tell us about the parts or bulk sourcing you need..."></textarea>
+                        <textarea id="message" name="message" rows="5" placeholder=""></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full btn-glow">Send Inquiry</button>
                 </form>
