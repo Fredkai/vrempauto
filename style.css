@@ -217,7 +217,7 @@ body::before {
 }
 
 .site-header.scrolled {
-    background: rgba(7, 19, 31, 0.88);
+    background: rgba(7, 19, 31, 0.96);
     border-bottom-color: rgba(255,255,255,0.12);
     padding: 0.85rem 0;
 }

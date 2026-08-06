@@ -2,21 +2,21 @@
   {
     "id": "rental-001",
     "title": "Hydraulic Excavator",
-    "img": "assets/rental-excavator.png",
+    "img": "assets/rental-excavator.svg",
     "meta": "Available in Kigali • Daily / Weekly rates • Operator optional",
     "rates": { "daily": "USD 180", "weekly": "USD 900" }
   },
   {
     "id": "rental-002",
     "title": "Wheel Loader",
-    "img": "assets/rental-loader.png",
+    "img": "assets/rental-loader.svg",
     "meta": "Local availability • Heavy-duty buckets • Quick dispatch",
     "rates": { "daily": "USD 140", "weekly": "USD 700" }
   },
   {
     "id": "rental-003",
     "title": "Portable Generator",
-    "img": "assets/rental-generator.png",
+    "img": "assets/rental-generator.svg",
     "meta": "Silent series • Fuel delivery • Installation support",
     "rates": { "daily": "USD 60", "weekly": "USD 300" }
   }
