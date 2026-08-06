@@ -837,8 +837,6 @@ const initApp = async () => {
 
 initApp();
 renderProducts(PRODUCTS);
-initSearch();
-initProductListEvents();
 
 /* ============================================================
    RENTALS — dynamic rental grid
