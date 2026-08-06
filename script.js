@@ -24,6 +24,44 @@ const qsa = s => [...document.querySelectorAll(s)];
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
+// Focus-trap helpers for dialogs/overlays
+let prevFocus = null;
+let focusTrapElement = null;
+const focusableSelector = 'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+function trapKeyHandler(e) {
+    if (e.key !== 'Tab') return;
+    const el = focusTrapElement;
+    if (!el) return;
+    const nodes = [...el.querySelectorAll(focusableSelector)].filter(n => n.offsetParent !== null);
+    if (nodes.length === 0) return;
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    if (e.shiftKey) {
+        if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        }
+    } else {
+        if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
+}
+
+function enableFocusTrap(container) {
+    focusTrapElement = container;
+    container?.addEventListener('keydown', trapKeyHandler);
+}
+
+function disableFocusTrap() {
+    if (focusTrapElement) {
+        focusTrapElement.removeEventListener('keydown', trapKeyHandler);
+        focusTrapElement = null;
+    }
+}
+
 /* ============================================================
    PRODUCT DATA & SEARCH
 */
@@ -204,6 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof emailjs !== 'undefined') {
         emailjs.init(EMAILJS_PUBLIC_KEY);
     }
+    // Hide decorative icons from assistive tech; social links have labels
+    qsa('i').forEach(ic => ic.setAttribute('aria-hidden', 'true'));
 });
 
 /* ============================================================
@@ -273,6 +313,11 @@ const openMobileMenu = () => {
     hamburger?.classList.add('open');
     hamburger?.setAttribute('aria-expanded', 'true');
     mobileMenu?.setAttribute('aria-hidden', 'false');
+    // focus management
+    prevFocus = document.activeElement;
+    const firstLink = mobileMenu?.querySelector('.mobile-nav a');
+    firstLink?.focus();
+    enableFocusTrap(mobileMenu);
     document.body.style.overflow = 'hidden';
 };
 
@@ -281,6 +326,8 @@ const closeMobileMenu = () => {
     hamburger?.classList.remove('open');
     hamburger?.setAttribute('aria-expanded', 'false');
     mobileMenu?.setAttribute('aria-hidden', 'true');
+    disableFocusTrap();
+    if (prevFocus) prevFocus.focus();
     document.body.style.overflow = '';
 };
 
@@ -359,6 +406,11 @@ const cartContinue = qs('#cart-continue');
 const openCart = () => {
     cartDrawer?.classList.add('open');
     cartOverlay?.classList.add('open');
+    cartDrawer?.setAttribute('aria-hidden', 'false');
+    cartToggle?.setAttribute('aria-expanded', 'true');
+    prevFocus = document.activeElement;
+    cartClose?.focus();
+    enableFocusTrap(cartDrawer);
     document.body.style.overflow = 'hidden';
     renderCart();
 };
@@ -366,6 +418,10 @@ const openCart = () => {
 const closeCart = () => {
     cartDrawer?.classList.remove('open');
     cartOverlay?.classList.remove('open');
+    cartDrawer?.setAttribute('aria-hidden', 'true');
+    cartToggle?.setAttribute('aria-expanded', 'false');
+    disableFocusTrap();
+    if (prevFocus) prevFocus.focus();
     document.body.style.overflow = '';
 };
 
@@ -632,17 +688,30 @@ qsa('.search-tab').forEach(tab => {
 /* ============================================================
    FAQ ACCORDION
    ============================================================ */
-qsa('.faq-question').forEach(btn => {
+// Ensure FAQ answers have IDs and aria-controls set on buttons
+qsa('.faq-item').forEach((el, idx) => {
+    const btn = el.querySelector('.faq-question');
+    const ans = el.querySelector('.faq-answer');
+    if (!btn || !ans) return;
+    const aid = ans.id || `faq-answer-${idx+1}`;
+    ans.id = aid;
+    ans.setAttribute('role', 'region');
+    ans.setAttribute('aria-hidden', el.classList.contains('open') ? 'false' : 'true');
+    btn.setAttribute('aria-controls', aid);
+    btn.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
     btn.addEventListener('click', function () {
-        const item   = this.closest('.faq-item');
-        const isOpen = item.classList.contains('open');
-        qsa('.faq-item.open').forEach(el => {
-            el.classList.remove('open');
-            el.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
+        const isOpen = el.classList.contains('open');
+        qsa('.faq-item.open').forEach(openEl => {
+            openEl.classList.remove('open');
+            const b = openEl.querySelector('.faq-question');
+            const a = openEl.querySelector('.faq-answer');
+            b?.setAttribute('aria-expanded', 'false');
+            a?.setAttribute('aria-hidden', 'true');
         });
         if (!isOpen) {
-            item.classList.add('open');
-            this.setAttribute('aria-expanded', 'true');
+            el.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+            ans.setAttribute('aria-hidden', 'false');
         }
     });
 });
@@ -834,15 +903,27 @@ const initCustomSelects = () => {
         const btn   = select.querySelector('.custom-select-btn');
         const list  = select.querySelector('.custom-select-list');
         const label = select.querySelector('.custom-select-label');
+        // ARIA roles
+        btn.setAttribute('aria-haspopup', 'listbox');
+        btn.setAttribute('aria-expanded', 'false');
+        list.setAttribute('role', 'listbox');
 
         btn.addEventListener('click', e => {
             e.stopPropagation();
             const isOpen = select.classList.contains('open');
-            document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
-            if (!isOpen) select.classList.add('open');
+            document.querySelectorAll('.custom-select.open').forEach(s => {
+                s.classList.remove('open');
+                s.querySelector('.custom-select-btn')?.setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+                select.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
         });
 
         list.querySelectorAll('li').forEach(item => {
+            item.setAttribute('role', 'option');
+            item.setAttribute('tabindex', '-1');
             item.addEventListener('click', e => {
                 e.stopPropagation();
                 const value = item.dataset.value;
@@ -851,6 +932,7 @@ const initCustomSelects = () => {
                 list.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
                 item.classList.add('selected');
                 select.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
             });
         });
     });
