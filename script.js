@@ -948,3 +948,355 @@ const initCustomSelects = () => {
 
 initCustomSelects();
 
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+const scrollProgress = qs('#scroll-progress');
+if (scrollProgress) {
+    const updateScrollProgress = () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        scrollProgress.style.width = scrolled + '%';
+    };
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
+}
+
+/* ============================================================
+   CUSTOM CURSOR (Desktop only)
+   ============================================================ */
+const cursorDot = qs('#cursor-dot');
+const cursorRing = qs('#cursor-ring');
+
+if (cursorDot && cursorRing && window.innerWidth > 1024) {
+    let mouseX = 0, mouseY = 0;
+    let dotX = 0, dotY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    const animateCursor = () => {
+        dotX += (mouseX - dotX) * 0.9;
+        dotY += (mouseY - dotY) * 0.9;
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+
+        cursorDot.style.left = dotX + 'px';
+        cursorDot.style.top = dotY + 'px';
+        cursorRing.style.left = ringX + 'px';
+        cursorRing.style.top = ringY + 'px';
+
+        requestAnimationFrame(animateCursor);
+    };
+    animateCursor();
+
+    // Cursor interactions
+    const interactiveElements = 'a, button, .shop-card, .btn, input, select, textarea';
+    document.addEventListener('mouseenter', (e) => {
+        if (e.target.matches(interactiveElements)) {
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursorRing.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        }
+    }, true);
+    
+    document.addEventListener('mouseleave', (e) => {
+        if (e.target.matches(interactiveElements)) {
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
+        }
+    }, true);
+}
+
+/* ============================================================
+   HERO ANIMATIONS — GSAP + ScrollTrigger
+   ============================================================ */
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Split text animation
+    const splitLines = qsa('.split-line');
+    splitLines.forEach((line, i) => {
+        const inner = line.querySelector('.split-inner');
+        if (inner) {
+            gsap.from(inner, {
+                y: 100,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power4.out',
+                delay: i * 0.15,
+            });
+        }
+    });
+
+    // Reveal animations
+    qsa('.reveal-fade, .reveal-up').forEach((el, i) => {
+        const isUp = el.classList.contains('reveal-up');
+        gsap.from(el, {
+            y: isUp ? 40 : 0,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out',
+            delay: 0.3 + (i * 0.1) + (el.classList.contains('reveal-delay-1') ? 0.2 : 0) + (el.classList.contains('reveal-delay-2') ? 0.4 : 0),
+        });
+    });
+
+    // Counter animation for stats
+    qsa('.hero-stat-num').forEach(num => {
+        const target = parseInt(num.dataset.count || '0');
+        gsap.from(num, {
+            textContent: 0,
+            duration: 2.5,
+            ease: 'power2.out',
+            delay: 0.8,
+            snap: { textContent: 1 },
+            onUpdate: function() {
+                num.textContent = Math.floor(this.targets()[0].textContent).toLocaleString();
+            }
+        });
+    });
+
+    // Stagger animations for cards
+    for (let i = 1; i <= 6; i++) {
+        const cards = qsa(`.stagger-${i}`);
+        if (cards.length > 0) {
+            gsap.from(cards, {
+                scrollTrigger: {
+                    trigger: cards[0],
+                    start: 'top 80%',
+                },
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                stagger: 0.1 * i,
+            });
+        }
+    }
+
+    // Floating cards animation
+    qsa('.floating-card').forEach(card => {
+        gsap.to(card, {
+            y: -15,
+            duration: 2.5,
+            ease: 'sine.inOut',
+            repeat: -1,
+            yoyo: true,
+        });
+    });
+
+    // Section reveals
+    qsa('.fade-in-scale, .fade-in-left, .fade-in-right').forEach(el => {
+        let xStart = 0;
+        if (el.classList.contains('fade-in-left')) xStart = -80;
+        if (el.classList.contains('fade-in-right')) xStart = 80;
+
+        gsap.from(el, {
+            scrollTrigger: {
+                trigger: el,
+                start: 'top 85%',
+            },
+            x: xStart,
+            scale: el.classList.contains('fade-in-scale') ? 0.9 : 1,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out',
+        });
+    });
+}
+
+/* ============================================================
+   PARALLAX EFFECTS — Mouse move
+   ============================================================ */
+const heroVisual = qs('#hero-visual');
+const heroParallax = qs('#hero-parallax');
+
+if (heroParallax && window.innerWidth > 768 && typeof gsap !== 'undefined') {
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.clientY / window.innerHeight - 0.5) * 30;
+        gsap.to(heroParallax, {
+            x: x,
+            y: y,
+            duration: 0.8,
+            ease: 'power2.out',
+        });
+    });
+}
+
+/* ============================================================
+   3D PARTICLES — Three.js background
+   ============================================================ */
+if (typeof THREE !== 'undefined' && window.innerWidth > 768) {
+    const heroVisualEl = qs('#hero-visual');
+    if (heroVisualEl) {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, heroVisualEl.offsetWidth / heroVisualEl.offsetHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(heroVisualEl.offsetWidth, heroVisualEl.offsetHeight);
+        renderer.setClearColor(0x000000, 0);
+        renderer.domElement.style.position = 'absolute';
+        renderer.domElement.style.top = '0';
+        renderer.domElement.style.left = '0';
+        renderer.domElement.style.zIndex = '0';
+        renderer.domElement.style.pointerEvents = 'none';
+        heroVisualEl.insertBefore(renderer.domElement, heroVisualEl.firstChild);
+
+        // Create particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 150;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 15;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0x4ea3ff,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending,
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 5;
+
+        // Animation
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.x += 0.0005;
+            particlesMesh.rotation.y += 0.0008;
+            
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
+            
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                camera.aspect = heroVisualEl.offsetWidth / heroVisualEl.offsetHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(heroVisualEl.offsetWidth, heroVisualEl.offsetHeight);
+            }
+        });
+    }
+}
+
+/* ============================================================
+   MAGNETIC BUTTONS
+   ============================================================ */
+if (typeof gsap !== 'undefined' && window.innerWidth > 1024) {
+    qsa('.magnetic').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(btn, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out',
+            });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: 'elastic.out(1, 0.5)',
+            });
+        });
+    });
+}
+
+/* ============================================================
+   VEHICLE SELECTOR — Dynamic Model/Year filtering
+   ============================================================ */
+const vehicleMakeSelect = qs('#search-make');
+const vehicleModelSelect = qs('#search-model');
+const vehicleYearSelect = qs('#search-year');
+
+// Extract unique values from products
+const getUniqueValues = (key) => {
+    const values = PRODUCTS.map(p => p[key]).filter(Boolean);
+    return [...new Set(values)].sort();
+};
+
+const populateVehicleSelects = () => {
+    if (vehicleMakeSelect && PRODUCTS.length > 0) {
+        const makes = getUniqueValues('make');
+        vehicleMakeSelect.innerHTML = '<option>Select Make</option>' + 
+            makes.map(m => `<option value="${m}">${m}</option>`).join('');
+    }
+};
+
+const updateModelsForMake = (make) => {
+    if (!vehicleModelSelect) return;
+    if (!make || make === 'Select Make') {
+        vehicleModelSelect.innerHTML = '<option>Select Model</option>';
+        vehicleModelSelect.disabled = true;
+        return;
+    }
+    const models = [...new Set(PRODUCTS.filter(p => p.make === make).map(p => p.model).filter(Boolean))].sort();
+    vehicleModelSelect.innerHTML = '<option>Select Model</option>' + 
+        models.map(m => `<option value="${m}">${m}</option>`).join('');
+    vehicleModelSelect.disabled = false;
+};
+
+const updateYearsForModel = (make, model) => {
+    if (!vehicleYearSelect) return;
+    if (!model || model === 'Select Model') {
+        vehicleYearSelect.innerHTML = '<option>Select Year</option>';
+        vehicleYearSelect.disabled = true;
+        return;
+    }
+    const years = [...new Set(PRODUCTS.filter(p => p.make === make && p.model === model).map(p => p.year).filter(Boolean))].sort().reverse();
+    vehicleYearSelect.innerHTML = '<option>Select Year</option>' + 
+        years.map(y => `<option value="${y}">${y}</option>`).join('');
+    vehicleYearSelect.disabled = false;
+};
+
+if (vehicleMakeSelect) {
+    vehicleMakeSelect.addEventListener('change', (e) => {
+        updateModelsForMake(e.target.value);
+        if (vehicleYearSelect) {
+            vehicleYearSelect.innerHTML = '<option>Select Year</option>';
+            vehicleYearSelect.disabled = true;
+        }
+    });
+}
+
+if (vehicleModelSelect) {
+    vehicleModelSelect.addEventListener('change', (e) => {
+        const make = vehicleMakeSelect?.value;
+        updateYearsForModel(make, e.target.value);
+    });
+}
+
+// Call after products loaded
+setTimeout(() => {
+    if (PRODUCTS.length > 0) {
+        populateVehicleSelects();
+    }
+}, 500);
