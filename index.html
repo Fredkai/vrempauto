@@ -47,7 +47,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Public+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <!-- Three.js for 3D hero particles -->
@@ -99,7 +99,7 @@
 
             <!-- RIGHT: ICONS -->
             <div class="header-icons">
-                <button class="icon-circle" aria-label="Search">
+                <button class="icon-circle" id="header-search-toggle" aria-label="Jump to part search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 <button class="icon-circle cart-icon" id="cart-toggle" aria-label="Cart" aria-expanded="false">
@@ -254,18 +254,18 @@
             <div class="container hero-container">
                 <div class="hero-copy">
                     <div class="hero-eyebrow reveal-fade">
-                        <span>Global B2B parts marketplace · OEM sourcing · 24/7 support</span>
+                        <span>Kigali, Rwanda · OEM sourcing · Fleet support · 24/7 service</span>
                     </div>
                     <h1 class="hero-title">
                         <span class="split-line">
                             <span class="split-inner">The Right Spare Part.</span>
                         </span>
                         <span class="split-line hero-accent">
-                            <span class="split-inner">Right On Time.</span>
+                            <span class="split-inner">Right Here in Rwanda.</span>
                         </span>
                     </h1>
                     <p class="hero-desc reveal-up">
-                        Premium truck spare parts, heavy construction components, OEM sourcing, and worldwide industrial logistics for dealers, workshops, fleets, and distributors.
+                        Premium truck spare parts, heavy construction components, OEM sourcing, and fast regional logistics for workshops, fleets, and contractors across Rwanda and East Africa.
                     </p>
                     <div class="hero-cta-group reveal-up reveal-delay-1">
                         <a href="#shop" class="btn btn-primary btn-glow magnetic">Shop Parts</a>
@@ -284,8 +284,8 @@
                         </div>
                         <div class="hero-stat-divider"></div>
                         <div class="hero-stat">
-                            <span class="hero-stat-num" data-count="80">0</span><span class="hero-stat-suf">+</span>
-                            <span class="hero-stat-label">Countries</span>
+                            <span class="hero-stat-num" data-count="10">0</span><span class="hero-stat-suf">+</span>
+                            <span class="hero-stat-label">Regional hubs</span>
                         </div>
                     </div>
                 </div>
@@ -300,29 +300,29 @@
             <div class="container">
                 <div class="section-header center">
                     <div class="section-label">ENTERPRISE OPERATIONS</div>
-                        <h2 class="section-title" data-split>Global sourcing for truck spare parts and rental construction materials.</h2>
-                        <p class="section-desc">VREMP now supplies spare parts for trucks and rental construction materials. We ship from Europe, Dubai, and China with OEM sourcing, fast logistics, and global support.</p>
+                        <h2 class="section-title" data-split>Rwanda-based sourcing for trucks, equipment, and heavy-duty workshops.</h2>
+                        <p class="section-desc">VREMP supplies spare parts and rental construction equipment from Kigali, Rwanda, helping workshops, fleets, and contractors keep operations moving with reliable local sourcing and regional support.</p>
                 </div>
                 <div class="enterprise-grid">
-                    <article class="enterprise-card">
+                    <article class="enterprise-card" data-interaction-target="#search" tabindex="0" role="button">
                         <div class="enterprise-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
                         <h3>Local Part Search</h3>
-                        <p>Find parts by OEM number, VIN, barcode, machine model, or engine code with intelligent matching and regional availability hints.</p>
+                        <p>Find parts by OEM number, VIN, barcode, machine model, or engine code with intelligent matching that suits Rwanda-based operations.</p>
                     </article>
-                    <article class="enterprise-card">
+                    <article class="enterprise-card" data-interaction-target="#platform" tabindex="0" role="button">
                         <div class="enterprise-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3>Verified Global Supply</h3>
-                        <p>Source warranty-backed components and OEM-certified replacements from our global procurement network.</p>
+                        <h3>Verified Rwanda Supply</h3>
+                        <p>Source warranty-backed components and OEM-certified replacements through our Kigali procurement network.</p>
                     </article>
-                    <article class="enterprise-card">
+                    <article class="enterprise-card" data-interaction-target="#search" tabindex="0" role="button">
                         <div class="enterprise-icon"><i class="fa-solid fa-chart-line"></i></div>
-                        <h3>Competitive Global Pricing</h3>
-                        <p>Access pricing designed for workshops, fleet operators, and construction teams worldwide, with quick quotes for bulk and repeat orders.</p>
+                        <h3>Regional Pricing</h3>
+                        <p>Access pricing designed for workshops, fleet operators, and construction teams in Rwanda and nearby markets, with faster quotes for repeat orders.</p>
                     </article>
-                    <article class="enterprise-card">
+                    <article class="enterprise-card" data-interaction-target="#contact" tabindex="0" role="button">
                         <div class="enterprise-icon"><i class="fa-solid fa-globe"></i></div>
-                        <h3>Global Delivery</h3>
-                        <p>Shipments from Europe, Dubai, and China with international logistics support, customs handling, and global coordination.</p>
+                        <h3>Regional Delivery</h3>
+                        <p>Move parts across Rwanda and neighbouring markets with fast dispatch, customs coordination, and logistics support from Kigali.</p>
                     </article>
                 </div>
             </div>
@@ -385,6 +385,15 @@
                             <button class="btn btn-primary btn-search" aria-label="Search part">
                                 <i class="fa-solid fa-magnifying-glass"></i> Search
                             </button>
+                        </div>
+                        <div class="location-query-row">
+                            <button type="button" class="btn btn-outline btn-location" id="use-current-location">
+                                <i class="fa-solid fa-location-crosshairs"></i> Use my current location
+                            </button>
+                            <div class="current-location-pill" id="current-location-pill" aria-live="polite">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span class="location-label">Kigali, Rwanda</span>
+                            </div>
                         </div>
                         <div class="search-quick">
                             <span class="quick-label">Popular searches:</span>

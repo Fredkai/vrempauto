@@ -1073,6 +1073,38 @@ body::before {
 }
 
 /* Quick chips */
+.location-query-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 1.1rem;
+    flex-wrap: wrap;
+}
+
+.btn-location {
+    padding: 0.8rem 1.1rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.current-location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03);
+    color: var(--t2);
+    font-size: 0.82rem;
+}
+
+.current-location-pill i {
+    color: var(--blue);
+    font-size: 0.7rem;
+}
+
 .search-quick {
     display: flex;
     align-items: center;
@@ -4712,11 +4744,17 @@ a.contact-info-item:hover .contact-info-icon {
     flex-direction: column;
     gap: 1rem;
     transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+    cursor: pointer;
 }
 
 .enterprise-card:hover {
     background: var(--bg-3);
     border-color: var(--line-hi);
+}
+
+.enterprise-card:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 4px;
 }
 
 .enterprise-icon {

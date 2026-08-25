@@ -24,6 +24,9 @@ const stripe = stripeSecretKey ? Stripe(stripeSecretKey) : null;
 const paypalEnvironment = new paypal.core.SandboxEnvironment(paypalClientId || '', paypalClientSecret || '');
 const paypalClient = new paypal.core.PayPalHttpClient(paypalEnvironment);
 
+const publicDir = path.resolve(__dirname);
+app.use(express.static(publicDir));
+
 const ensureOrdersFile = () => {
   if (!fs.existsSync(ordersFile)) {
     fs.writeFileSync(ordersFile, '[]', 'utf8');

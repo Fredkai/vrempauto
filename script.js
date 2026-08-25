@@ -81,6 +81,7 @@ const loadProducts = async () => {
 };
 
 const normaliseText = (value) => String(value || '').toLowerCase();
+const getSelectValue = (selector, fallback = '') => qs(selector)?.dataset.value || fallback;
 
 const productMatchesSearch = (product, query, category) => {
     const text = [product.title, product.category, product.desc, product.sku, product.make, product.model, product.year, ...(product.keywords || [])].join(' ').toLowerCase();
@@ -146,14 +147,75 @@ const renderProducts = (products) => {
     productGrid.innerHTML = products.map(buildProductCard).join('');
 };
 
+const getCurrentLocationText = () => {
+    const label = qs('.location-label');
+    const text = label?.textContent?.trim();
+    if (!text || text === 'Kigali, Rwanda') return '';
+    return ` in ${text}`;
+};
+
 const updateSearchSummary = ({ total, queryText, searchType }) => {
     if (!searchResultsLabel) return;
     const queryPart = queryText ? ` for "${queryText}"` : '';
+    const locationPart = getCurrentLocationText();
     if (total === 0) {
-        searchResultsLabel.textContent = `No parts match${queryPart}.`;
+        searchResultsLabel.textContent = `No parts match${queryPart}${locationPart}.`;
         return;
     }
-    searchResultsLabel.textContent = `Showing ${total} part${total === 1 ? '' : 's'}${queryPart}.`;
+    searchResultsLabel.textContent = `Showing ${total} part${total === 1 ? '' : 's'}${queryPart}${locationPart}.`;
+};
+
+const setCurrentLocationLabel = (text) => {
+    const label = qs('.location-label');
+    if (!label) return;
+    label.textContent = text || 'Kigali, Rwanda';
+    const pill = qs('#current-location-pill');
+    if (pill) {
+        pill.style.borderColor = text && text !== 'Kigali, Rwanda' ? 'rgba(0, 102, 255, 0.5)' : 'rgba(255,255,255,0.1)';
+    }
+};
+
+const detectCurrentLocation = () => {
+    const button = qs('#use-current-location');
+    if (!button) return;
+
+    if (!navigator.geolocation) {
+        setCurrentLocationLabel('Location unavailable');
+        return;
+    }
+
+    button.disabled = true;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Detecting...';
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+            const { latitude, longitude } = position.coords;
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=10&accept-language=en`);
+            if (!response.ok) throw new Error('Reverse geocode failed');
+            const data = await response.json();
+            const address = data.address || {};
+            const city = address.city || address.town || address.village || address.county || 'your area';
+            const country = address.country || 'your region';
+            const display = `${city}, ${country}`;
+            setCurrentLocationLabel(display);
+            updateSearchSummary({
+                total: filterProducts({ query: qs('.search-input')?.value.trim() || '', category: getSelectValue('#search-category', 'All Categories') }).length,
+                queryText: qs('.search-input')?.value.trim() || '',
+                searchType: 'part search'
+            });
+        } catch (error) {
+            console.warn('Location detection failed:', error);
+            setCurrentLocationLabel('Location unavailable');
+        } finally {
+            button.disabled = false;
+            button.innerHTML = originalText;
+        }
+    }, () => {
+        setCurrentLocationLabel('Location unavailable');
+        button.disabled = false;
+        button.innerHTML = originalText;
+    }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 });
 };
 
 const getProductById = (id) => PRODUCTS.find(product => product.id === id);
@@ -197,7 +259,7 @@ const initProductListEvents = () => {
 
 const performPartSearch = () => {
     const queryInput = qs('.search-input')?.value.trim() || '';
-    const category = qs('#search-category')?.value || 'All Categories';
+    const category = qs('#search-category')?.dataset.value || 'All Categories';
     const results = filterProducts({ query: queryInput, category });
     renderProducts(results);
     const queryText = queryInput || (category === 'All Categories' ? '' : category);
@@ -205,9 +267,9 @@ const performPartSearch = () => {
 };
 
 const performVehicleSearch = () => {
-    const make = qs('#search-make')?.value || '';
-    const model = qs('#search-model')?.value || '';
-    const year = qs('#search-year')?.value || '';
+    const make = getSelectValue('#search-make');
+    const model = getSelectValue('#search-model');
+    const year = getSelectValue('#search-year');
     const results = filterProducts({ make, model, year });
     const summaryQuery = [make, model, year].filter(Boolean).join(' ').trim();
     renderProducts(results);
@@ -224,6 +286,12 @@ const initSearch = () => {
         event.preventDefault();
         performVehicleSearch();
     });
+    qs('.search-input')?.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            performPartSearch();
+        }
+    });
     qsa('.quick-chip').forEach(chip => {
         chip.addEventListener('click', (event) => {
             event.preventDefault();
@@ -235,6 +303,28 @@ const initSearch = () => {
     });
 };
 
+const scrollToTarget = (selector) => {
+    const target = qs(selector);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+qs('#header-search-toggle')?.addEventListener('click', () => {
+    scrollToTarget('#search');
+    setTimeout(() => qs('.search-input')?.focus(), 450);
+});
+
+qsa('.enterprise-card[data-interaction-target]').forEach(card => {
+    const activate = () => scrollToTarget(card.dataset.interactionTarget);
+    card.addEventListener('click', activate);
+    card.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            activate();
+        }
+    });
+});
+
 /* ============================================================
    EMAILJS INIT
    ============================================================ */
@@ -242,6 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof emailjs !== 'undefined') {
         emailjs.init(EMAILJS_PUBLIC_KEY);
     }
+    const currentLocationButton = qs('#use-current-location');
+    currentLocationButton?.addEventListener('click', detectCurrentLocation);
     // Hide decorative icons from assistive tech; social links have labels
     qsa('i').forEach(ic => ic.setAttribute('aria-hidden', 'true'));
 });
