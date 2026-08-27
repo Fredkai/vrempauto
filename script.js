@@ -993,6 +993,7 @@ const initCustomSelects = () => {
         const btn   = select.querySelector('.custom-select-btn');
         const list  = select.querySelector('.custom-select-list');
         const label = select.querySelector('.custom-select-label');
+        if (!btn || !list || !label) return;
         // ARIA roles
         btn.setAttribute('aria-haspopup', 'listbox');
         btn.setAttribute('aria-expanded', 'false');

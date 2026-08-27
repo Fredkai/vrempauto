@@ -4844,3 +4844,125 @@ img, video {
 .cursor-ring {
     will-change: transform;
 }
+
+/* Live storefront treatment for the VREMP landing view */
+:root {
+    --vremp-cyan: #d8ff3e;
+    --vremp-black: #090b0c;
+}
+
+body {
+    background: var(--vremp-black);
+}
+
+.site-header {
+    background: rgba(9, 11, 12, 0.92);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.main-nav-pill {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.hero-section {
+    background: radial-gradient(circle at 78% 42%, rgba(216, 255, 62, 0.08), transparent 28%), var(--vremp-black);
+}
+
+.hero-title {
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+}
+
+.hero-accent,
+.hero-accent .split-inner {
+    color: var(--vremp-cyan);
+}
+
+.hero-desc strong {
+    color: var(--vremp-cyan);
+}
+
+.hero-visual {
+    order: 2;
+    min-height: 560px;
+}
+
+.hero-copy {
+    order: 1;
+}
+
+.hero-photo-frame {
+    position: absolute;
+    inset: 4% 0 4% 8%;
+    overflow: hidden;
+    border: 1px solid rgba(216, 255, 62, 0.32);
+    border-radius: 2px;
+    background: #171a19;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.hero-photo-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(216, 255, 62, 0.16), transparent 42%, rgba(0, 0, 0, 0.45));
+    pointer-events: none;
+}
+
+.hero-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) contrast(1.08);
+}
+
+.hero-customer-badge {
+    position: absolute;
+    z-index: 1;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0.9rem 1.1rem;
+    background: var(--vremp-cyan);
+    color: #10140b;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.hero-customer-badge strong {
+    font-size: 1.45rem;
+    letter-spacing: 0;
+}
+
+.hero-customer-badge span {
+    font-weight: 700;
+}
+
+.btn-primary {
+    background: var(--vremp-cyan);
+    border-color: var(--vremp-cyan);
+    color: #10140b;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    background: #efffa4;
+    border-color: #efffa4;
+}
+
+@media (max-width: 768px) {
+    .hero-visual {
+        order: 1;
+        min-height: 330px;
+    }
+
+    .hero-copy {
+        order: 2;
+    }
+
+    .hero-photo-frame {
+        inset: 0;
+    }
+}
