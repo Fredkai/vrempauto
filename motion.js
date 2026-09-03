@@ -26,11 +26,11 @@ window.addEventListener('load', () => {
   gsap.set('.split-inner', { yPercent: 110, opacity: 0 });
   gsap.to('.split-inner', { yPercent: 0, opacity: 1, duration: 1.1, ease: 'power4.out', stagger: 0.22, delay: 0.2 });
 
-  gsap.from('.hero-eyebrow',   { y: 16, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.1 });
-  gsap.from('.hero-desc',      { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.55 });
+  gsap.from('.hero-eyebrow', { y: 16, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.1 });
+  gsap.from('.hero-desc', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.55 });
   gsap.from('.hero-cta-group', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.70 });
-  gsap.from('.hero-stats',     { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.85 });
-  gsap.from('.hero-img-wrap',  { scale: 0.93, opacity: 0, y: 30, duration: 1.2, ease: 'power4.out', delay: 0.3 });
+  gsap.from('.hero-stats', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.85 });
+  gsap.from('.hero-img-wrap', { scale: 0.93, opacity: 0, y: 30, duration: 1.2, ease: 'power4.out', delay: 0.3 });
 
   /* Hero stat count-up */
   document.querySelectorAll('.hero-stat-num[data-count]').forEach(el => {
@@ -50,7 +50,7 @@ window.addEventListener('load', () => {
   if (hint) {
     ScrollTrigger.create({
       trigger: '.hero-section', start: 'top+=80 top',
-      onEnter:     () => gsap.to(hint, { opacity: 0, duration: 0.4 }),
+      onEnter: () => gsap.to(hint, { opacity: 0, duration: 0.4 }),
       onLeaveBack: () => gsap.to(hint, { opacity: 1, duration: 0.4 }),
     });
   }
@@ -73,31 +73,31 @@ window.addEventListener('load', () => {
       const hc = hero.querySelector('.hero-container');
       const hp = hero.querySelector('.hero-parallax-layer');
       const hs = document.getElementById('hero-scroll-hint');
-      if (hc) { hc.style.position='relative'; hc.style.zIndex='2'; }
-      if (hp) { hp.style.position='relative'; hp.style.zIndex='1'; }
-      if (hs) { hs.style.zIndex='2'; }
+      if (hc) { hc.style.position = 'relative'; hc.style.zIndex = '2'; }
+      if (hp) { hp.style.position = 'relative'; hp.style.zIndex = '1'; }
+      if (hs) { hs.style.zIndex = '2'; }
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(60, hero.offsetWidth / hero.offsetHeight, 0.1, 50);
       camera.position.z = 4;
 
-      const N = 1800, pos = new Float32Array(N*3), aCol = new Float32Array(N*3), sz = new Float32Array(N);
+      const N = 1800, pos = new Float32Array(N * 3), aCol = new Float32Array(N * 3), sz = new Float32Array(N);
       for (let i = 0; i < N; i++) {
-        pos[i*3]   = (Math.random()-0.5)*20;
-        pos[i*3+1] = (Math.random()-0.5)*12;
-        pos[i*3+2] = (Math.random()-0.5)*8;
+        pos[i * 3] = (Math.random() - 0.5) * 20;
+        pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
+        pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
         const t = Math.random();
-        aCol[i*3]=t*0.3; aCol[i*3+1]=0.4+t*0.4; aCol[i*3+2]=1.0;
-        sz[i] = Math.random()*2.8+0.8;
+        aCol[i * 3] = t * 0.3; aCol[i * 3 + 1] = 0.4 + t * 0.4; aCol[i * 3 + 2] = 1.0;
+        sz[i] = Math.random() * 2.8 + 0.8;
       }
       const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(pos,  3));
-      geo.setAttribute('aColor',   new THREE.BufferAttribute(aCol, 3));
-      geo.setAttribute('size',     new THREE.BufferAttribute(sz,   1));
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('aColor', new THREE.BufferAttribute(aCol, 3));
+      geo.setAttribute('size', new THREE.BufferAttribute(sz, 1));
 
       const mat = new THREE.ShaderMaterial({
-        uniforms: { uTime:{value:0}, uMouse:{value:new THREE.Vector2(0,0)} },
-        vertexShader:`
+        uniforms: { uTime: { value: 0 }, uMouse: { value: new THREE.Vector2(0, 0) } },
+        vertexShader: `
           attribute float size; attribute vec3 aColor;
           uniform float uTime; uniform vec2 uMouse;
           varying vec3 vCol; varying float vA;
@@ -113,7 +113,7 @@ window.addEventListener('load', () => {
             gl_PointSize=size*(300.0/-mv.z);
             gl_Position=projectionMatrix*mv;
           }`,
-        fragmentShader:`
+        fragmentShader: `
           varying vec3 vCol; varying float vA;
           void main(){
             float d=length(gl_PointCoord-0.5);
@@ -121,32 +121,67 @@ window.addEventListener('load', () => {
             float s=pow(1.0-d*2.0,1.6);
             gl_FragColor=vec4(vCol,s*vA);
           }`,
-        transparent:true, depthWrite:false,
-        blending:THREE.AdditiveBlending, vertexColors:false
+        transparent: true, depthWrite: false,
+        blending: THREE.AdditiveBlending, vertexColors: false
       });
 
       const pts = new THREE.Points(geo, mat);
       scene.add(pts);
-      let tmx=0,tmy=0,cmx=0,cmy=0;
-      document.addEventListener('mousemove',e=>{
-        tmx=(e.clientX/window.innerWidth-0.5)*2;
-        tmy=(e.clientY/window.innerHeight-0.5)*-2;
-      });
-      window.addEventListener('resize',()=>{
-        renderer.setSize(hero.offsetWidth,hero.offsetHeight);
-        camera.aspect=hero.offsetWidth/hero.offsetHeight;
+      let tmx = 0, tmy = 0, cmx = 0, cmy = 0;
+      let hasTouchOrMouse = false;
+      let touchTimeout;
+
+      document.addEventListener('mousemove', e => {
+        hasTouchOrMouse = true;
+        tmx = (e.clientX / window.innerWidth - 0.5) * 2;
+        tmy = (e.clientY / window.innerHeight - 0.5) * -2;
+      }, { passive: true });
+
+      const handleTouch = e => {
+        if (e.touches && e.touches.length > 0) {
+          hasTouchOrMouse = true;
+          clearTimeout(touchTimeout);
+          const touch = e.touches[0];
+          tmx = (touch.clientX / window.innerWidth - 0.5) * 2.6;
+          tmy = (touch.clientY / window.innerHeight - 0.5) * -2.6;
+        }
+      };
+
+      document.addEventListener('touchstart', handleTouch, { passive: true });
+      document.addEventListener('touchmove', handleTouch, { passive: true });
+      document.addEventListener('touchend', () => {
+        touchTimeout = setTimeout(() => { hasTouchOrMouse = false; }, 1200);
+      }, { passive: true });
+
+      const handleResize = () => {
+        if (!hero) return;
+        renderer.setSize(hero.offsetWidth, hero.offsetHeight);
+        camera.aspect = hero.offsetWidth / hero.offsetHeight;
         camera.updateProjectionMatrix();
-      });
-      const clock=new THREE.Clock();
-      (function tick(){
+      };
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('orientationchange', () => setTimeout(handleResize, 150));
+
+      const clock = new THREE.Clock();
+      (function tick() {
         requestAnimationFrame(tick);
-        const t=clock.getElapsedTime();
-        mat.uniforms.uTime.value=t;
-        cmx+=(tmx-cmx)*0.04; cmy+=(tmy-cmy)*0.04;
-        mat.uniforms.uMouse.value.set(cmx,cmy);
-        pts.rotation.y=t*0.016;
-        pts.rotation.x=Math.sin(t*0.08)*0.05;
-        renderer.render(scene,camera);
+        const t = clock.getElapsedTime();
+        mat.uniforms.uTime.value = t;
+
+        // Autonomous ethereal motion on mobile / when not actively touching
+        if (!hasTouchOrMouse) {
+          const autoX = Math.sin(t * 0.42) * 0.8 + Math.cos(t * 0.21) * 0.3;
+          const autoY = Math.cos(t * 0.35) * 0.7 + Math.sin(t * 0.16) * 0.2;
+          tmx += (autoX - tmx) * 0.03;
+          tmy += (autoY - tmy) * 0.03;
+        }
+
+        cmx += (tmx - cmx) * 0.045;
+        cmy += (tmy - cmy) * 0.045;
+        mat.uniforms.uMouse.value.set(cmx, cmy);
+        pts.rotation.y = t * 0.018 + cmx * 0.15;
+        pts.rotation.x = Math.sin(t * 0.09) * 0.06 + cmy * 0.08;
+        renderer.render(scene, camera);
       })();
     }
   }
@@ -159,19 +194,19 @@ window.addEventListener('load', () => {
      is present, which we add only to elements below the fold.
   ========================================================= */
   const REVEAL_SELECTORS = [
-    { sel: '.section-header',    cls: 'rv-up',    delay: 0   },
-    { sel: '.showcase-copy',     cls: 'rv-left',  delay: 0   },
-    { sel: '.showcase-visual',   cls: 'rv-right', delay: 0   },
-    { sel: '.search-card',       cls: 'rv-up',    delay: 0   },
-    { sel: '.contact-form',      cls: 'rv-right', delay: 0   },
-    { sel: '.shop-card',         cls: 'rv-up',    delay: 0   },
-    { sel: '.step-card',         cls: 'rv-up',    delay: 0   },
-    { sel: '.testimonial-card',  cls: 'rv-up',    delay: 0   },
-    { sel: '.faq-item',          cls: 'rv-up',    delay: 0   },
-    { sel: '.footer-brand-col',  cls: 'rv-up',    delay: 0   },
-    { sel: '.footer-col',        cls: 'rv-up',    delay: 0   },
-    { sel: '.footer-bottom',     cls: 'rv-up',    delay: 0   },
-    { sel: '.brand-strip',       cls: 'rv-up',    delay: 0   },
+    { sel: '.section-header', cls: 'rv-up', delay: 0 },
+    { sel: '.showcase-copy', cls: 'rv-left', delay: 0 },
+    { sel: '.showcase-visual', cls: 'rv-right', delay: 0 },
+    { sel: '.search-card', cls: 'rv-up', delay: 0 },
+    { sel: '.contact-form', cls: 'rv-right', delay: 0 },
+    { sel: '.shop-card', cls: 'rv-up', delay: 0 },
+    { sel: '.step-card', cls: 'rv-up', delay: 0 },
+    { sel: '.testimonial-card', cls: 'rv-up', delay: 0 },
+    { sel: '.faq-item', cls: 'rv-up', delay: 0 },
+    { sel: '.footer-brand-col', cls: 'rv-up', delay: 0 },
+    { sel: '.footer-col', cls: 'rv-up', delay: 0 },
+    { sel: '.footer-bottom', cls: 'rv-up', delay: 0 },
+    { sel: '.brand-strip', cls: 'rv-up', delay: 0 },
   ];
 
   const io = new IntersectionObserver((entries) => {
@@ -219,7 +254,7 @@ window.addEventListener('load', () => {
       const splitIO = new IntersectionObserver(entries => {
         if (!entries[0].isIntersecting) return;
         el.querySelectorAll('.sw').forEach((w, i) => {
-          setTimeout(() => { w.style.transform='translateY(0) rotate(0)'; w.style.opacity='1'; }, i * 60);
+          setTimeout(() => { w.style.transform = 'translateY(0) rotate(0)'; w.style.opacity = '1'; }, i * 60);
         });
         splitIO.disconnect();
       }, { threshold: 0.2 });
@@ -230,20 +265,20 @@ window.addEventListener('load', () => {
   /* =========================================================
      CUSTOM CURSOR
   ========================================================= */
-  const dot  = document.getElementById('cursor-dot');
+  const dot = document.getElementById('cursor-dot');
   const ring = document.getElementById('cursor-ring');
   if (dot && ring && window.matchMedia('(pointer:fine)').matches) {
     gsap.set([dot, ring], { xPercent: -50, yPercent: -50 });
     document.addEventListener('mousemove', e => {
-      gsap.to(dot,  { x: e.clientX, y: e.clientY, duration: 0,    overwrite: true });
+      gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0, overwrite: true });
       gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.14, ease: 'power2.out', overwrite: true });
     });
     document.querySelectorAll('a, button, .magnetic, .shop-card, .faq-question').forEach(el => {
       el.addEventListener('mouseenter', () => gsap.to(ring, { scale: 1.8, duration: 0.3, ease: 'power2.out' }));
-      el.addEventListener('mouseleave', () => gsap.to(ring, { scale: 1,   duration: 0.3, ease: 'power2.out' }));
+      el.addEventListener('mouseleave', () => gsap.to(ring, { scale: 1, duration: 0.3, ease: 'power2.out' }));
     });
     document.addEventListener('mousedown', () => gsap.to(ring, { scale: 0.6, duration: 0.15 }));
-    document.addEventListener('mouseup',   () => gsap.to(ring, { scale: 1,   duration: 0.3  }));
+    document.addEventListener('mouseup', () => gsap.to(ring, { scale: 1, duration: 0.3 }));
   }
 
   /* =========================================================
@@ -252,7 +287,7 @@ window.addEventListener('load', () => {
   document.querySelectorAll('.magnetic').forEach(el => {
     el.addEventListener('mousemove', e => {
       const r = el.getBoundingClientRect();
-      gsap.to(el, { x: (e.clientX-r.left-r.width/2)*0.3, y: (e.clientY-r.top-r.height/2)*0.3, duration: 0.35, ease: 'power2.out', overwrite: true });
+      gsap.to(el, { x: (e.clientX - r.left - r.width / 2) * 0.3, y: (e.clientY - r.top - r.height / 2) * 0.3, duration: 0.35, ease: 'power2.out', overwrite: true });
     });
     el.addEventListener('mouseleave', () => {
       gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.4)', overwrite: true });

@@ -13,13 +13,13 @@
    4. Go to Account → copy your Public Key
    5. Replace the three values below
    --------------------------------------------------------- */
-const EMAILJS_PUBLIC_KEY  = '-TCmq_j4CY6exLNv7';
-const EMAILJS_SERVICE_ID  = 'service_xkc4s1k';
+const EMAILJS_PUBLIC_KEY = '-TCmq_j4CY6exLNv7';
+const EMAILJS_SERVICE_ID = 'service_xkc4s1k';
 const EMAILJS_TEMPLATE_ID = 'template_t438vj8';
 const EMAILJS_CART_TEMPLATE_ID = 'template_t438vj8';
 
 /* ── Helpers ────────────────────────────────────────────── */
-const qs  = s => document.querySelector(s);
+const qs = s => document.querySelector(s);
 const qsa = s => [...document.querySelectorAll(s)];
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
@@ -372,7 +372,7 @@ if (header) {
    ACTIVE NAV LINK
    ============================================================ */
 const sections = qsa('section[id]');
-const navLinks  = qsa('.main-nav-pill .nav-link');
+const navLinks = qsa('.main-nav-pill .nav-link');
 
 const updateNav = () => {
     const y = window.scrollY + 160;
@@ -403,9 +403,9 @@ document.addEventListener('click', e => {
 /* ============================================================
    MOBILE MENU
    ============================================================ */
-const hamburger  = qs('#hamburger-btn');
+const hamburger = qs('#hamburger-btn');
 const mobileMenu = qs('#mobile-menu');
-const menuClose  = qs('#mobile-menu-close');
+const menuClose = qs('#mobile-menu-close');
 
 const openMobileMenu = () => {
     mobileMenu?.classList.add('open');
@@ -434,6 +434,14 @@ hamburger?.addEventListener('click', () =>
     mobileMenu?.classList.contains('open') ? closeMobileMenu() : openMobileMenu()
 );
 menuClose?.addEventListener('click', closeMobileMenu);
+
+// Auto-close mobile menu when tapping any navigation link
+qsa('.mobile-nav-link, .mobile-menu-footer a').forEach(link => {
+    link.addEventListener('click', () => {
+        closeMobileMenu();
+    });
+});
+
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeMobileMenu(); closeCart(); }
 });
@@ -441,15 +449,15 @@ document.addEventListener('keydown', e => {
 /* ============================================================
    CART STATE
    ============================================================ */
-const cartState     = [];
-const cartBadgeEl   = qs('.cart-badge');
+const cartState = [];
+const cartBadgeEl = qs('.cart-badge');
 const cartItemsList = qs('#cart-items-list');
-const cartEmptyEl   = qs('#cart-empty');
-const cartTotalEl   = qs('#cart-total-price');
+const cartEmptyEl = qs('#cart-empty');
+const cartTotalEl = qs('#cart-total-price');
 
 const updateCartBadge = () => {
     if (!cartBadgeEl) return;
-    cartBadgeEl.textContent     = cartState.length;
+    cartBadgeEl.textContent = cartState.length;
     cartBadgeEl.style.transform = 'scale(1.45)';
     setTimeout(() => cartBadgeEl.style.transform = '', 220);
 };
@@ -496,10 +504,10 @@ cartItemsList?.addEventListener('click', e => {
 /* ============================================================
    CART DRAWER
    ============================================================ */
-const cartDrawer   = qs('#cart-drawer');
-const cartOverlay  = qs('#cart-overlay');
-const cartToggle   = qs('#cart-toggle');
-const cartClose    = qs('#cart-close');
+const cartDrawer = qs('#cart-drawer');
+const cartOverlay = qs('#cart-overlay');
+const cartToggle = qs('#cart-toggle');
+const cartClose = qs('#cart-close');
 const cartContinue = qs('#cart-continue');
 
 const openCart = () => {
@@ -611,31 +619,31 @@ checkoutBtn?.addEventListener('click', () => {
     }
 
     btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
-    btn.disabled  = true;
+    btn.disabled = true;
 
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CART_TEMPLATE_ID, {
         items_list: itemsList,
-        total:      `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+        total: `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
         item_count: cartState.length,
     }).then(() => {
-        btn.innerHTML  = '<i class="fa-solid fa-check"></i> Quote Sent!';
-        btn.style.background  = 'var(--green)';
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Quote Sent!';
+        btn.style.background = 'var(--green)';
         btn.style.borderColor = 'var(--green)';
         btn.style.color = '#000';
         cartState.length = 0;
         updateCartBadge();
         renderCart();
         setTimeout(() => {
-            btn.innerHTML         = orig;
-            btn.style.background  = '';
+            btn.innerHTML = orig;
+            btn.style.background = '';
             btn.style.borderColor = '';
-            btn.style.color       = '';
-            btn.disabled          = false;
+            btn.style.color = '';
+            btn.disabled = false;
             closeCart();
         }, 3000);
     }).catch(() => {
         btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — try email';
-        btn.disabled  = false;
+        btn.disabled = false;
         setTimeout(() => { btn.innerHTML = orig; }, 3000);
     });
 });
@@ -663,16 +671,16 @@ const showToast = (item) => {
 };
 
 const productDetailOverlay = qs('#product-detail-overlay');
-const productDetailClose   = qs('#product-detail-close');
-const productDetailImage   = qs('#product-detail-image');
-const productDetailCategory= qs('#product-detail-category');
-const productDetailTitle   = qs('#product-detail-title');
-const productDetailDesc    = qs('#product-detail-desc');
-const productDetailSku     = qs('#product-detail-sku');
-const productDetailStock   = qs('#product-detail-stock');
-const productDetailFeatures= qs('#product-detail-features');
-const productDetailPrice   = qs('#product-detail-price');
-const modalAddCartBtn      = qs('#modal-add-cart');
+const productDetailClose = qs('#product-detail-close');
+const productDetailImage = qs('#product-detail-image');
+const productDetailCategory = qs('#product-detail-category');
+const productDetailTitle = qs('#product-detail-title');
+const productDetailDesc = qs('#product-detail-desc');
+const productDetailSku = qs('#product-detail-sku');
+const productDetailStock = qs('#product-detail-stock');
+const productDetailFeatures = qs('#product-detail-features');
+const productDetailPrice = qs('#product-detail-price');
+const modalAddCartBtn = qs('#modal-add-cart');
 const modalRequestQuoteBtn = qs('#modal-request-quote');
 let currentProductDetail = null;
 
@@ -731,16 +739,16 @@ const requestQuoteForProduct = (product) => {
     modalRequestQuoteBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CART_TEMPLATE_ID, {
         items_list: itemsList,
-        total:      `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
+        total: `$${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}`,
         item_count: 1,
     }).then(() => {
         modalRequestQuoteBtn.innerHTML = '<i class="fa-solid fa-check"></i> Request Sent';
-        modalRequestQuoteBtn.style.background  = 'var(--green)';
+        modalRequestQuoteBtn.style.background = 'var(--green)';
         modalRequestQuoteBtn.style.borderColor = 'var(--green)';
         modalRequestQuoteBtn.style.color = '#000';
         setTimeout(() => {
             modalRequestQuoteBtn.innerHTML = 'Request Quote';
-            modalRequestQuoteBtn.style.background  = '';
+            modalRequestQuoteBtn.style.background = '';
             modalRequestQuoteBtn.style.borderColor = '';
             modalRequestQuoteBtn.style.color = '';
             modalRequestQuoteBtn.disabled = false;
@@ -792,7 +800,7 @@ qsa('.faq-item').forEach((el, idx) => {
     const btn = el.querySelector('.faq-question');
     const ans = el.querySelector('.faq-answer');
     if (!btn || !ans) return;
-    const aid = ans.id || `faq-answer-${idx+1}`;
+    const aid = ans.id || `faq-answer-${idx + 1}`;
     ans.id = aid;
     ans.setAttribute('role', 'region');
     ans.setAttribute('aria-hidden', el.classList.contains('open') ? 'false' : 'true');
@@ -822,49 +830,49 @@ const contactForm = qs('#contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const btn  = this.querySelector('button[type="submit"]');
+        const btn = this.querySelector('button[type="submit"]');
         const orig = btn.innerHTML;
 
         btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
-        btn.disabled  = true;
+        btn.disabled = true;
 
         if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
             /* Fallback — open mailto */
-            const name    = this.querySelector('[name="from_name"]')?.value || '';
-            const email   = this.querySelector('[name="reply_to"]')?.value || '';
+            const name = this.querySelector('[name="from_name"]')?.value || '';
+            const email = this.querySelector('[name="reply_to"]')?.value || '';
             const company = this.querySelector('[name="company"]')?.value || '';
-            const phone   = this.querySelector('[name="phone"]')?.value || '';
+            const phone = this.querySelector('[name="phone"]')?.value || '';
             const message = this.querySelector('[name="message"]')?.value || '';
             const subject = encodeURIComponent('VREMP Inquiry from ' + name);
-            const body    = encodeURIComponent(
+            const body = encodeURIComponent(
                 `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nPhone: ${phone}\n\n${message}`
             );
             window.location.href = `mailto:info@vrempauto.com?subject=${subject}&body=${body}`;
             btn.innerHTML = orig;
-            btn.disabled  = false;
+            btn.disabled = false;
             return;
         }
 
         emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this)
             .then(() => {
-                btn.innerHTML         = '<i class="fa-solid fa-check"></i> Sent!';
-                btn.style.background  = 'var(--green)';
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Sent!';
+                btn.style.background = 'var(--green)';
                 btn.style.borderColor = 'var(--green)';
-                btn.style.color       = '#000';
+                btn.style.color = '#000';
                 contactForm.reset();
                 setTimeout(() => {
-                    btn.innerHTML         = orig;
-                    btn.style.background  = '';
+                    btn.innerHTML = orig;
+                    btn.style.background = '';
                     btn.style.borderColor = '';
-                    btn.style.color       = '';
-                    btn.disabled          = false;
+                    btn.style.color = '';
+                    btn.disabled = false;
                 }, 3000);
             })
             .catch((err) => {
                 console.error('EmailJS error:', err);
                 const code = err?.status || err?.text || JSON.stringify(err);
                 btn.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Failed (${code})`;
-                btn.disabled  = false;
+                btn.disabled = false;
                 setTimeout(() => { btn.innerHTML = orig; }, 4000);
             });
     });
@@ -907,7 +915,7 @@ document.addEventListener('click', e => {
     const r = btn.getBoundingClientRect();
     const s = Math.max(r.width, r.height);
     const x = e.clientX - r.left - s / 2;
-    const y = e.clientY - r.top  - s / 2;
+    const y = e.clientY - r.top - s / 2;
     const rip = document.createElement('span');
     Object.assign(rip.style, {
         position: 'absolute', width: `${s}px`, height: `${s}px`,
@@ -921,6 +929,34 @@ document.addEventListener('click', e => {
 });
 
 /* ============================================================
+   MOBILE CATEGORY FILTER CHIPS
+   ============================================================ */
+const initCategoryChips = () => {
+    const chipContainer = qs('#shop-category-chips');
+    if (!chipContainer) return;
+
+    chipContainer.addEventListener('click', e => {
+        const chip = e.target.closest('.category-chip');
+        if (!chip) return;
+
+        chipContainer.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+
+        const category = chip.dataset.cat || 'All Categories';
+        const filtered = filterProducts({ category });
+        renderProducts(filtered);
+
+        // Synchronize search category dropdown if visible
+        const searchCategorySelect = qs('#search-category');
+        if (searchCategorySelect) {
+            searchCategorySelect.dataset.value = category;
+            const label = searchCategorySelect.querySelector('.custom-select-label');
+            if (label) label.textContent = category;
+        }
+    });
+};
+
+/* ============================================================
    INIT
    ============================================================ */
 const initApp = async () => {
@@ -932,6 +968,7 @@ const initApp = async () => {
     initProductListEvents();
     initRentalEvents();
     initCustomSelects();
+    initCategoryChips();
 };
 
 initApp();
@@ -986,8 +1023,8 @@ const initRentalEvents = () => {
    ============================================================ */
 const initCustomSelects = () => {
     document.querySelectorAll('.custom-select').forEach(select => {
-        const btn   = select.querySelector('.custom-select-btn');
-        const list  = select.querySelector('.custom-select-list');
+        const btn = select.querySelector('.custom-select-btn');
+        const list = select.querySelector('.custom-select-list');
         const label = select.querySelector('.custom-select-label');
         if (!btn || !list || !label) return;
         // ARIA roles
@@ -1092,7 +1129,7 @@ if (cursorDot && cursorRing && window.innerWidth > 1024) {
             cursorRing.style.transform = 'translate(-50%, -50%) scale(1.5)';
         }
     }, true);
-    
+
     document.addEventListener('mouseleave', (e) => {
         if (e.target.matches(interactiveElements)) {
             cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
@@ -1143,7 +1180,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
             ease: 'power2.out',
             delay: 0.8,
             snap: { textContent: 1 },
-            onUpdate: function() {
+            onUpdate: function () {
                 num.textContent = Math.floor(this.targets()[0].textContent).toLocaleString();
             }
         });
@@ -1226,7 +1263,7 @@ if (typeof THREE !== 'undefined' && window.innerWidth > 768) {
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, heroVisualEl.offsetWidth / heroVisualEl.offsetHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
+
         renderer.setSize(heroVisualEl.offsetWidth, heroVisualEl.offsetHeight);
         renderer.setClearColor(0x000000, 0);
         renderer.domElement.style.position = 'absolute';
@@ -1271,10 +1308,10 @@ if (typeof THREE !== 'undefined' && window.innerWidth > 768) {
             requestAnimationFrame(animate);
             particlesMesh.rotation.x += 0.0005;
             particlesMesh.rotation.y += 0.0008;
-            
+
             camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
             camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
-            
+
             renderer.render(scene, camera);
         };
         animate();
@@ -1299,7 +1336,7 @@ if (typeof gsap !== 'undefined' && window.innerWidth > 1024) {
             const rect = btn.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            
+
             gsap.to(btn, {
                 x: x * 0.3,
                 y: y * 0.3,
@@ -1335,7 +1372,7 @@ const getUniqueValues = (key) => {
 const populateVehicleSelects = () => {
     if (vehicleMakeSelect && PRODUCTS.length > 0) {
         const makes = getUniqueValues('make');
-        vehicleMakeSelect.innerHTML = '<option>Select Make</option>' + 
+        vehicleMakeSelect.innerHTML = '<option>Select Make</option>' +
             makes.map(m => `<option value="${m}">${m}</option>`).join('');
     }
 };
@@ -1348,7 +1385,7 @@ const updateModelsForMake = (make) => {
         return;
     }
     const models = [...new Set(PRODUCTS.filter(p => p.make === make).map(p => p.model).filter(Boolean))].sort();
-    vehicleModelSelect.innerHTML = '<option>Select Model</option>' + 
+    vehicleModelSelect.innerHTML = '<option>Select Model</option>' +
         models.map(m => `<option value="${m}">${m}</option>`).join('');
     vehicleModelSelect.disabled = false;
 };
@@ -1361,7 +1398,7 @@ const updateYearsForModel = (make, model) => {
         return;
     }
     const years = [...new Set(PRODUCTS.filter(p => p.make === make && p.model === model).map(p => p.year).filter(Boolean))].sort().reverse();
-    vehicleYearSelect.innerHTML = '<option>Select Year</option>' + 
+    vehicleYearSelect.innerHTML = '<option>Select Year</option>' +
         years.map(y => `<option value="${y}">${y}</option>`).join('');
     vehicleYearSelect.disabled = false;
 };
