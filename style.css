@@ -1812,17 +1812,21 @@ body::before {
    FOOTER
    ============================================================ */
 .site-footer {
-    background: var(--bg-1);
-    border-top: 1px solid var(--line);
+    background: rgba(7, 19, 31, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    z-index: 2;
     padding: 5rem 0 2.5rem;
 }
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 4rem;
-    padding-bottom: 4rem;
-    border-bottom: 1px solid var(--line);
+    grid-template-columns: 2.2fr 1fr 1fr 1fr;
+    gap: 3.5rem;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     margin-bottom: 2.5rem;
 }
 
@@ -2959,7 +2963,8 @@ body::before {
     .shop-grid      { grid-template-columns: 1fr; }
     .category-grid  { grid-template-columns: repeat(2, 1fr); }
 
-    .footer-grid    { grid-template-columns: 1fr; }
+    .footer-grid    { grid-template-columns: 1fr 1fr; gap: 2rem 1.25rem; }
+    .footer-brand-col { grid-column: span 2; margin-bottom: 0.5rem; }
 
     .cart-drawer    { width: 100vw; }
     .contact-form   { padding: 1.25rem; }
@@ -4871,8 +4876,10 @@ img, video {
 
 /* Live storefront treatment for the VREMP landing view */
 :root {
-    --vremp-cyan: #d8ff3e;
-    --vremp-black: #090b0c;
+    --vremp-cyan: #00d9ff;
+    --vremp-cyan-glow: rgba(0, 217, 255, 0.45);
+    --vremp-blue: #0066ff;
+    --vremp-black: #07131f;
 }
 
 body {
@@ -4880,16 +4887,17 @@ body {
 }
 
 .site-header {
-    background: rgba(9, 11, 12, 0.92);
-    border-bottom-color: rgba(255, 255, 255, 0.12);
+    background: rgba(7, 19, 31, 0.88);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 .main-nav-pill {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .hero-section {
-    background: radial-gradient(circle at 78% 42%, rgba(216, 255, 62, 0.08), transparent 28%), var(--vremp-black);
+    background: radial-gradient(circle at 78% 42%, rgba(0, 217, 255, 0.12), transparent 32%), var(--vremp-black);
 }
 
 .hero-title {
@@ -4900,6 +4908,7 @@ body {
 .hero-accent,
 .hero-accent .split-inner {
     color: var(--vremp-cyan);
+    text-shadow: 0 0 30px rgba(0, 217, 255, 0.35);
 }
 
 .hero-desc strong {
@@ -4919,17 +4928,17 @@ body {
     position: absolute;
     inset: 4% 0 4% 8%;
     overflow: hidden;
-    border: 1px solid rgba(216, 255, 62, 0.32);
-    border-radius: 2px;
-    background: #171a19;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(0, 217, 255, 0.4);
+    border-radius: 8px;
+    background: #0b1828;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 35px rgba(0, 217, 255, 0.18);
 }
 
 .hero-photo-frame::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(216, 255, 62, 0.16), transparent 42%, rgba(0, 0, 0, 0.45));
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.18), transparent 45%, rgba(0, 0, 0, 0.5));
     pointer-events: none;
 }
 
@@ -4937,7 +4946,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: saturate(0.85) contrast(1.08);
+    filter: saturate(0.95) contrast(1.05);
 }
 
 .hero-customer-badge {
@@ -4947,17 +4956,20 @@ body {
     bottom: 1.25rem;
     display: flex;
     flex-direction: column;
-    padding: 0.9rem 1.1rem;
-    background: var(--vremp-cyan);
-    color: #10140b;
+    padding: 0.9rem 1.15rem;
+    background: linear-gradient(135deg, #00d9ff, #0088ff);
+    color: #04101d;
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 217, 255, 0.35);
 }
 
 .hero-customer-badge strong {
     font-size: 1.45rem;
     letter-spacing: 0;
+    font-weight: 800;
 }
 
 .hero-customer-badge span {
@@ -4965,15 +4977,20 @@ body {
 }
 
 .btn-primary {
-    background: var(--vremp-cyan);
-    border-color: var(--vremp-cyan);
-    color: #10140b;
+    background: linear-gradient(135deg, #00d9ff, #0066ff);
+    border: 1px solid rgba(0, 217, 255, 0.6);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 217, 255, 0.35);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
-    background: #efffa4;
-    border-color: #efffa4;
+    background: linear-gradient(135deg, #38bdf8, #0052cc);
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 8px 30px rgba(0, 217, 255, 0.55);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {

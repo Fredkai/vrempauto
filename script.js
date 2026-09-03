@@ -65,9 +65,139 @@ function disableFocusTrap() {
 /* ============================================================
    PRODUCT DATA & SEARCH
 */
-let CATALOG = { products: [], rentals: [] };
-let PRODUCTS = [];
-let RENTALS = [];
+const FALLBACK_CATALOG = {
+    products: [
+        {
+            id: "prod-001",
+            title: "Caterpillar 320 Undercarriage Kit",
+            category: "Excavator Parts",
+            price: "$2,450",
+            oldPrice: null,
+            img: "assets/car-1.png",
+            tag: "Popular",
+            sku: "CAT-320-UC-01",
+            stock: "In Stock",
+            desc: "Complete undercarriage kit for Caterpillar 320 excavators. OEM-grade components including track links, rollers, idlers, and sprockets engineered for maximum durability in heavy-duty applications.",
+            features: ["OEM Grade", "Fast Delivery", "Complete Kit", "12-Month Warranty"],
+            make: "Caterpillar",
+            model: "320 Excavator",
+            year: "2010 - 2025",
+            keywords: ["undercarriage", "track", "roller", "idler", "sprocket", "cat"]
+        },
+        {
+            id: "prod-002",
+            title: "Hydraulic Pump Assembly",
+            category: "Backhoe Loader",
+            price: "$1,890",
+            oldPrice: null,
+            img: "assets/car-2.png",
+            tag: null,
+            sku: "HYD-PUMP-BHL-02",
+            stock: "In Stock",
+            desc: "Heavy-duty hydraulic pump assembly for backhoe loaders. Genuine parts engineered for consistent pressure output and long service life in demanding construction environments.",
+            features: ["Genuine Parts", "1-Year Warranty", "High Pressure Rated", "OEM Spec"],
+            make: "John Deere",
+            model: "A40G Hauler",
+            year: "2015 - 2025",
+            keywords: ["hydraulic", "pump", "assembly", "backhoe", "loader", "pressure"]
+        },
+        {
+            id: "prod-003",
+            title: "Liebherr Heavy Duty Cable",
+            category: "Crane Components",
+            price: "$3,200",
+            oldPrice: null,
+            img: "assets/car-3.png",
+            tag: "New",
+            sku: "LIE-CBL-CRANE-03",
+            stock: "In Stock",
+            desc: "High-tensile heavy duty wire rope cable for Liebherr crane systems. Fully tested to OEM specifications with certifications for safe working load and fatigue resistance.",
+            features: ["High Tensile", "Tested & Certified", "OEM Spec", "Fast Delivery"],
+            make: "Hitachi",
+            model: "320 Excavator",
+            year: "2015 - 2025",
+            keywords: ["cable", "wire rope", "crane", "liebherr", "tensile", "lifting"]
+        },
+        {
+            id: "prod-004",
+            title: "Komatsu Engine Filter Set",
+            category: "Wheel Loader",
+            price: "$780",
+            oldPrice: null,
+            img: "assets/car-5.png",
+            tag: null,
+            sku: "KOM-FILT-WL-04",
+            stock: "In Stock",
+            desc: "Complete engine filter set for Komatsu wheel loaders. Includes oil filter, air filter, fuel filter, and hydraulic filter. OEM specification for optimal engine protection and extended service intervals.",
+            features: ["OEM Spec", "Complete Kit", "Extended Service Life", "Fast Delivery"],
+            make: "Komatsu",
+            model: "PC200 Excavator",
+            year: "2010 - 2025",
+            keywords: ["filter", "engine", "oil", "air", "fuel", "komatsu", "wheel loader"]
+        },
+        {
+            id: "prod-005",
+            title: "Actros Ventilated Brake Disc",
+            category: "Braking Systems",
+            price: "$450",
+            oldPrice: "$620",
+            img: "assets/part-1.png",
+            tag: "Sale",
+            sku: "ACT-BRAKE-DISC-05",
+            stock: "In Stock",
+            desc: "Premium cast iron ventilated brake disc for Mercedes-Benz Actros trucks. Designed for heavy-duty braking performance with superior heat dissipation and fade resistance under load.",
+            features: ["Cast Iron", "Premium Quality", "Ventilated Design", "OEM Fit"],
+            make: "Mercedes Actros",
+            model: "Actros 1845",
+            year: "2015 - 2025",
+            keywords: ["brake", "disc", "rotor", "actros", "mercedes", "braking", "ventilated"]
+        },
+        {
+            id: "prod-006",
+            title: "Howo Heavy Clutch Plate Kit",
+            category: "Transmission",
+            price: "$1,120",
+            oldPrice: null,
+            img: "assets/car-3.png",
+            tag: null,
+            sku: "HOW-CLUTCH-KIT-06",
+            stock: "In Stock",
+            desc: "Heavy-duty clutch plate kit for Sinotruk Howo trucks. Steel spring design engineered for high torque applications with extended wear life. Complete kit includes pressure plate, disc, and release bearing.",
+            features: ["High Torque", "Steel Springs", "Complete Kit", "12-Month Warranty"],
+            make: "Volvo",
+            model: "A40G Hauler",
+            year: "2010 - 2025",
+            keywords: ["clutch", "plate", "transmission", "howo", "sinotruk", "pressure plate", "bearing"]
+        }
+    ],
+    rentals: [
+        {
+            id: "rental-001",
+            title: "Hydraulic Excavator",
+            img: "assets/rental-excavator.svg",
+            meta: "Available in Kigali • Daily / Weekly rates • Operator optional",
+            rates: { daily: "USD 180", weekly: "USD 900" }
+        },
+        {
+            id: "rental-002",
+            title: "Wheel Loader",
+            img: "assets/rental-loader.svg",
+            meta: "Local availability • Heavy-duty buckets • Quick dispatch",
+            rates: { daily: "USD 140", weekly: "USD 700" }
+        },
+        {
+            id: "rental-003",
+            title: "Portable Generator",
+            img: "assets/rental-generator.svg",
+            meta: "Silent series • Fuel delivery • Installation support",
+            rates: { daily: "USD 60", weekly: "USD 300" }
+        }
+    ]
+};
+
+let CATALOG = FALLBACK_CATALOG;
+let PRODUCTS = FALLBACK_CATALOG.products;
+let RENTALS = FALLBACK_CATALOG.rentals;
 const productGrid = qs('.shop-grid');
 const searchResultsLabel = qs('#search-results');
 
@@ -75,13 +205,14 @@ const loadCatalog = async () => {
     try {
         const response = await fetch('catalog.json');
         if (!response.ok) throw new Error('Network response was not ok');
-        CATALOG = await response.json();
-        PRODUCTS = CATALOG.products || [];
-        RENTALS = CATALOG.rentals || [];
+        const data = await response.json();
+        if (data && data.products && data.products.length > 0) {
+            CATALOG = data;
+            PRODUCTS = CATALOG.products;
+            RENTALS = CATALOG.rentals || [];
+        }
     } catch (error) {
-        console.error('Failed to load catalog.json:', error);
-        PRODUCTS = [];
-        RENTALS = [];
+        console.warn('Using local fallback catalog data:', error.message);
     }
 };
 
@@ -90,17 +221,38 @@ const loadProducts = loadCatalog;
 const normaliseText = (value) => String(value || '').toLowerCase();
 const getSelectValue = (selector, fallback = '') => qs(selector)?.dataset.value || fallback;
 
+const matchesCategory = (product, category) => {
+    if (!category || category === 'All Categories' || category === 'All Parts') return true;
+    const cat = category.toLowerCase();
+    const pCat = (product.category || '').toLowerCase();
+    const pTitle = (product.title || '').toLowerCase();
+    const pDesc = (product.desc || '').toLowerCase();
+    const pKeywords = (product.keywords || []).map(k => k.toLowerCase());
+
+    if (cat.includes('engine') && (pCat.includes('engine') || pTitle.includes('engine') || pKeywords.includes('engine') || pKeywords.includes('filter') || pDesc.includes('engine'))) return true;
+    if (cat.includes('hydraulic') && (pCat.includes('hydraulic') || pTitle.includes('hydraulic') || pKeywords.includes('hydraulic') || pKeywords.includes('pump') || pDesc.includes('hydraulic'))) return true;
+    if (cat.includes('undercarriage') && (pCat.includes('undercarriage') || pTitle.includes('undercarriage') || pKeywords.includes('undercarriage') || pKeywords.includes('track'))) return true;
+    if (cat.includes('brak') && (pCat.includes('brak') || pTitle.includes('brake') || pKeywords.includes('brake'))) return true;
+    if (cat.includes('transmiss') && (pCat.includes('transmiss') || pTitle.includes('clutch') || pKeywords.includes('transmission'))) return true;
+    if (cat.includes('crane') && (pCat.includes('crane') || pKeywords.includes('crane') || pKeywords.includes('cable'))) return true;
+    if (cat.includes('backhoe') && (pCat.includes('backhoe') || pKeywords.includes('backhoe'))) return true;
+    if (cat.includes('loader') && (pCat.includes('loader') || pKeywords.includes('loader'))) return true;
+    if (cat.includes('excavator') && (pCat.includes('excavator') || pKeywords.includes('excavator'))) return true;
+
+    return pCat.includes(cat) || pTitle.includes(cat) || pKeywords.some(k => k.includes(cat) || cat.includes(k));
+};
+
 const productMatchesSearch = (product, query, category) => {
     const text = [product.title, product.category, product.desc, product.sku, product.make, product.model, product.year, ...(product.keywords || [])].join(' ').toLowerCase();
     const queryMatch = !query || text.includes(query.toLowerCase());
-    const categoryMatch = !category || category === 'All Categories' || product.category.toLowerCase().includes(category.toLowerCase());
+    const categoryMatch = matchesCategory(product, category);
     return queryMatch && categoryMatch;
 };
 
 const filterProducts = ({ query = '', category = 'All Categories', make = '', model = '', year = '' }) => {
     let results = PRODUCTS.slice();
-    if (category && category !== 'All Categories') {
-        results = results.filter(product => product.category.toLowerCase().includes(category.toLowerCase()));
+    if (category && category !== 'All Categories' && category !== 'All Parts') {
+        results = results.filter(product => matchesCategory(product, category));
     }
     if (make && make !== 'Select Make') {
         results = results.filter(product => product.make.toLowerCase().includes(make.toLowerCase()));
@@ -121,11 +273,12 @@ const buildProductCard = (product, index) => {
     const priceLabel = product.oldPrice
         ? `${product.price} <span class="old-price">${product.oldPrice}</span>`
         : product.price;
-    const featureSpans = product.features.map(feature => `<span><i class="fa-solid fa-check"></i> ${feature}</span>`).join('');
+    const featureSpans = (product.features || []).map(feature => `<span><i class="fa-solid fa-check"></i> ${feature}</span>`).join('');
     return `
         <div class="shop-card fade-in stagger-${(index % 6) + 1}" data-product-id="${product.id}" data-sku="${product.sku}" data-stock="${product.stock}" data-desc="${product.desc}">
             <div class="shop-card-img">
                 <img src="${product.img}" alt="${product.title}">
+                ${product.tag ? `<span class="product-tag">${product.tag}</span>` : ''}
             </div>
             <div class="shop-card-body">
                 <div class="product-category">${product.category}</div>
