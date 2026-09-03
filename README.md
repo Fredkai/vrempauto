@@ -1,4 +1,4 @@
-# 🚛 VREMP | Truck Spare Parts & Construction Equipment Rental
+VREMP | Truck Spare Parts & Construction Equipment Rental
 
 **VREMP** — A premium web platform for selling heavy truck spare parts (Actros, Scania, DAF, Howo) and renting construction equipment (excavators, cranes, loaders).
 
@@ -63,7 +63,7 @@ sudo certbot --nginx -d vrempauto.com -d www.vrempauto.com
 
 ---
 
-## ⚡ How to Make Fast Updates (Git Workflow)
+How to Make Fast Updates (Git Workflow)
 
 Since outbound SSH port 22 is blocked on your local network, the fastest way to edit and deploy updates (like logos or content) is using **GitHub**.
 
@@ -210,8 +210,7 @@ This project is intentionally split into two parts:
 - Because the frontend currently uses relative API paths like `/api/checkout-session`, the simplest local test is to make backend requests from the same browser origin or adjust the backend URL in `script.js`.
 
 ---
-
-## 🧠 Important notes for local testing
+Important notes for local testing
 
 ### If frontend is on `8080` and backend is on `3000`
 Your browser will make the checkout request from `8080`, but the backend is on `3000`. This is a cross-origin setup and may require updating the API URL in `script.js` or using a proxy.
@@ -231,18 +230,13 @@ await fetch(`${apiBase}/api/paypal-order`, ...)
 ```
 
 ---
-
-## ✅ Why this structure was chosen
+Why this structure was chosen
 
 - Keeps the website fast and static for normal browsing.
 - Keeps payment secrets and logic out of browser code.
 - Makes product catalog edits simpler by using `products.json`.
-- Makes it easier to add a real backend later without changing the whole frontend.
+- Makes it easier to add a real backend later without changing the whole things
 
-If you want, I can also add a small “Developer Quickstart” section with exact commands and what each terminal should show. 
-### Order persistence
-- `orders.json` stores captured Stripe/PayPal order records.
-- The file is excluded from Git via `.gitignore`.
 
 ### Nginx proxy configuration
 The site already includes an API proxy in `nginx.conf`:
