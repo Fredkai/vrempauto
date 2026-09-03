@@ -11,6 +11,7 @@ vrempauto/
 ├── index.html      # Main website
 ├── style.css       # Dark luxury design system
 ├── script.js       # Cart, checkout, deals timers, support forms
+├── catalog.json    # Consolidated product & rental data catalog dictionary
 ├── nginx.conf      # Production Nginx config (Google Cloud VM)
 ├── assets/         # Product images
 │   ├── car-1.png

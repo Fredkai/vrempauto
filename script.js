@@ -65,20 +65,27 @@ function disableFocusTrap() {
 /* ============================================================
    PRODUCT DATA & SEARCH
 */
+let CATALOG = { products: [], rentals: [] };
 let PRODUCTS = [];
+let RENTALS = [];
 const productGrid = qs('.shop-grid');
 const searchResultsLabel = qs('#search-results');
 
-const loadProducts = async () => {
+const loadCatalog = async () => {
     try {
-        const response = await fetch('products.json');
+        const response = await fetch('catalog.json');
         if (!response.ok) throw new Error('Network response was not ok');
-        PRODUCTS = await response.json();
+        CATALOG = await response.json();
+        PRODUCTS = CATALOG.products || [];
+        RENTALS = CATALOG.rentals || [];
     } catch (error) {
-        console.error('Failed to load products.json:', error);
+        console.error('Failed to load catalog.json:', error);
         PRODUCTS = [];
+        RENTALS = [];
     }
 };
+
+const loadProducts = loadCatalog;
 
 const normaliseText = (value) => String(value || '').toLowerCase();
 const getSelectValue = (selector, fallback = '') => qs(selector)?.dataset.value || fallback;
@@ -917,35 +924,24 @@ document.addEventListener('click', e => {
    INIT
    ============================================================ */
 const initApp = async () => {
-    await loadProducts();
+    await loadCatalog();
     renderCart();
     renderProducts(PRODUCTS);
+    renderRentals(RENTALS);
     initSearch();
     initProductListEvents();
-    await loadRentals();
     initRentalEvents();
     initCustomSelects();
 };
 
 initApp();
-renderProducts(PRODUCTS);
 
 /* ============================================================
    RENTALS — dynamic rental grid
   ============================================================ */
-let RENTALS = [];
 const rentalGrid = qs('#rental-grid');
 
-const loadRentals = async () => {
-    try {
-        const res = await fetch('rentals.json');
-        if (!res.ok) throw new Error('Failed to load rentals.json');
-        RENTALS = await res.json();
-        renderRentals(RENTALS);
-    } catch (e) {
-        console.error(e);
-    }
-};
+const loadRentals = loadCatalog;
 
 const buildRentalCard = (rental) => `
     <article class="rental-card" data-id="${rental.id}">
