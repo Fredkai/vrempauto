@@ -26,7 +26,7 @@ vrempauto/
 
 ---
 
-## 🌐 Google Cloud VM Details
+Google Cloud VM Details
 *   **Instance Name:** `vremp-server`
 *   **Zone:** `us-east1-b` (South Carolina)
 *   **Machine Type:** `e2-micro` (Google Cloud Free Tier)
@@ -249,8 +249,9 @@ location /api/ {
     proxy_set_header X-Forwarded-Proto $scheme;
 }
 ```
-
-### Notes
+Testung :
+https://vrempauto.netlify.app/
+Notes
 - Stripe uses `checkout-session` for card payments.
 - PayPal uses `paypal-order` for browser checkout approval.
 - Frontend buttons are wired in `script.js` and still preserve the existing quote request fallback.
