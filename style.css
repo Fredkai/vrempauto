@@ -3441,6 +3441,35 @@ body::before {
     color: var(--t3);
     line-height: 1.7;
 }
+.enterprise-card {
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.enterprise-card:hover {
+    border-color: var(--blue-border);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(78, 163, 255, 0.12);
+}
+
+.enterprise-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.28rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--blue);
+    background: rgba(78, 163, 255, 0.1);
+    border: 1px solid rgba(78, 163, 255, 0.25);
+}
+
+.enterprise-tag.emergency {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+}
 
 .rental-section {
     padding: 5rem 0 6rem;
@@ -4810,6 +4839,35 @@ a.contact-info-item:hover .contact-info-icon {
     color: var(--t3);
     line-height: 1.7;
 }
+.enterprise-card {
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.enterprise-card:hover {
+    border-color: var(--blue-border);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(78, 163, 255, 0.12);
+}
+
+.enterprise-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.28rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--blue);
+    background: rgba(78, 163, 255, 0.1);
+    border: 1px solid rgba(78, 163, 255, 0.25);
+}
+
+.enterprise-tag.emergency {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+}
 
 /* ============================================================
    RESPONSIVE UTILITIES
@@ -5320,3 +5378,609 @@ select {
         min-height: 48px;
     }
 }
+
+/* ============================================================
+   EMERGENCY MACHINE DOWN 🚨 TICKER BAR
+   ============================================================ */
+.emergency-top-ticker {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.16), rgba(7, 19, 31, 0.95) 30%, rgba(7, 19, 31, 0.95) 70%, rgba(239, 68, 68, 0.16));
+    border-bottom: 1px solid rgba(239, 68, 68, 0.35);
+    padding: 0.65rem 0;
+    position: relative;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+}
+
+.emergency-ticker-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.emergency-ticker-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.pulse-red-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+    box-shadow: 0 0 10px #ef4444;
+    animation: blinkEmergency 1s infinite alternate;
+}
+
+@keyframes blinkEmergency {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.3; transform: scale(0.7); }
+}
+
+.emergency-ticker-text {
+    font-size: 0.88rem;
+    color: var(--t2);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.emergency-ticker-text strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.btn-emergency-pulse {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.btn-emergency-pulse:hover {
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.75);
+    transform: translateY(-1px);
+    color: #fff;
+}
+
+/* Nav Pitch Pill */
+.pitch-pill {
+    background: rgba(0, 217, 255, 0.12) !important;
+    border: 1px solid rgba(0, 217, 255, 0.4) !important;
+    color: var(--vremp-cyan) !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    padding: 0.3rem 0.85rem !important;
+}
+
+.pitch-pill:hover {
+    background: var(--vremp-cyan) !important;
+    color: #030712 !important;
+    box-shadow: 0 0 16px var(--vremp-cyan-glow) !important;
+}
+
+/* ============================================================
+   5-PILLAR ECOSYSTEM SECTION
+   ============================================================ */
+.ecosystem-section {
+    padding: 6rem 0;
+    position: relative;
+    z-index: 2;
+}
+
+.ecosystem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+    margin-top: 3rem;
+}
+
+.ecosystem-card {
+    background: rgba(11, 27, 45, 0.6);
+    border: 1px solid rgba(0, 217, 255, 0.18);
+    border-radius: 18px;
+    padding: 2.25rem 2rem;
+    backdrop-filter: blur(16px);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.ecosystem-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--vremp-cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ecosystem-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--vremp-cyan);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 217, 255, 0.15);
+    background: rgba(16, 38, 59, 0.7);
+}
+
+.ecosystem-card:hover::after {
+    opacity: 1;
+}
+
+.ecosystem-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(0, 102, 255, 0.25));
+    border: 1px solid rgba(0, 217, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--vremp-cyan);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+}
+
+.ecosystem-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--vremp-cyan);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.ecosystem-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.85rem;
+    line-height: 1.3;
+}
+
+.ecosystem-desc {
+    font-size: 0.92rem;
+    color: var(--t2);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+}
+
+.ecosystem-stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+}
+
+/* ============================================================
+   AI CAMERA PARTS SCANNER SIMULATOR
+   ============================================================ */
+.ai-scanner-section {
+    padding: 5rem 0;
+    position: relative;
+    z-index: 2;
+}
+
+.ai-scanner-wrapper {
+    background: linear-gradient(135deg, rgba(16, 38, 59, 0.75), rgba(7, 19, 31, 0.92));
+    border: 1px solid rgba(0, 217, 255, 0.28);
+    border-radius: 24px;
+    padding: 3.5rem 3rem;
+    backdrop-filter: blur(24px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 217, 255, 0.1);
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem;
+    align-items: center;
+}
+
+.ai-scanner-info h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.ai-scanner-info p {
+    font-size: 1.02rem;
+    color: var(--t2);
+    line-height: 1.7;
+    margin-bottom: 1.75rem;
+}
+
+.scanner-viewfinder {
+    background: #030712;
+    border: 2px solid rgba(0, 217, 255, 0.5);
+    border-radius: 18px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: inset 0 0 40px rgba(0, 217, 255, 0.15);
+}
+
+.scan-laser {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d9ff, #ffffff, #00d9ff, transparent);
+    box-shadow: 0 0 15px #00d9ff;
+    animation: scanAnim 3s ease-in-out infinite alternate;
+}
+
+@keyframes scanAnim {
+    0% { top: 5%; }
+    100% { top: 92%; }
+}
+
+.scanner-camera-icon {
+    font-size: 3.2rem;
+    color: var(--vremp-cyan);
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 16px var(--vremp-cyan-glow));
+}
+
+.scanner-sample-result {
+    margin-top: 1.25rem;
+    width: 100%;
+    background: rgba(0, 217, 255, 0.08);
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: #fff;
+    text-align: left;
+}
+
+/* ============================================================
+   VREMP PRO SUBSCRIPTIONS SECTION
+   ============================================================ */
+.subscriptions-section {
+    padding: 6rem 0;
+    position: relative;
+    z-index: 2;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3.5rem;
+}
+
+.pricing-card {
+    background: rgba(11, 27, 45, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2.75rem 2.25rem;
+    backdrop-filter: blur(20px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.35s ease;
+}
+
+.pricing-card.featured {
+    background: rgba(16, 38, 59, 0.85);
+    border-color: var(--vremp-cyan);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 217, 255, 0.2);
+    transform: scale(1.03);
+}
+
+.pricing-card:hover:not(.featured) {
+    border-color: rgba(0, 217, 255, 0.4);
+    transform: translateY(-5px);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: -13px;
+    right: 24px;
+    background: linear-gradient(135deg, var(--vremp-cyan), var(--blue));
+    color: #030712;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.pricing-header h3 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.4rem;
+}
+
+.pricing-desc {
+    font-size: 0.88rem;
+    color: var(--t2);
+    margin-bottom: 1.5rem;
+}
+
+.pricing-cost {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pricing-cost span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--t3);
+}
+
+.pricing-features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 2.25rem;
+    flex: 1;
+}
+
+.pricing-features-list li {
+    font-size: 0.92rem;
+    color: var(--t2);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    line-height: 1.5;
+}
+
+.pricing-features-list li i {
+    color: var(--vremp-cyan);
+    margin-top: 0.25rem;
+}
+
+/* Presentation Deck Callout Banner */
+.deck-cta-banner {
+    margin-top: 4.5rem;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(0, 102, 255, 0.25));
+    border: 1px solid var(--vremp-cyan);
+    border-radius: 20px;
+    padding: 2.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    box-shadow: 0 15px 45px rgba(0, 217, 255, 0.15);
+}
+
+.deck-cta-banner h4 {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.4rem;
+}
+
+.deck-cta-banner p {
+    font-size: 0.95rem;
+    color: var(--t2);
+}
+
+@media (max-width: 960px) {
+    .ecosystem-grid, .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+    .pricing-card.featured {
+        transform: none;
+    }
+    .ai-scanner-wrapper {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* VREMP OS Section */
+.vremos-section {
+    padding: 7rem 0 5rem;
+    background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg) 100%);
+}
+
+/* 5 Pillars */
+.vremos-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    margin: 3rem 0 4rem;
+}
+
+.vremos-pillar {
+    background: var(--bg-raised);
+    border: 1px solid var(--line-md);
+    border-radius: 1.25rem;
+    padding: 2rem 1.5rem;
+    position: relative;
+    transition: border-color 0.25s, transform 0.25s;
+}
+
+.vremos-pillar::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--vremp-cyan, #00d9ff);
+    opacity: 0.5;
+}
+
+.vremos-pillar:hover {
+    border-color: var(--vremp-cyan, #00d9ff);
+    transform: translateY(-4px);
+}
+
+.vremos-pillar-icon {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 0.75rem;
+    background: rgba(0, 217, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--vremp-cyan, #00d9ff);
+}
+
+.vremos-pillar h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--t1);
+    margin-bottom: 0.6rem;
+}
+
+.vremos-pillar p {
+    font-size: 0.82rem;
+    color: var(--t3);
+    line-height: 1.6;
+}
+
+/* Revenue Model */
+.vremos-revenue {
+    background: var(--bg-raised);
+    border: 1px solid var(--line-md);
+    border-radius: 1.5rem;
+    padding: 2.5rem 2.5rem 2rem;
+    margin-bottom: 3.5rem;
+}
+
+.vremos-revenue-header {
+    margin-bottom: 1.8rem;
+}
+
+.vremos-revenue-header h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--t1);
+    margin-top: 0.4rem;
+}
+
+    white-space: nowrap;
+}
+
+.vremos-hub.active .vremos-hub-city {
+    color: var(--vremp-cyan, #00d9ff);
+}
+
+.vremos-hub-line {
+    flex: 1;
+    height: 2px;
+    background: var(--line-md);
+    margin-top: 6px;
+    min-width: 40px;
+    align-self: flex-start;
+}
+
+/* Mission Statement */
+.vremos-mission {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.06) 0%, rgba(0, 217, 255, 0.02) 100%);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.vremos-mission-quote {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--t1);
+    line-height: 1.4;
+    max-width: 700px;
+}
+
+.vremos-mission-quote .fa-quote-left,
+.vremos-mission-quote .fa-quote-right {
+    color: var(--vremp-cyan, #00d9ff);
+    font-size: 0.9em;
+    opacity: 0.6;
+}
+
+/* Mobile responsive */
+@media (max-width: 1100px) {
+    .vremos-pillars-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .vremos-revenue-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .vremos-pillars-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .vremos-revenue-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .vremos-pillars-grid {
+        grid-template-columns: 1fr;
+    }
+    .vremos-revenue-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .vremos-revenue {
+        padding: 1.5rem;
+    }
+}
+

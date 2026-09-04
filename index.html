@@ -224,6 +224,25 @@
 
     <main>
 
+        <!-- EMERGENCY MACHINE DOWN RAPID HOTLINE BANNER -->
+        <div class="emergency-top-ticker" id="emergency">
+            <div class="container emergency-ticker-content">
+                <div class="emergency-ticker-badge">
+                    <span class="pulse-red-dot"></span>
+                    <i class="fa-solid fa-triangle-exclamation"></i> EMERGENCY 24/7
+                </div>
+                <div class="emergency-ticker-text">
+                    <strong>MACHINE DOWN? VREMP FINDS THE PART.</strong>
+                    <span>Air-freight & express 30–120 min delivery in Kigali. Avoid $1,000–$5,000/day idle losses.</span>
+                </div>
+                <div class="emergency-ticker-actions">
+                    <a href="https://wa.me/48881754311?text=EMERGENCY%20MACHINE%20DOWN:%20I%20need%20urgent%20part%20sourcing" target="_blank" rel="noopener noreferrer" class="btn btn-emergency-pulse">
+                        <i class="fa-brands fa-whatsapp"></i> Dispatch Hotline
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- HERO SECTION -->
         <section class="hero-section" id="home">
             <div class="hero-visual" id="hero-visual">
@@ -298,27 +317,27 @@
                 <div class="enterprise-grid">
                     <article class="enterprise-card" data-interaction-target="#search" tabindex="0" role="button">
                         <div class="enterprise-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                        <h3>Local Part Search</h3>
-                        <p>Find parts by OEM number, VIN, barcode, machine model, or engine code with intelligent
-                            matching that suits Rwanda-based operations.</p>
+                        <h3>Parts on Demand</h3>
+                        <p>Send us a VIN or part number — we source it globally and deliver. No waiting weeks. Access to 100,000+ parts without us holding stock.</p>
+                        <span class="enterprise-tag">Zero inventory model</span>
                     </article>
-                    <article class="enterprise-card" data-interaction-target="#platform" tabindex="0" role="button">
-                        <div class="enterprise-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3>Verified Rwanda Supply</h3>
-                        <p>Source warranty-backed components and OEM-certified replacements through our Kigali
-                            procurement network.</p>
+                    <article class="enterprise-card" data-interaction-target="#emergency" tabindex="0" role="button">
+                        <div class="enterprise-icon"><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i></div>
+                        <h3>Emergency Machine Down</h3>
+                        <p>Machine stopped? We dispatch the part fast — air-freight available. Every idle day costs $1,000–$5,000. We move faster than anyone.</p>
+                        <span class="enterprise-tag emergency">24/7 Hotline</span>
                     </article>
-                    <article class="enterprise-card" data-interaction-target="#search" tabindex="0" role="button">
-                        <div class="enterprise-icon"><i class="fa-solid fa-chart-line"></i></div>
-                        <h3>Regional Pricing</h3>
-                        <p>Access pricing designed for workshops, fleet operators, and construction teams in Rwanda and
-                            nearby markets, with faster quotes for repeat orders.</p>
+                    <article class="enterprise-card" data-interaction-target="#subscriptions" tabindex="0" role="button">
+                        <div class="enterprise-icon"><i class="fa-solid fa-truck-medical"></i></div>
+                        <h3>Fleet Care (Monthly)</h3>
+                        <p>We manage your fleet's parts, maintenance, and emergency response on a monthly plan. Built for companies running 10+ machines.</p>
+                        <span class="enterprise-tag">From $500/month</span>
                     </article>
-                    <article class="enterprise-card" data-interaction-target="#contact" tabindex="0" role="button">
-                        <div class="enterprise-icon"><i class="fa-solid fa-globe"></i></div>
-                        <h3>Regional Delivery</h3>
-                        <p>Move parts across Rwanda and neighbouring markets with fast dispatch, customs coordination,
-                            and logistics support from Kigali.</p>
+                    <article class="enterprise-card" data-interaction-target="#rental" tabindex="0" role="button">
+                        <div class="enterprise-icon"><i class="fa-solid fa-handshake"></i></div>
+                        <h3>Rental &amp; Import</h3>
+                        <p>Rent or import excavators, loaders, cranes, and generators. We also handle used equipment resale and equipment financing across East Africa.</p>
+                        <span class="enterprise-tag">Flexible terms</span>
                     </article>
                 </div>
             </div>
@@ -328,10 +347,9 @@
         <section class="rental-section" id="rental">
             <div class="container">
                 <div class="section-header center">
-                    <div class="section-label">RENTAL & EQUIPMENT</div>
+                    <div class="section-label">RENTAL &amp; EQUIPMENT</div>
                     <h2 class="section-title">On-demand rental fleet for construction and heavy equipment</h2>
-                    <p class="section-desc">Rent excavators, loaders, generators and support equipment from our global
-                        rental network. Flexible terms, trained operators, and rapid delivery and logistics support.</p>
+                    <p class="section-desc">Rent excavators, loaders, generators and support equipment. We also source used equipment and handle imports from Europe, China, and Dubai — flexible terms, trained operators, rapid delivery.</p>
                 </div>
 
                 <div class="rental-grid" id="rental-grid" aria-live="polite">
@@ -486,6 +504,115 @@
             </div>
         </section>
 
+        <!-- AI CAMERA SCANNER SIMULATOR SECTION -->
+        <section class="ai-scanner-section" id="ai-scanner">
+            <div class="container">
+                <div class="ai-scanner-wrapper fade-in">
+                    <div class="ai-scanner-info">
+                        <div class="section-label"><i class="fa-solid fa-microchip"></i> NEXT-GEN AI DIAGNOSTICS</div>
+                        <h2>Photograph a Broken Part.<br>AI Identifies It Instantly.</h2>
+                        <p>No part number stamped on the metal? Simply snap a photo with your mobile camera or upload an image. Our computer vision neural network matches the mounting geometry, bolt pattern, and casting marks to the exact OEM replacement.</p>
+                        
+                        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                            <button type="button" class="btn btn-primary btn-glow" id="btn-demo-scanner">
+                                <i class="fa-solid fa-camera"></i> Try Scanner Simulator
+                            </button>
+                            <a href="#contact" class="btn btn-outline">
+                                <i class="fa-solid fa-file-invoice"></i> Send VIN Manual Request
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="scanner-viewfinder">
+                        <div class="scan-laser"></div>
+                        <i class="fa-solid fa-camera-viewfinder scanner-camera-icon"></i>
+                        <p style="color:var(--vremp-cyan);font-family:monospace;font-size:0.88rem;letter-spacing:0.05em;" id="scanner-status-text">
+                            [OPTICAL HUD ACTIVE // READY TO SCAN]
+                        </p>
+                        <div class="scanner-sample-result" id="scanner-result-box">
+                            <div><strong>MATCH:</strong> Mercedes Actros Ventilated Disc</div>
+                            <div><strong>OEM REF:</strong> A 942 421 09 12</div>
+                            <div><strong>CONFIDENCE:</strong> 99.4% · In Stock Kigali</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VREMP PRO WORKSHOP SUBSCRIPTION TIERS SECTION -->
+        <section class="subscriptions-section" id="subscriptions">
+            <div class="container">
+                <div class="section-header center fade-in">
+                    <div class="section-label">MEMBERSHIPS &amp; PACKAGES</div>
+                    <h2 class="section-title">VREMP PRO for Workshops &amp; Fleets</h2>
+                    <p class="section-desc">Monthly plans covering parts pricing, emergency response, and full fleet upkeep. Recurring support so your machines never stop. Used by workshops, logistics fleets, and mining contractors.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Tier 1 -->
+                    <div class="pricing-card fade-in stagger-1">
+                        <div class="pricing-header">
+                            <h3>VREMP PRO Starter</h3>
+                            <p class="pricing-desc">For independent repair garages and local maintenance workshops.</p>
+                        </div>
+                        <div class="pricing-cost">$49 <span>/ month</span></div>
+                        <ul class="pricing-features-list">
+                            <li><i class="fa-solid fa-check"></i> Wholesale tiered parts pricing (10% off retail)</li>
+                            <li><i class="fa-solid fa-check"></i> Priority WhatsApp quoting desk</li>
+                            <li><i class="fa-solid fa-check"></i> Express local delivery discounts</li>
+                            <li><i class="fa-solid fa-check"></i> Access to OEM cross-reference database</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-outline btn-full">Choose Starter</a>
+                    </div>
+
+                    <!-- Tier 2 -->
+                    <div class="pricing-card featured fade-in stagger-2">
+                        <div class="pricing-badge">MOST POPULAR</div>
+                        <div class="pricing-header">
+                            <h3>VREMP PRO Workshop</h3>
+                            <p class="pricing-desc">For commercial workshops servicing 15+ heavy trucks and machines.</p>
+                        </div>
+                        <div class="pricing-cost">$199 <span>/ month</span></div>
+                        <ul class="pricing-features-list">
+                            <li><i class="fa-solid fa-check"></i> Maximum wholesale discount (up to 25% off)</li>
+                            <li><i class="fa-solid fa-check"></i> Net-30 enterprise payment terms</li>
+                            <li><i class="fa-solid fa-check"></i> Full exploded parts schematics & torque manuals</li>
+                            <li><i class="fa-solid fa-check"></i> Daily scheduled delivery straight to repair bench</li>
+                            <li><i class="fa-solid fa-check"></i> Dedicated sourcing specialist on speed dial</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary btn-full btn-glow">Join Pro Workshop</a>
+                    </div>
+
+                    <!-- Tier 3 -->
+                    <div class="pricing-card fade-in stagger-3">
+                        <div class="pricing-header">
+                            <h3>Fleet Care Enterprise</h3>
+                            <p class="pricing-desc">For logistics fleets, mining, and civil contractors with 10+ machines.</p>
+                        </div>
+                        <div class="pricing-cost">$1,500 <span>/ month</span></div>
+                        <ul class="pricing-features-list">
+                            <li><i class="fa-solid fa-check"></i> Full scheduled preventive maintenance program</li>
+                            <li><i class="fa-solid fa-check"></i> 24/7 Emergency Machine Down priority response</li>
+                            <li><i class="fa-solid fa-check"></i> Monthly equipment diagnostic audits & oil analysis</li>
+                            <li><i class="fa-solid fa-check"></i> Dedicated consignment spare parts buffer</li>
+                            <li><i class="fa-solid fa-check"></i> 99% Uptime Guarantee backed by replacement machinery</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-outline btn-full">Contact Enterprise</a>
+                    </div>
+                </div>
+
+                <!-- PITCH DECK CALLOUT BANNER -->
+                <div class="deck-cta-banner fade-in">
+                    <div>
+                        <h4><i class="fa-solid fa-atom" style="color:var(--vremp-cyan);margin-right:0.6rem;"></i> VREMP Sci-Fi Executive Presentation Deck</h4>
+                        <p>Explore our interactive 12-slide investor and board presentation deck with complete economics, tech architecture, and roadmap.</p>
+                    </div>
+                    <a href="presentation.html" target="_blank" class="btn btn-primary btn-glow" style="font-weight:800;">
+                        Open Presentation Deck <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
 
 
         <!-- TESTIMONIALS SECTION -->
@@ -746,9 +873,10 @@
                 <h6>Company</h6>
                 <ul>
                     <li><a href="#">About Us</a></li>
-                    <li><a href="#">Brands</a></li>
-                    <li><a href="#">Sourcing</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#ecosystem">5-Pillar Ecosystem</a></li>
+                    <li><a href="#subscriptions">VREMP Pro</a></li>
+                    <li><a href="presentation.html" target="_blank" style="color:var(--vremp-cyan);font-weight:700;"><i class="fa-solid fa-atom"></i> Pitch Deck</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col fade-in stagger-3">
